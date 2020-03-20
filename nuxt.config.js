@@ -36,7 +36,9 @@ export default {
     "bootstrap-vue/nuxt",
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
+    "@nuxtjs/markdownit"
+    //nambahin nuxtjs markdownit -- cara install : npm i @nuxtjs/markdownit
   ],
   /*
    ** Axios module configuration
