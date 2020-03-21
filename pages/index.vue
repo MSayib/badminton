@@ -1,33 +1,30 @@
 <template>
-  <div id="hitung">
-    <button @click="tambah">tambah</button>
-    <button @click="kurang">kurang</button>
-    <button @click="reset">reset</button>
-
-    <div>{{ hitung }}</div>
+  <div class="container" style="justify-content: center; align-items: center; text-align: center;">
+    <div>
+      <logo style="width: 480px; height: 240px;" />
+      <h1 class="title">
+        Tetamba
+      </h1>
+      <h2 class="subtitle">
+        Badminton score counter
+      </h2>
+      <div class="links">
+        <nuxt-link :to="'/start'">
+          <button class="btn btn-lg btn-primary">Start</button>
+        </nuxt-link>
+        <nuxt-link :to="'/start'">
+          <button class="btn btn-lg text-primary">Help</button>
+        </nuxt-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import Logo from '~/components/Logo.vue'
 export default {
-  data(){
-    return{
-      hitung: 0,
-    }
-  },
-
-  methods: {
-    tambah(){
-      this.hitung++;
-    },
-
-    kurang(){
-      this.hitung--;
-    },
-
-    reset(){
-      this.hitung = 0;
-    }
+  components: {
+    Logo
   }
 }
 </script>

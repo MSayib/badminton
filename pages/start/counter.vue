@@ -1,0 +1,16 @@
+<template>
+  <div>
+      {{ namaA1 }}
+  </div>
+</template>
+
+<script>
+import index from '~/pages/index.vue';
+export default {
+
+}
+</script>
+
+<style>
+
+</style>

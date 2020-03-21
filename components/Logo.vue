@@ -1,21 +1,10 @@
 <template>
-  <svg class="NuxtLogo" width="245" height="180" viewBox="0 0 452 342" xmlns="http://www.w3.org/2000/svg">
-    <g fill="none" fill-rule="evenodd">
-      <path
-        d="M139 330l-1-2c-2-4-2-8-1-13H29L189 31l67 121 22-16-67-121c-1-2-9-14-22-14-6 0-15 2-22 15L5 303c-1 3-8 16-2 27 4 6 10 12 24 12h136c-14 0-21-6-24-12z"
-        fill="#00C58E"
-      />
-      <path
-        d="M447 304L317 70c-2-2-9-15-22-15-6 0-15 3-22 15l-17 28v54l39-67 129 230h-49a23 23 0 0 1-2 14l-1 1c-6 11-21 12-23 12h76c3 0 17-1 24-12 3-5 5-14-2-26z"
-        fill="#108775"
-      />
-      <path
-        d="M376 330v-1l1-2c1-4 2-8 1-12l-4-12-102-178-15-27h-1l-15 27-102 178-4 12a24 24 0 0 0 2 15c4 6 10 12 24 12h190c3 0 18-1 25-12zM256 152l93 163H163l93-163z"
-        fill="#2F495E"
-        fill-rule="nonzero"
-      />
-    </g>
-  </svg>
+  <svg id="Layer_1" style="enable-background:new 0 0 256 256;" version="1.1" viewBox="0 0 256 256" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><style type="text/css">
+	.st0{fill:none;stroke:#000000;stroke-width:8;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#000000;stroke-width:8;stroke-miterlimit:10;}
+	.st2{fill:none;stroke:#000000;stroke-width:8;stroke-miterlimit:10;stroke-dasharray:16,16;}
+	.st3{fill:none;stroke:#000000;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+</style><g><rect class="st0" height="177" width="240" x="8" y="39.5"/><g><rect class="st0" height="26.044" width="68.372" x="31.833" y="52.5"/><rect class="st0" height="77.434" width="68.372" x="31.833" y="94.066"/><rect class="st0" height="18" width="18" x="57.02" y="185.5"/></g><g><rect class="st0" height="26.044" width="68.372" x="155.794" y="52.5"/><rect class="st0" height="77.434" width="68.372" x="155.794" y="94.066"/><rect class="st0" height="18" width="18" x="180.98" y="185.5"/></g><g><g><polyline class="st0" points="49,118 56,118 56,145    "/><line class="st0" x1="46" x2="66" y1="145" y2="145"/></g><g><polyline class="st0" points="73,119 87,119 87,145 73,145    "/><line class="st0" x1="73" x2="87" y1="132" y2="132"/></g></g><g><polyline class="st0" points="167,120 184,120 184,132 171,132 171,144 188,144   "/><rect class="st0" height="24" width="16.833" x="196.48" y="119.5"/></g><line class="st0" x1="54" x2="78" y1="66" y2="66"/><line class="st0" x1="178" x2="202" y1="66" y2="66"/></g></svg>
 </template>
 <style>
 .NuxtLogo {
