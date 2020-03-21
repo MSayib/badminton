@@ -1,21 +1,18 @@
-<template lang="md">
-# **Bantuan**
-
-## Cara penggunaan
-
-### A. Menggunakan Ponsel:
-```bash
-1. Masuk ke Start (Mode Landscape lebih baik)
-2. Usap ke atas untuk menambah skor pada bagian yang di inginkan (kiri atau kanan)
-3. Usap ke bawah untuk mengurangi skor pada bagian yang di inginkan (kiri atau kanan)
-4. Klik 2x atau usap ke atas pada bagian match point untuk menambah angka
-5. Gunakan tombol reset untuk mereset semua data
-```
-
-For detailed explanation on how things work, check out [Instagram](https://instagram.com/sybrzq).
-<div>
-<nuxt-link to="/" class="btn btn-outline-primary">Kembali</nuxt-link>
-</div>
+<template>
+  <b-container fluid>
+    <b-row>
+      <b-col cols="8">
+        <h1>Bantuan</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum
+          praesentium obcaecati laudantium ea! Repellendus, non! Nobis alias
+          pariatur consequuntur? Quidem culpa, corporis accusantium natus iusto
+          minus eveniet nesciunt optio ipsam?
+        </p>
+        <nuxt-link to="/" class="btn btn-outline-primary">Kembali</nuxt-link>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 <script>
 export default {

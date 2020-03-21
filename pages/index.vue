@@ -1,15 +1,29 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <h2 class="title">Badminton Score Counter</h2>
-      <h3 class="subtitle">
-        Selamat datang di aplikasi penghitung skor Badminton
-      </h3>
-      <nuxt-link to="/start" class="button--green">Start</nuxt-link>
-      <nuxt-link to="/help" class="button--green">Help</nuxt-link>
-    </div>
-  </div>
+  <b-container>
+    <b-row align="center">
+      <b-col>
+        <logo />
+        <h2 class="title">Badminton Score Counter</h2>
+        <h3 class="subtitle">
+          Selamat datang di aplikasi penghitung skor Badminton
+        </h3>
+      </b-col>
+    </b-row>
+    <b-row align="center">
+      <b-col>
+        <div class="mx-auto">
+          <nuxt-link
+            to="/start"
+            class="btn btn-lg btn-block btn-outline-success"
+            >Start</nuxt-link
+          >
+          <nuxt-link to="/help" class="btn btn-lg btn-block btn-outline-success"
+            >Help</nuxt-link
+          >
+        </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -21,41 +35,8 @@ export default {
   },
   head() {
     return {
-      title: "Home"
+      title: "Home | Sayib"
     };
   }
 };
 </script>
-
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
