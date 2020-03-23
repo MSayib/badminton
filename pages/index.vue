@@ -15,6 +15,9 @@
         <nuxt-link :to="'/start'">
           <button class="btn btn-lg text-primary">Help</button>
         </nuxt-link>
+        <nuxt-link :to="'/absensi'">
+          <button class="btn btn-lg btn-danger">Absensi</button>
+        </nuxt-link>
       </div>
     </div>
   </div>

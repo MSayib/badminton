@@ -14,7 +14,9 @@
         <input type="text" placeholder="Nama 2" v-model="namaB2">
     </div>
     <br>
-    <button class="btn btn-md btn-primary">Submit</button>
+    <nuxt-link :to="'/start/counter'">
+        <button class="btn btn-md btn-primary">Submit</button>
+    </nuxt-link>
     <nuxt-link :to="'/'">
         <button class="btn btn-md text-danger">Kembali</button>
     </nuxt-link>
@@ -31,6 +33,7 @@ export default {
             namaB2: ''
         }
     },
+    
 
 }
 </script>
