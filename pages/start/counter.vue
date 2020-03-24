@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container align="center" style="margin-top: 240px">
+    <b-container align="center" style="margin-top: 180px">
       <b-row>
         <b-col>
           <h4>Score Counter</h4>
@@ -19,11 +19,7 @@
       </b-row>
 
       <b-row>
-        <b-col v-if="this.teamA == 0 && this.teamB == 0">Team A serve pertama</b-col>
-        <b-col v-else-if="this.teamA % 2 == 0">Team A serve di kanan</b-col>
-        <b-col v-else-if="this.teamA % 2 == 1">Team A serve di kiri</b-col>
-        <b-col v-else-if="this.teamB % 2 == 0">Team B serve di kanan</b-col>
-        <b-col v-else>Team B serve di kiri</b-col>
+        <b-col id="servePosition"></b-col>
       </b-row>
 
       <b-row style="padding: 2% 30%;">
@@ -63,18 +59,32 @@ export default {
   methods:{
     tambahTeamA(){
       this.teamA += 1
+      if(this.teamA % 2 == 1){
+        document.getElementById("servePosition").innerHTML = "Team A serve di kiri"
+      }else{
+        document.getElementById("servePosition").innerHTML = "Team A serve di kanan"
+      }
     },
 
     tambahTeamB(){
       this.teamB += 1
+      if(this.teamB % 2 == 1){
+        document.getElementById("servePosition").innerHTML = "Team B serve di kiri"
+      }else{
+        document.getElementById("servePosition").innerHTML = "Team B serve di kanan"
+      }
     },
 
     kurangTeamA(){
-      this.teamA -= 1
+      if(this.teamA > 0){
+        this.teamA -= 1
+      }
     },
 
     kurangTeamB(){
-      this.teamB -= 1
+      if(this.teamB > 0){
+        this.teamB -= 1
+      }
     },
 
     resetScore(){
