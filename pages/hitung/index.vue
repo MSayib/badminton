@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-container align="center" style="margin-top: 180px">
+      <Stopwatch />
       <b-row>
         <b-col>
           <h4>Score Counter</h4>
@@ -24,9 +25,8 @@
       </b-row>
 
       <b-row>
-        <b-col id="servePosition">
-          </b-col> </b-row
-      > 
+        <b-col>{{ status }} </b-col>
+      </b-row>
 
       <b-row>
         <!-- team A -->
@@ -44,7 +44,7 @@
       <!-- reset button -->
       <b-row style="padding: 0 10px;">
         <b-col>
-          <b-button variant="primary" @click="resetScore">Reset Score</b-button>
+          <b-button variant="primary" @click="resetScore" @resetTime="reset">Reset Score</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -52,11 +52,16 @@
 </template>
 
 <script>
+import Stopwatch from "~/components/stopwatch";
 export default {
+  components: {
+    Stopwatch
+  },
   data() {
     return {
       teamA: 0,
       teamB: 0,
+      status: "",
       img: "https://i.ya-webdesign.com/images/vs-png-5.png"
     };
   },
@@ -65,21 +70,17 @@ export default {
     tambahTeamA() {
       this.teamA++;
       if (this.teamA % 2 == 1) {
-        document.getElementById("servePosition").innerHTML =
-          "Team A serve di kiri";
+        this.status = "Team A serve di kiri";
       } else {
-        document.getElementById("servePosition").innerHTML =
-          "Team A serve di kanan";
+        this.status = "Team A serve di kanan";
       }
     },
     tambahTeamB() {
       this.teamB++;
       if (this.teamB % 2 == 1) {
-        document.getElementById("servePosition").innerHTML =
-          "Team B serve di kiri";
+        this.status = "Team B serve di kiri";
       } else {
-        document.getElementById("servePosition").innerHTML =
-          "Team B serve di kanan";
+        this.status = "Team B serve di kanan";
       }
     },
     kurangTeamA() {
@@ -96,7 +97,7 @@ export default {
 
     resetData() {
       (this.teamA = 0), (this.teamB = 0), this.$router.push("/start");
-    }
+    },
   }
 };
 </script>
