@@ -39,7 +39,7 @@
         <!-- reset button -->
       <b-row style="padding: 0 10px;">
         <b-col>
-          <b-button variant="primary" @click="resetScore">Reset Score</b-button>
+          <b-button variant="primary" @click.prevent="resetScore">Reset Score</b-button>
         </b-col>
       </b-row>
       
@@ -53,6 +53,12 @@ export default {
     return{
       teamA: 0,
       teamB: 0,
+    }
+  },
+
+  mounted(){
+    if(this.teamA == 0 && this.teamB == 0){
+      document.getElementById("servePosition").innerHTML = "Team A serve pertama"
     }
   },
 
@@ -89,7 +95,8 @@ export default {
 
     resetScore(){
       this.teamA = 0,
-      this.teamB = 0
+      this.teamB = 0,
+      window.location.reload()
     },
 
     resetData(){
