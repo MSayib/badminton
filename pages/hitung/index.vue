@@ -24,10 +24,10 @@
       </b-row>
 
       <b-row>
-        <b-col id="servePosition"></b-col> </b-row
+        <b-col id="servePosition">
+          </b-col> </b-row
       > 
 
-      <br />
       <b-row>
         <!-- team A -->
         <b-col>
