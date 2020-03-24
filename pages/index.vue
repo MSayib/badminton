@@ -4,24 +4,16 @@
       <h1 class="title">badminton-apps</h1>
       <div>
         <b-button v-b-modal.modal-prevent-closing pill variant="primary" size="lg">Guest</b-button>
-        <v-spacer></v-spacer> 
         <div class="mt-3">
-          <h4>Submitted Name : </h4>
-            <div
-              v-for="guest in guests"
-              v-bind:key="guest.id"
-              class="collection-item"
-            > 
-            <b-button pill variant="outline-primary" size="sm"> {{guest.guest_id}} </b-button> 
-            {{guest.name}}</div>
-          
+          <h4>Submitted Name :</h4>
+          <div v-for="guest in guests" v-bind:key="guest.id" class="collection-item">
+            <div variant="primary">{{guest.name}}</div>
+          </div>
         </div>
         <b-modal
           id="modal-prevent-closing"
           ref="modal"
-          title="Submit Your Name"
-          @show="resetModal"
-          @hidden="resetModal"
+          title="Submit Your Name"  
           @ok="handleOk"
         >
           <form ref="form" @submit.stop.prevent="handleSubmit">
@@ -47,15 +39,19 @@ export default {
   components: {},
   data() {
     return {
-      name: "",
+      name: null,
       nameState: null,
       submittedNames: [],
       guests: []
     };
   },
-  created() {
-    db.collection('guests')
-      .orderBy('name')
+  mounted() {
+   this.getDataGuest()
+  },
+  methods: {
+    getDataGuest(){
+       db.collection("guests")
+      .orderBy("name")
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -67,16 +63,11 @@ export default {
           this.guests.push(data);
         });
       });
-  },
-  methods: {
+    },
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
       this.nameState = valid;
       return valid;
-    },
-    resetModal() {
-      this.name = "";
-      this.nameState = null;
     },
     handleOk(bvModalEvt) {
       // Prevent modal from closing
@@ -90,7 +81,13 @@ export default {
         return;
       }
       // Push the name to submitted names
-      this.submittedNames.push(this.name);
+      //this.submittedNames.push(this.name);
+      db.collection("guests")
+        .add({
+          name: this.name
+        })
+        .then(docRef => this.$router.push("/"))
+        .catch(error => console.log(err));
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
