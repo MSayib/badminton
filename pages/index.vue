@@ -3,13 +3,18 @@
     <div>
       <h1 class="title">badminton-apps</h1>
       <div>
-        <b-button v-b-modal.modal-prevent-closing>Guest</b-button>
+        <b-button v-b-modal.modal-prevent-closing pill variant="primary" size="lg">Guest</b-button>
+        <v-spacer></v-spacer> 
         <div class="mt-3">
-          Submitted Names:
-          <div v-if="submittedNames.length === 0">--</div>
-          <ul v-else class="mb-0 pl-3">
-            <li v-for="name in submittedNames">{{ name }}</li>
-          </ul>
+          <h4>Submitted Name : </h4>
+            <div
+              v-for="guest in guests"
+              v-bind:key="guest.id"
+              class="collection-item"
+            > 
+            <b-button pill variant="outline-primary" size="sm"> {{guest.guest_id}} </b-button> 
+            {{guest.name}}</div>
+          
         </div>
         <b-modal
           id="modal-prevent-closing"
@@ -36,14 +41,32 @@
 </template>
 
 <script>
+import db from "~/plugins/firebase";
+
 export default {
   components: {},
   data() {
     return {
       name: "",
       nameState: null,
-      submittedNames: []
+      submittedNames: [],
+      guests: []
     };
+  },
+  created() {
+    db.collection('guests')
+      .orderBy('name')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const data = {
+            id: doc.id,
+            guest_id: doc.data().guest_id,
+            name: doc.data().name
+          };
+          this.guests.push(data);
+        });
+      });
   },
   methods: {
     checkFormValidity() {
