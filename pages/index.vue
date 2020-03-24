@@ -7,7 +7,7 @@
         Aplikasi Perhitungan Score Badminton By Tetamba
       </h4>
       <div>
-        <b-button variant="outline-primary" size="lg">Let's Count!</b-button>
+        <b-button variant="outline-primary" href="/hitung" size="lg">Let's Count!</b-button>
         <b-button variant="outline-success" size="lg">Absensi</b-button>
       </div>
     </div>
