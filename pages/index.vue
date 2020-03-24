@@ -1,41 +1,29 @@
 <template>
   <div class="container">
     <div>
-      <logo />
-      <h1 class="title">
-        badminton
-      </h1>
-      <h2 class="subtitle">
-        Tugas bareng bareng dari ka Ashari
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <logo/>
+      <br />
+      <h4 class="title">
+        Aplikasi Perhitungan Score Badminton By Tetamba
+      </h4>
+      <div>
+        <b-button variant="outline-primary" size="lg">Let's Count!</b-button>
+        <b-button variant="outline-success" size="lg">Absensi</b-button>
       </div>
     </div>
+    <h5 class="footer">
+      &copy;Tetamba Studio
+    </h5>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import Logo from "~/components/Logo.vue";
 export default {
   components: {
     Logo
   }
-}
+};
 </script>
 
 <style>
@@ -49,24 +37,24 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 100px;
+  font-size: 30px;
   color: #35495e;
   letter-spacing: 1px;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+  font-weight: 150;
+  font-size: 20px;
   color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
 }
 </style>
