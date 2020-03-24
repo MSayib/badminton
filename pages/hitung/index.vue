@@ -1,29 +1,50 @@
 <template>
   <div>
-    <b-container class="container">
-      <b-row class="text-center">
+    <b-container align="center" style="margin-top: 180px">
+      <b-row>
+        <b-col>
+          <h4>Score Counter</h4>
+        </b-col>
+      </b-row>
+
+      <b-row>
         <b-col>
           <b-card border-variant="dark" header="Tim A" align="center">
-            <b-card-text>{{ left }}</b-card-text>
+            <b-card-text class="scoreBoard">{{ teamA }}</b-card-text>
           </b-card>
-          <br />
-          <b-button variant="outline-success" @click="incrementValue"
-            >+</b-button
-          >
-          <b-button variant="outline-warning" @click="decrementValue"
-            >-</b-button
-          >
         </b-col>
-        <b-col cols="4">
-          <img :src="img" alt="vs" width="200px" height="150px" />
+        <b-col cols="4" style="margin-top: 40px">
+          <b-img :src="img" width="90%" fluid alt="Responsive image" />
         </b-col>
         <b-col>
           <b-card border-variant="dark" header="Tim B" align="center">
-            <b-card-text>{{ right }}</b-card-text>
+            <b-card-text class="scoreBoard">{{ teamB }}</b-card-text>
           </b-card>
-          <br />
-          <b-button variant="outline-success">+</b-button>
-          <b-button variant="outline-warning">-</b-button>
+        </b-col>
+      </b-row>
+
+      <b-row>
+        <b-col id="servePosition"></b-col> </b-row
+      > 
+
+      <br />
+      <b-row>
+        <!-- team A -->
+        <b-col>
+          <b-button @click="tambahTeamA" variant="primary">+</b-button>
+          <b-button @click="kurangTeamA" variant="danger">-</b-button>
+        </b-col>
+        <b-col> </b-col>
+        <!-- team B -->
+        <b-col>
+          <b-button @click="tambahTeamB" variant="primary">+</b-button>
+          <b-button @click="kurangTeamB" variant="danger">-</b-button>
+        </b-col>
+      </b-row>
+      <!-- reset button -->
+      <b-row style="padding: 0 10px;">
+        <b-col>
+          <b-button variant="primary" @click="resetScore">Reset Score</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -34,37 +55,58 @@
 export default {
   data() {
     return {
-      left: 0,
-      right: 0,
-      firstName: "",
+      teamA: 0,
+      teamB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png"
     };
   },
+
   methods: {
-    incrementValue() {
-      this.left++;
+    tambahTeamA() {
+      this.teamA++;
+      if (this.teamA % 2 == 1) {
+        document.getElementById("servePosition").innerHTML =
+          "Team A serve di kiri";
+      } else {
+        document.getElementById("servePosition").innerHTML =
+          "Team A serve di kanan";
+      }
     },
-    decrementValue() {
-      this.left--;
+    tambahTeamB() {
+      this.teamB++;
+      if (this.teamB % 2 == 1) {
+        document.getElementById("servePosition").innerHTML =
+          "Team B serve di kiri";
+      } else {
+        document.getElementById("servePosition").innerHTML =
+          "Team B serve di kanan";
+      }
     },
-    resetValue() {
-      this.left = 0;
+    kurangTeamA() {
+      this.teamA -= 1;
+    },
+
+    kurangTeamB() {
+      this.teamB -= 1;
+    },
+
+    resetScore() {
+      (this.teamA = 0), (this.teamB = 0);
+    },
+
+    resetData() {
+      (this.teamA = 0), (this.teamB = 0), this.$router.push("/start");
     }
   }
 };
 </script>
 
 <style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.scoreBoard {
+  font-size: 60px;
 }
-img {
-  width: 60%;
-  height: auto;
+
+.score {
+  border: 2px solid;
 }
 </style>
