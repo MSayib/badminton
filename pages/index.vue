@@ -2,7 +2,6 @@
   <div class="container">
     <div>
       <logo/>
-      <br />
       <h4 class="title">
         Aplikasi Perhitungan Score Badminton By Tetamba
       </h4>
