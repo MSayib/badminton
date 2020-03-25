@@ -48,7 +48,10 @@
           
           <b-row>
               <b-col>
-                  <h3>{{ isKanan }}</h3>
+                  <h3>A: {{ isKananA }} B: {{ isKananB }}</h3>
+              </b-col>
+              <b-col>
+                  <h3>A: {{ lastServeA }} B: {{ lastServeB }}</h3>
               </b-col>
           </b-row>
       </b-container>
@@ -61,7 +64,10 @@ export default {
         return{
             teamA: 0,
             teamB: 0,
-            isKanan: true,
+            isKananA: true,
+            isKananB: true,
+            lastServeA: false,
+            lastServeB: false,
             status: ''
         }
     },
@@ -69,16 +75,20 @@ export default {
     methods:{
         tambahTeamA(){
             this.teamA++
-            this.isKanan = !this.isKanan
-            if(this.teamA % 2 == 1 && this.isKanan == false){
-                this.status = "player A1 serve di kiri"
-            }else if(this.teamA % 2  == 0 && this.isKanan == true){
-                this.status = "player A1 serve di kanan"
-            }else if(this.teamA % 2 == 1 && this.isKanan == true){
-                this.status = "player A2 serve di kiri"
+            this.isKananA = !this.isKananA
+            this.lastServeA = !this.lastServeA
+            this.lastServeB = !this.lastServeB
+            if(this.teamA % 2 == 1 && this.lastServeA == true && this.isKananA == false){
+                this.status = "A1 serve kiri"
+            }else if(this.teamA % 2 == 0 && this.lastServeA == false && this.isKananA == true){
+                this.status = "A1 serve kanan"
+            }else if(this.teamA % 2 == 1 && this.lastServeA == false && this.isKananA == false){
+                this.status = "A2 serve kiri"
             }else{
-                this.status = "player A2 serve di kanan"
+                this.status = "A2 serve kanan"
             }
+            
+            
         },
 
         kurangTeamA(){
@@ -87,15 +97,17 @@ export default {
 
         tambahTeamB(){
             this.teamB++
-            this.isKanan = !this.isKanan
-            if(this.teamB % 2 == 1 && this.isKanan == false){
-                this.status = "player B1 serve di kiri"
-            }else if(this.teamB % 2 == 0 && this.isKanan == true){
-                this.status = "player B1 serve di kanan"
-            }else if(this.teamB % 2 == 1 && this.isKanan == true){
-                this.status = "player B2 serve di kiri"
+            this.isKananB = !this.isKananB
+            this.lastServeB = !this.lastServeB
+            this.lastServeA = !this.lastServeA
+            if(this.teamB % 2 == 1 && this.lastServeB == true && this.isKananB == false){
+                this.status = "B1 serve kiri"
+            }else if(this.teamB % 2 == 0 && this.lastServeB == false && this.isKananB == true){
+                this.status = "B1 serve kanan"
+            }else if(this.teamB % 2 == 1 && this.lastServeB == false && this.isKananB == false){
+                this.status = "B2 serve kiri"
             }else{
-                this.status = "player B2 serve di kanan"
+                this.status = "B2 serve kanan"
             }
         },
 
@@ -106,7 +118,9 @@ export default {
         reset(){
             this.teamA = 0,
             this.teamB = 0,
-            this.isKanan = true
+            this.isKananA = true,
+            this.isKananB = true,
+            this.status = ""
         }
     }
 }
