@@ -96,6 +96,9 @@ export default {
     this.getDataGuest();
   },
   methods: {
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs;
+    },
     getDataGuest() {
       db.collection("peoples")
         .orderBy("name")
