@@ -1,16 +1,23 @@
 <template>
   <div class="container">
     <div>
-      <b-card no-body class="overflow-hidden" style="max-width: 540px;">
+      <b-card
+        no-body
+        class="overflow-hidden"
+        style="max-width: 640px;"
+        header="Badminton Apps v1"
+        bg-variant="light"
+      >
         <b-row no-gutters>
           <b-col md="6">
-            <b-card-img src="https://picsum.photos/400/400/?image=20" class="rounded-0"></b-card-img>
+            <b-card-img src="~/assets/bg-login.svg" class="rounded-0"></b-card-img>
           </b-col>
           <b-col md="6">
-            <b-card-body title="Silakan login">
+            <b-card-body title="Please login">
               <b-form @submit.prevent="pressed">
                 <b-form-group>
                   <b-input v-model="email" type="email" placeholder="admin@admin.com" />
+                  <br />
                   <b-input v-model="password" type="password" placeholder="password" />
                 </b-form-group>
                 <b-button type="submit" variant="primary">Login</b-button>

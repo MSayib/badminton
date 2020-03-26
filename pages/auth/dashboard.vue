@@ -29,8 +29,26 @@
 </template>
 
 <script>
+import { getUserFromCookie } from "~/helpers";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import db from "~/plugins/firebase";
+
 export default {
+  asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/auth/login");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
+  },
   data() {
     return {
       showDismissibleAlert: true,
