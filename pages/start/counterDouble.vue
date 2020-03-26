@@ -71,6 +71,13 @@ export default {
             status: ''
         }
     },
+    mounted(){
+        if(this.lastServeA == true){
+            this.status = "A1 serve di posisi kanan"
+        }else{
+            this.status = "B1 serve di posisi kanan"
+        }
+    },
     methods:{
         tambahTeamA(){
             this.teamA++
@@ -107,6 +114,8 @@ export default {
             }else{
                 this.lastServeA = true
             }
+
+            // menentukan posisi kanan/kiri
             if(this.teamA % 2 == 0){
                 this.isKananA = true
                 if(this.lastServeA == true){
@@ -122,6 +131,9 @@ export default {
                     this.status = "A2 serve di kiri"
                 }
             }
+
+            //menentukan deuce
+            
         },
         teamB(){
             if(this.lastServeA == true && this.lastServeB == false){
