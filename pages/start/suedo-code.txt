@@ -13,4 +13,15 @@ tambah poin
     jika timA last serve dan poin + 1 dan jumlah poin timA adalah ganjil = posisi pindah kiri
     jika timA last serve dan poin + 1 dan jumlah poin timA adalah genap = posisi pindah kanan
     jika timA last serve dan poin + 1 pada timB = pindah serve ke timB dan posisi timA tetap
-    
+
+
+tambah poin :
+    - poin +1
+    - serve terakhir?
+        pindah posisi serve
+        total poin ganjil?
+            posisi serve di kiri
+        total poin genap?
+            posisi serve di kanan
+    - bukan serve terakhir?
+        posisi tetap

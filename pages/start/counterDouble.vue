@@ -66,55 +66,24 @@ export default {
             teamB: 0,
             isKananA: true,
             isKananB: true,
-            lastServeA: false,
+            lastServeA: true,
             lastServeB: false,
             status: ''
         }
     },
-
     methods:{
         tambahTeamA(){
             this.teamA++
-            this.isKananA = !this.isKananA
-            this.lastServeA = !this.lastServeA
-            this.lastServeB = !this.lastServeB
-            if(this.teamA % 2 == 1 && this.lastServeA == true && this.isKananA == false){
-                this.status = "A1 serve kiri"
-            }else if(this.teamA % 2 == 0 && this.lastServeA == false && this.isKananA == true){
-                this.status = "A1 serve kanan"
-            }else if(this.teamA % 2 == 1 && this.lastServeA == false && this.isKananA == false){
-                this.status = "A2 serve kiri"
-            }else{
-                this.status = "A2 serve kanan"
-            }
-            
-            
         },
-
         kurangTeamA(){
             this.teamA--
         },
-
         tambahTeamB(){
             this.teamB++
-            this.isKananB = !this.isKananB
-            this.lastServeB = !this.lastServeB
-            this.lastServeA = !this.lastServeA
-            if(this.teamB % 2 == 1 && this.lastServeB == true && this.isKananB == false){
-                this.status = "B1 serve kiri"
-            }else if(this.teamB % 2 == 0 && this.lastServeB == false && this.isKananB == true){
-                this.status = "B1 serve kanan"
-            }else if(this.teamB % 2 == 1 && this.lastServeB == false && this.isKananB == false){
-                this.status = "B2 serve kiri"
-            }else{
-                this.status = "B2 serve kanan"
-            }
         },
-
         kurangTeamB(){
             this.teamB--
         },
-
         reset(){
             this.teamA = 0,
             this.teamB = 0,
@@ -122,10 +91,63 @@ export default {
             this.isKananB = true,
             this.status = ""
         }
+    },
+    watch:{
+        teamA(){
+            if(this.lastServeB == true && this.lastServeA == false){
+                this.lastServeB = false
+            }else if(this.lastServeB == false && this.lastServeA == false){
+                this.lastServeB = true
+            }else if(this.lastServeB == true && this.lastServeA == true){
+                this.lastServeA = false
+            }else{
+                this.lastServeA = true
+            }
+            if(this.teamA % 2 == 0){
+                this.isKananA = true
+                if(this.lastServeA == true){
+                    this.status = "A1 serve di kanan"
+                }else{
+                    this.status = "A2 serve di kanan"
+                }
+            }else{
+                this.isKananA = false
+                if(this.lastServeA == true){
+                    this.status = "A1 serve di kiri"
+                }else{
+                    this.status = "A2 serve di kiri"
+                }
+            }
+        },
+        teamB(){
+            if(this.lastServeA == true && this.lastServeB == false){
+                this.lastServeA = false
+            }else if(this.lastServeA == false && this.lastServeB == false){
+                this.lastServeA = true
+            }else if(this.lastServeA == true && this.lastServeB == true){
+                this.lastServeB = false
+            }else{
+                this.lastServeB = true
+            }
+            if(this.teamB % 2 == 0){
+                this.isKananB = true
+                if(this.lastServeB == true){
+                    this.status = "B1 serve di kanan"
+                }else{
+                    this.status = "B2 serve di kanan"
+                }
+            }else{
+                this.isKananB = false
+                if(this.lastServeB == true){
+                    this.status = "B1 serve di kiri"
+                }else{
+                    this.status = "B2 serve di kiri"
+                }
+            }
+        }
     }
 }
 </script>
 
 <style>
-
 </style>
