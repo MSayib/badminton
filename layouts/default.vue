@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar type="dark" variant="dark">
+    <b-navbar type="light" variant="light">
       <b-navbar-nav>
         <b-nav-item to="/">Home</b-nav-item>
         <b-nav-item :to="'/auth/dashboard'">Dashboard</b-nav-item>
