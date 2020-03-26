@@ -1,6 +1,6 @@
 <template>
   <div>
-      <b-container align="center" style="margin-top: 180px;">
+      <b-container fluid="xl" align="center" style="margin-top: 180px;">
 
           <b-row>
               <b-col>

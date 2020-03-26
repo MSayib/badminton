@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-container align="center" style="margin-top: 180px">
+      <b-container fluid="sm" align="center" style="margin-top: 100px">
         <Stopwatch />
         <b-row>
           <b-col>
@@ -20,7 +20,7 @@
             </b-card>
           </b-col>
           <b-col cols="4" style="margin-top: 40px">
-            <b-img :src="img" width="90%" fluid alt="Responsive image" />
+            <b-img :src="img" width="60%" fluid alt="Responsive image" />
           </b-col>
           <b-col>
             <b-card border-variant="dark" header="Player B" align="center">
@@ -30,7 +30,7 @@
         </b-row>
 
         <b-row>
-          <b-col>{{ isDeuce ? "Deuce" : "Bukan" }} </b-col>
+          <b-col>{{ status }} </b-col>
         </b-row>
 
         <b-row>
@@ -103,6 +103,20 @@ export default {
         }
       }
     },
+    isMenangA() {
+      if (this.playerA >= this.playerB + 2) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    isMenangB() {
+      if (this.playerA + 2 <= this.playerB) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     isDeuce() {
       if (this.playerA >= 20 && this.playerB >= 20) {
         if (this.playerA === this.playerB) {
@@ -121,7 +135,22 @@ export default {
   watch: {
     isDeuce(val) {
       if (val) {
-        alert("deuce!!");
+        alert("Deuce!!");
+      }
+    },
+    isMatchPoint(val) {
+      if (val) {
+        alert("Match Point!");
+      }
+    },
+    isMenangA(val) {
+      if (val) {
+        alert("Player A Menang");
+      }
+    },
+    isMenangB(val) {
+      if (val) {
+        alert("Player B Menang");
       }
     }
   },
