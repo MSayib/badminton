@@ -76,13 +76,17 @@ export default {
             this.teamA++
         },
         kurangTeamA(){
-            this.teamA--
+            if(this.teamA > 0){
+                this.teamA--
+            }
         },
         tambahTeamB(){
             this.teamB++
         },
         kurangTeamB(){
-            this.teamB--
+            if(this.teamB > 0){
+                this.teamB--
+            }
         },
         reset(){
             this.teamA = 0,
