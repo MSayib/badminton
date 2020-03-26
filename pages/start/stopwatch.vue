@@ -1,16 +1,26 @@
 <template>
   <div>
+<<<<<<< HEAD
       <span>{{ time }}</span>
       <div>
           <button @click="start" class="btn btn-md text-primary">Start</button>
           <button @click="stop" class="btn btn-md text-danger">Stop</button>
           <button @click="reset" class="btn btn-md text-secondary">Reset</button>
       </div>
+=======
+      <b-container>
+      </b-container>
+    <button @click="start">Start</button>
+    <button @click="stop">Stop</button>
+    <button @click="reset">Reset</button>
+    <p>{{formattedElapsedTime}}</p>
+>>>>>>> master
   </div>
 </template>
 
 <script>
 export default {
+<<<<<<< HEAD
     data(){
         return{
             time: '00:00:00.000',
@@ -82,3 +92,34 @@ export default {
 <style>
 
 </style>
+=======
+  data() {
+    return {
+      elapsedTime: 0,
+      timer: ''
+    };
+  },
+  computed: {
+    formattedElapsedTime() {
+      const date = new Date(null);
+      date.setSeconds(this.elapsedTime / 1000);
+      const utc = date.toUTCString();
+      return utc.substr(utc.indexOf(":") - 2, 8);
+    }
+  },
+  methods: {
+    start() {
+      this.timer = setInterval(() => {
+        this.elapsedTime += 1000;
+      }, 1000);
+    },
+    stop() {
+      clearInterval(this.timer);
+    },
+    reset() {
+      this.elapsedTime = 0;
+    }
+  }
+};
+</script>
+>>>>>>> master
