@@ -78,22 +78,58 @@ export default {
   methods: {
     tambahplayerA() {
       this.playerA++;
-      if (this.playerA == 20) {
-        this.keputusan = "Match Point"
-      } else if(this.playerA == 21) {
-        this.keputusan = "Player A Win"
+      // if (this.playerA == 20) {
+      //   this.keputusan = alert("Match Point");
+      // } else if (this.playerA == 21) {
+      //   this.keputusan = alert("Player A Menang");
+      // } else {
+      //   this.keputusan = "";
+      // }
+      if (this.playerA == 20 && this.playerB == 20) {
+        this.keputusan = alert("Deuce");
+      } else if (this.playerA >= 21 || this.playerB >= 21) {
+        if (
+          this.playerA >= this.playerB + 2 ||
+          this.playerA + 2 <= this.playerB
+        ) {
+          this.keputusan = alert("Player A Menang");
+        }
+      } else if (this.playerA == 20 && this.playerB <= this.playerA) {
+        this.keputusan = "Match Point";
+      }
+
+      if (this.playerA % 2 == 1) {
+        this.status = "Player A Serve Di Kiri";
       } else {
-        this.keputusan = ""
+        this.status = "Player A Serve Di Kanan";
       }
     },
     tambahplayerB() {
       this.playerB++;
-      if (this.playerB == 20) {
-        this.keputusan = "Match Point"
-      } else if(this.playerB == 21) {
-        this.keputusan = "Player B Win"
+      // if (this.playerB == 20) {
+      //   this.keputusan = "Match Point";
+      // } else if (this.playerB == 21) {
+      //   this.keputusan = "Player B Win";
+      // } else {
+      //   this.keputusan = "";
+      // }
+
+      if (this.playerB == 20 && this.playerA == 20) {
+        this.keputusan = alert("Deuce");
+        if (
+          this.playerB == this.playerA + 2 ||
+          this.playerA == this.playerB + 2
+        ) {
+          this.keputusan = "Player B Menang Deuce";
+        }
+      } else if (this.playerB == 20 && this.playerA <= this.playerB) {
+        this.keputusan = "Match Point";
+      }
+
+      if (this.playerB % 2 == 1) {
+        this.status = "Player B Serve Di Kiri";
       } else {
-        this.keputusan = ""
+        this.status = "Player B Serve Di Kanan";
       }
     },
     kurangplayerA() {

@@ -1,5 +1,6 @@
 suedo code
 
 jika salah satu player angka 20 = match point
-jika salah satu player 21 point dan selisi >2 player = win
-jika sampai diangka 20 dan selesih 1 = just
+jika salah satu tim mencapi 21 poin = win
+jika kedua pemain sama sama berada di angka 20 max 30 = Deuce
+jika sedang Deuce salah satu pemain selish 2 point = win
