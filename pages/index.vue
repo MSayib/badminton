@@ -3,17 +3,10 @@
     <div>
       <logo />
       <br />
-      <h4 class="title">
-        Aplikasi Perhitungan Score Badminton By Tetamba
-      </h4>
+      <h4 class="title">Aplikasi Perhitungan Score Badminton By Tetamba</h4>
       <div>
         <b-button variant="outline-primary" size="lg">Let's Count!</b-button>
-        <b-button
-          v-b-modal.modal-prevent-closing
-          variant="outline-success"
-          size="lg"
-          >Absensi</b-button
-        >
+        <b-button v-b-modal.modal-prevent-closing variant="outline-success" size="lg">Absensi</b-button>
         <b-modal
           id="modal-prevent-closing"
           ref="modal"
@@ -29,12 +22,7 @@
               label-for="name-input"
               invalid-feedback="Name is required"
             >
-              <b-form-input
-                id="name-input"
-                v-model="name"
-                :state="nameState"
-                required
-              ></b-form-input>
+              <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
             </b-form-group>
             <b-form-group
               :state="genderState"
@@ -74,13 +62,10 @@
             </b-form-group>
           </form>
         </b-modal>
-        <b-button variant="outline-danger" size="lg">Help</b-button>
+        <b-button variant="outline-danger" size="lg" @click="getDataGuest">Help</b-button>
       </div>
     </div>
-
-    <h5 class="footer">
-      &copy;Tetamba Studio
-    </h5>
+    <h5 class="footer">&copy;Tetamba Studio</h5>
   </div>
 </template>
 
