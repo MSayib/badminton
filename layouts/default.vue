@@ -1,5 +1,15 @@
 <template>
   <div>
+    <b-navbar type="light" variant="light">
+      <b-navbar-nav>
+        <b-nav-item to="/">Home</b-nav-item>
+        <b-nav-item :to="'/auth/dashboard'">Dashboard</b-nav-item>
+        <b-nav-item-dropdown text="User" right>
+          <b-dropdown-item v-if="loggedIn" class="logout-link" @click="logout">Logout</b-dropdown-item>
+          <b-dropdown-item :to="'/auth/login'" v-else>Login</b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+    </b-navbar>
     <nuxt />
   </div>
 </template>
@@ -41,7 +51,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.$router.push("/");
+          this.$router.push("/auth/logout");
         });
     }
   }
