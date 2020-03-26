@@ -1,90 +1,71 @@
 <template>
-  <div>
-    <div class="container">
+  <div class="container">
+    <div>
+      <logo />
+      <br />
+      <h4 class="title">Aplikasi Perhitungan Score Badminton By Tetamba</h4>
       <div>
-        <logo />
-        <br />
-        <h4 class="title">
-          Aplikasi Perhitungan Score Badminton By Tetamba
-        </h4>
-        <div>
-          <b-button variant="outline-primary" href="/start" size="lg"
-            >Let's Count!</b-button
-          >
-          <b-button
-            v-b-modal.modal-prevent-closing
-            variant="outline-success"
-            size="lg"
-            >Absensi</b-button
-          >
-          <b-modal
-            id="modal-prevent-closing"
-            ref="modal"
-            title="Submit Your Name"
-            @show="resetModal"
-            @hidden="resetModal"
-            @ok="handleOk"
-          >
-            <form ref="form" @submit.stop.prevent="handleSubmit">
-              <b-form-group
-                :state="nameState"
-                label="Name"
-                label-for="name-input"
-                invalid-feedback="Name is required"
-              >
-                <b-form-input
-                  id="name-input"
-                  v-model="name"
-                  :state="nameState"
-                  required
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
+        <b-button variant="outline-primary" size="lg">Let's Count!</b-button>
+        <b-button v-b-modal.modal-prevent-closing variant="outline-success" size="lg">Absensi</b-button>
+        <b-modal
+          id="modal-prevent-closing"
+          ref="modal"
+          title="Submit Your Name"
+          @show="resetModal"
+          @hidden="resetModal"
+          @ok="handleOk"
+        >
+          <form ref="form" @submit.stop.prevent="handleSubmit">
+            <b-form-group
+              :state="nameState"
+              label="Name"
+              label-for="name-input"
+              invalid-feedback="Name is required"
+            >
+              <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
+            </b-form-group>
+            <b-form-group
+              :state="genderState"
+              label="gender"
+              label-for="gender-input"
+              invalid-feedback="Gender is required"
+            >
+              <b-form-select
+                id="gender-input"
+                v-model="gender"
+                :options="options"
+                class="mb-3"
+                value-field="value"
+                text-field="item"
+                disabled-field="notEnabled"
                 :state="genderState"
-                label="gender"
-                label-for="gender-input"
-                invalid-feedback="Gender is required"
-              >
-                <b-form-select
-                  id="gender-input"
-                  v-model="gender"
-                  :options="options"
-                  class="mb-3"
-                  value-field="value"
-                  text-field="item"
-                  disabled-field="notEnabled"
-                  :state="genderState"
-                  required
-                ></b-form-select>
-              </b-form-group>
-              <b-form-group
-                :state="dateState"
-                label="date"
-                label-for="datepicker-dateformat2"
-                invalid-feedback="Date is required"
-              >
-                <b-form-datepicker
-                  id="datepicker-dateformat2"
-                  v-model="date"
-                  :date-format-options="{
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric'
-                  }"
-                  locale="en"
-                  required
-                ></b-form-datepicker>
-              </b-form-group>
-            </form>
-          </b-modal>
-          <b-button variant="outline-danger" size="lg">Help</b-button>
-        </div>
+                required
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group
+              :state="dateState"
+              label="date"
+              label-for="datepicker-dateformat2"
+              invalid-feedback="Date is required"
+            >
+              <b-form-datepicker
+                id="datepicker-dateformat2"
+                v-model="date"
+                :date-format-options="{
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric'
+                }"
+                locale="en"
+                required
+              ></b-form-datepicker>
+            </b-form-group>
+          </form>
+        </b-modal>
+        <b-button variant="outline-danger" size="lg" @click="getDataGuest">Help</b-button>
       </div>
-
-      <h5 class="footer">
-        &copy;Tetamba Studio
-      </h5>
     </div>
+    <h5 class="footer">&copy;Tetamba Studio</h5>
   </div>
 </template>
 
@@ -115,6 +96,9 @@ export default {
     this.getDataGuest();
   },
   methods: {
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs;
+    },
     getDataGuest() {
       db.collection("peoples")
         .orderBy("name")
