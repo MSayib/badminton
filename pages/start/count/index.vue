@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar />
     <div>
       <b-container align="center" style="margin-top: 180px">
         <Stopwatch />
@@ -60,11 +61,30 @@
 </template>
 
 <script>
+import Navbar from '~/components/navbar'
 import Stopwatch from "~/components/stopwatch.vue";
+import { getUserFromCookie } from "~/helpers";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
+  
   components: {
-    Stopwatch
+    Stopwatch, Navbar
+  },
+   asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/start/count");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
   },
   data() {
     return {

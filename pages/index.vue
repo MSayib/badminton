@@ -4,11 +4,11 @@
       <div>
         <logo />
         <br />
-        <h4 class="title">
+        <p class="title">
           Aplikasi Perhitungan Score Badminton By Tetamba
-        </h4>
+        </p>
         <div>
-          <b-button variant="outline-primary" href="/start" size="lg"
+          <b-button variant="outline-primary" href="/auth/login" size="lg"
             >Let's Count!</b-button
           >
           <b-button
@@ -111,26 +111,9 @@ export default {
       ]
     };
   },
-  mounted() {
-    this.getDataGuest();
-  },
+
   methods: {
-    getDataGuest() {
-      db.collection("peoples")
-        .orderBy("name")
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            const data = {
-              id: doc.id,
-              name: doc.data().name,
-              gender: doc.data().gender,
-              date: doc.data().date
-            };
-            this.peoples.push(data);
-          });
-        });
-    },
+    
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
       this.nameState = valid;
@@ -190,7 +173,7 @@ export default {
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
-  font-size: 30px;
+  font-size: 25px;
   color: #35495e;
   letter-spacing: 1px;
 }

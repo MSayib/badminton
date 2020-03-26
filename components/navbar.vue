@@ -1,6 +1,30 @@
 <template>
   <div>
-    <nuxt />
+    <b-navbar toggleable="lg" type="light" variant="light">
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-navbar-brand to="/auth/dashboard">Dashboard</b-navbar-brand>
+          <b-nav-item-dropdown text="Games" right>
+            <b-nav-item :to="'/start/player'">Player</b-nav-item>
+            <b-nav-item :to="'/start/count/'">Scoreboard</b-nav-item>
+            <b-nav-item :to="'/start/history'">History</b-nav-item>
+          </b-nav-item-dropdown>
+
+          <b-nav-item-dropdown right>
+            <!-- Using 'button-content' slot -->
+            <template v-slot:button-content>
+              <em>User</em>
+            </template>
+            <b-dropdown-item v-if="loggedIn" class="logout-link" @click="logout">Logout</b-dropdown-item>
+            <b-dropdown-item :to="'/auth/login'" v-else>Login</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+
   </div>
 </template>
 <script>
