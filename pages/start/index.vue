@@ -1,27 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="container" style="justify-content: center; text-align: center; align-items: center;">
-    <h3>Form</h3>
-    <br>
-    <div>
-        <h5>Team A</h5>
-        <input type="text" placeholder="Nama 1" v-model="namaA1">
-        <input type="text" placeholder="Nama 2" v-model="namaA2">
-    </div>
-    <br>
-    <div>
-        <h5>Team B</h5>
-        <input type="text" placeholder="Nama 1" v-model="namaB1">
-        <input type="text" placeholder="Nama 2" v-model="namaB2">
-    </div>
-    <br>
-    <nuxt-link :to="'/start/counter'">
-        <button class="btn btn-md btn-primary">Submit</button>
-    </nuxt-link>
-    <nuxt-link :to="'/'">
-        <button class="btn btn-md text-danger">Kembali</button>
-    </nuxt-link>
-=======
   <div>
     <div>
       <b-container align="center" style="margin-top: 180px">
@@ -79,39 +56,10 @@
         </b-row>
       </b-container>
     </div>
->>>>>>> master
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-export default {
-    data(){
-        return{
-            namaA1: '',
-            namaA2: '',
-            namaB1: '',
-            namaB2: ''
-        }
-    },
-    
-
-}
-</script>
-
-<style>
-    input{
-        width: 50%;
-        padding: 12px 20px;
-        margin: 8px 0;
-        transition: width 0.4s ease-in-out;
-    }
-
-    input:focus{
-        width: 100%;
-    }
-</style>
-=======
 import Stopwatch from "~/components/stopwatch.vue";
 
 export default {
@@ -172,4 +120,3 @@ export default {
   border: 2px solid;
 }
 </style>
->>>>>>> master
