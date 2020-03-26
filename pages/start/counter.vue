@@ -1,118 +1,166 @@
 <template>
   <div>
-      <b-container align="center" style="margin-top: 180px;">
+    <div>
+      <b-container align="center" style="margin-top: 180px">
+        <Stopwatch />
+        <b-row>
+          <b-col>
+            <h4>Score Counter</h4>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <h4>{{ keputusan }}</h4>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-card border-variant="dark" header="Player A" align="center">
+              <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
+            </b-card>
+          </b-col>
+          <b-col cols="4" style="margin-top: 40px">
+            <b-img :src="img" width="90%" fluid alt="Responsive image" />
+          </b-col>
+          <b-col>
+            <b-card border-variant="dark" header="Player B" align="center">
+              <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
+            </b-card>
+          </b-col>
+        </b-row>
 
-          <b-row>
-              <b-col>
-                  <h5>player A</h5>
-              </b-col>
-              <b-col>
-                  <h5>player B</h5>
-              </b-col>
-          </b-row>
+        <b-row>
+          <b-col>{{ isDeuce ? "Deuce" : "Bukan" }} </b-col>
+        </b-row>
 
-          <b-row>
-              <b-col>
-                  <h2>{{ teamA }}</h2>
-              </b-col>
-              <b-col>
-                  <h2> : </h2>
-              </b-col>
-              <b-col>
-                  <h2>{{ teamB }}</h2>
-              </b-col>
-          </b-row>
-          <b-row>
-              <b-col>
-                  <b-button @click="tambahTeamA" variant="primary">+</b-button>
-                  <b-button @click="kurangTeamA" variant="danger">-</b-button>
-              </b-col>
-
-              <b-col></b-col>
-
-              <b-col>
-                  <b-button @click="tambahTeamB" variant="primary">+</b-button>
-                  <b-button @click="kurangTeamB" variant="danger">-</b-button>
-              </b-col>
-          </b-row>
-
-          <b-row>
-              <b-col>
-                  <b-button @click="reset" variant="warning">Reset</b-button>
-              </b-col>
-          </b-row>
-
-          <b-row>
-              <b-col>{{ status }}</b-col>
-          </b-row>
-          
-          <b-row>
-              <b-col>
-                  <h3>A: {{ isKananA }} B: {{ isKananB }}</h3>
-              </b-col>
-          </b-row>
+        <b-row>
+          <!-- team A -->
+          <b-col>
+            <b-button @click="tambahplayerA" variant="primary">+</b-button>
+            <b-button @click="kurangplayerA" variant="danger">-</b-button>
+          </b-col>
+          <b-col> </b-col>
+          <!-- team B -->
+          <b-col>
+            <b-button @click="tambahplayerB" variant="primary">+</b-button>
+            <b-button @click="kurangplayerB" variant="danger">-</b-button>
+          </b-col>
+        </b-row>
+        <!-- reset button -->
+        <b-row style="padding: 0 10px;">
+          <b-col>
+            <b-button variant="primary" @click="resetScore"
+              >Reset Score</b-button
+            >
+          </b-col>
+        </b-row>
       </b-container>
+    </div>
   </div>
 </template>
 
 <script>
+import Stopwatch from "~/components/stopwatch.vue";
+
 export default {
-    data(){
-        return{
-            teamA: 0,
-            teamB: 0,
-            isKananA: true,
-            isKananB: true,
-            status: ''
-        }
+  components: {
+    Stopwatch
+  },
+  data() {
+    return {
+      playerA: 20,
+      playerB: 20,
+      img: "https://i.ya-webdesign.com/images/vs-png-5.png",
+      counterBola: 0,
+      keputusan: ""
+    };
+  },
+  computed: {
+    isBolaA() {
+      return this.counterBola % 2 === 0;
     },
-    methods:{
-        tambahTeamA(){
-            this.teamA++
-        },
-        kurangTeamA(){
-            if(this.teamA > 0){
-              this.teamA--
-            }
-        },
-        tambahTeamB(){
-            this.teamB++
-        },
-        kurangTeamB(){
-            if(this.teamB > 0){
-              this.teamB--
-            }
-        },
-        reset(){
-            this.teamA = 0,
-            this.teamB = 0,
-            this.isKananA = true,
-            this.isKananB = true,
-            this.status = ""
-        }
+    isBolaB() {
+      return this.counterBola % 2 === 1;
     },
-    watch:{
-        teamA(){
-            if(this.teamA % 2 == 0){
-              this.isKananA = true
-              this.status = "Player A serve di kanan"
-            }else{
-              this.isKananA = false
-              this.status = "Player A serve di kiri"
-            }
-        },
-        teamB(){
-            if(this.teamB % 2 == 0){
-              this.isKananB = true
-              this.status = "Player B serve di kanan"
-            }else{
-              this.isKananB = false
-              this.status = "Player B serve di kiri"
-            }
+    isMatchPoint() {
+      if (this.playerA < 21 && this.playerB < 21) {
+        if (
+          (this.playerA === 20 && this.playerB !== 20) ||
+          (this.playerA !== 20 && this.playerB === 20)
+        ) {
+          return true;
+        } else {
+          return false;
         }
+      } else if (this.playerA === 29 || this.playerB === 29) {
+        return true;
+      } else {
+        // antara 21 - 29
+        if (Math.abs(this.playerA - this.playerB) === 1) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    },
+    isDeuce() {
+      if (this.playerA >= 20 && this.playerB >= 20) {
+        if (this.playerA === this.playerB) {
+          return true;
+        }
+      }
+      return false;
+    },
+    status() {
+      const orang = this.counterBola % 2 === 0 ? "A" : "B";
+      const skorygdigunakan = orang === "A" ? this.playerA : this.playerB;
+      const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
+      return `si ${orang} servis dari ${posisi}`;
     }
-}
+  },
+  watch: {
+    isDeuce(val) {
+      if (val) {
+        alert("deuce!!");
+      }
+    }
+  },
+  methods: {
+    tambahplayerA() {
+      this.playerA++;
+
+      if (this.isBolaB) {
+        this.counterBola++;
+      }
+    },
+    tambahplayerB() {
+      this.playerB++;
+
+      if (this.isBolaA) {
+        this.counterBola++;
+      }
+    },
+    kurangplayerA() {
+      this.playerA -= 1;
+    },
+    kurangplayerB() {
+      this.playerB -= 1;
+    },
+    resetScore() {
+      (this.playerA = 0), (this.playerB = 0);
+    },
+    resetData() {
+      (this.playerA = 0), (this.playerB = 0);
+    }
+  }
+};
 </script>
 
 <style>
+.scoreBoard {
+  font-size: 60px;
+}
+.score {
+  border: 2px solid;
+}
 </style>
