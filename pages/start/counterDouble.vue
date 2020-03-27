@@ -76,8 +76,8 @@ export default {
   },
   data() {
     return {
-      playerA: 29,
-      playerB: 29,
+      playerA: 0,
+      playerB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
       isServeB: 0
