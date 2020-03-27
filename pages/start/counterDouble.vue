@@ -138,7 +138,7 @@ export default {
       const ohTeamAServe = siapaSihYangServe === "Team A" ? this.isServeA : "";
       const mauSiapaNihYangServeA = ohTeamAServe % 2 === 0 ? "A1" : "A2";
       const posisiServeADimana = this.playerA % 2 === 0 ? "Kanan" : "Kiri";
-
+      // Buat Tim B kalo dia serve
       const ohTeamBServe = siapaSihYangServe === "Team B" ? this.isServeB : "";
       const mauSiapaNihYangServeB = ohTeamBServe % 2 === 0 ? "B2" : "B1";
       const posisiServeBDimana = this.playerB % 2 === 0 ? "Kanan" : "Kiri";
