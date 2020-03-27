@@ -25,3 +25,9 @@ tambah poin :
             posisi serve di kanan
     - bukan serve terakhir?
         posisi tetap
+
+1. Skor kedua Tim 0 - 0
+2. Ketika pertandingan di mulai, Team A melakukan serve.
+3. Pemain A1 melakukan serve dari sisi kanan
+4. Tim A mendapatkan poin dari servenya
+5. Pemain A1 pindah posisi ke kiri
