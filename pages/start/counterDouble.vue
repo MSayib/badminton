@@ -1,169 +1,151 @@
 <template>
   <div>
-      <b-container align="center" style="margin-top: 180px;">
+    <div>
+      <b-container fluid="xl" align="center" style="margin-top: 60px">
+        <Stopwatch />
+        <b-row>
+          <b-col>
+            <h4>Score Counter</h4>
+          </b-col>
+        </b-row>
+        <b-row>
+          <!-- <b-col>
+            <h4>{{ keputusan }}</h4>
+          </b-col>-->
+        </b-row>
+        <b-row>
+          <b-col>
+            <b-card border-variant="dark" header="Player A1 / Player A2" align="center">
+              <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
+            </b-card>
+          </b-col>
+          <b-col cols="4" style="margin-top: 40px">
+            <b-img :src="img" width="90%" fluid alt="Responsive image" />
+          </b-col>
+          <b-col>
+            <b-card border-variant="dark" header="Player B1 / Player B2" align="center">
+              <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
+            </b-card>
+          </b-col>
+        </b-row>
 
-          <b-row>
-              <b-col>
-                  <h5>player A1 / player A2</h5>
-              </b-col>
-              <b-col>
-                  <h5>player B1 / player B2</h5>
-              </b-col>
-          </b-row>
-
-          <b-row>
-              <b-col>
-                  <h2>{{ teamA }}</h2>
-              </b-col>
-              <b-col>
-                  <h2> : </h2>
-              </b-col>
-              <b-col>
-                  <h2>{{ teamB }}</h2>
-              </b-col>
-          </b-row>
-          <b-row>
-              <b-col>
-                  <b-button @click="tambahTeamA" variant="primary">+</b-button>
-                  <b-button @click="kurangTeamA" variant="danger">-</b-button>
-              </b-col>
-
-              <b-col></b-col>
-
-              <b-col>
-                  <b-button @click="tambahTeamB" variant="primary">+</b-button>
-                  <b-button @click="kurangTeamB" variant="danger">-</b-button>
-              </b-col>
-          </b-row>
-
-          <b-row>
-              <b-col>
-                  <b-button @click="reset" variant="warning">Reset</b-button>
-              </b-col>
-          </b-row>
-
-          <b-row>
-              <b-col>{{ status }}</b-col>
-          </b-row>
-          
-          <b-row>
-              <b-col>
-                  <h3>A: {{ isKananA }} B: {{ isKananB }}</h3>
-              </b-col>
-              <b-col>
-                  <h3>A: {{ lastServeA }} B: {{ lastServeB }}</h3>
-              </b-col>
-          </b-row>
+        <!-- <b-row>
+          <b-col>{{ isDeuce ? "Deuce" : "Bukan" }}</b-col>
+        </b-row>-->
+        <b-row>
+          <b-col>isKananA {{ isKananA }} || isKananB {{ isKananB }}</b-col>
+          <b-col>{{ status }}</b-col>
+          <b-col>isServeA :{{ isServeA }} isServeB:{{ isServeB }}</b-col>
+        </b-row>
+        <b-row>
+          <!-- team A -->
+          <b-col>
+            <b-button @click="tambahPlayerA" variant="primary">+</b-button>
+            <b-button @click="kurangPlayerA" variant="danger">-</b-button>
+          </b-col>
+          <b-col></b-col>
+          <!-- team B -->
+          <b-col>
+            <b-button @click="tambahPlayerB" variant="primary">+</b-button>
+            <b-button @click="kurangPlayerB" variant="danger">-</b-button>
+          </b-col>
+        </b-row>
+        <!-- reset button -->
+        <b-row style="padding: 0 10px;">
+          <b-col>
+            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
+          </b-col>
+        </b-row>
       </b-container>
+    </div>
   </div>
 </template>
 
 <script>
+import Stopwatch from "~/components/stopwatch.vue";
+
 export default {
-    data(){
-        return{
-            teamA: 0,
-            teamB: 0,
-            isKananA: true,
-            isKananB: true,
-            lastServeA: true,
-            lastServeB: false,
-            status: ''
-        }
-    },
-    mounted(){
-        if(this.lastServeA == true){
-            this.status = "A1 serve di posisi kanan"
-        }else{
-            this.status = "B1 serve di posisi kanan"
-        }
-    },
-    methods:{
-        tambahTeamA(){
-            this.teamA++
-        },
-        kurangTeamA(){
-            if(this.teamA > 0){
-                this.teamA--
-            }
-        },
-        tambahTeamB(){
-            this.teamB++
-        },
-        kurangTeamB(){
-            if(this.teamB > 0){
-                this.teamB--
-            }
-        },
-        reset(){
-            this.teamA = 0,
-            this.teamB = 0,
-            this.isKananA = true,
-            this.isKananB = true,
-            this.status = ""
-        }
-    },
-    watch:{
-        teamA(){
-            if(this.lastServeB == true && this.lastServeA == false){
-                this.lastServeB = false
-            }else if(this.lastServeB == false && this.lastServeA == false){
-                this.lastServeB = true
-            }else if(this.lastServeB == true && this.lastServeA == true){
-                this.lastServeA = false
-            }else{
-                this.lastServeA = true
-            }
+  components: {
+    Stopwatch
+  },
+  data() {
+    return {
+      playerA: 0,
+      playerB: 0,
+      img: "https://i.ya-webdesign.com/images/vs-png-5.png",
+      isServeA: 0,
+      isServeB: 0
+    };
+  },
 
-            // menentukan posisi kanan/kiri
-            if(this.teamA % 2 == 0){
-                this.isKananA = true
-                if(this.lastServeA == true){
-                    this.status = "A1 serve di kanan"
-                }else{
-                    this.status = "A2 serve di kanan"
-                }
-            }else{
-                this.isKananA = false
-                if(this.lastServeA == true){
-                    this.status = "A1 serve di kiri"
-                }else{
-                    this.status = "A2 serve di kiri"
-                }
-            }
+  computed: {
+    isKananA() {
+      return this.isServeA % 2 === 0;
+    },
+    isKananB() {
+      return this.isServeB % 2 === 1;
+    },
+    status() {
+      const teamAServe = this.isServeA % 2 === 0 ? "A1" : "A2";
+      const skorGenapA = teamAServe ? this.playerA : "";
+      const posisiA = skorGenapA % 2 === 0 ? "Kanan" : "Kiri";
 
-            //menentukan deuce
-            
-        },
-        teamB(){
-            if(this.lastServeA == true && this.lastServeB == false){
-                this.lastServeA = false
-            }else if(this.lastServeA == false && this.lastServeB == false){
-                this.lastServeA = true
-            }else if(this.lastServeA == true && this.lastServeB == true){
-                this.lastServeB = false
-            }else{
-                this.lastServeB = true
-            }
-            if(this.teamB % 2 == 0){
-                this.isKananB = true
-                if(this.lastServeB == true){
-                    this.status = "B1 serve di kanan"
-                }else{
-                    this.status = "B2 serve di kanan"
-                }
-            }else{
-                this.isKananB = false
-                if(this.lastServeB == true){
-                    this.status = "B1 serve di kiri"
-                }else{
-                    this.status = "B2 serve di kiri"
-                }
-            }
-        }
+      const teamBServe = this.isServeB % 2 === 1 ? "B1" : "B2";
+      const skorGenapB = teamBServe ? this.playerB : "";
+      const posisiB = skorGenapB % 2 === 0 ? "Kanan" : "Kiri";
+
+      return `Pemain ${teamAServe} serve di posisi ${posisiA}`;
     }
-}
+  },
+
+  watch: {
+    playerA() {
+      if (this.isKananA && !this.isKananB) {
+        return;
+      } else if (!this.isKananA && !this.isKananB) {
+        this.isServeB++;
+      } else if (this.isKananA && this.isKananB) {
+        this.isServeB++;
+      }
+    },
+    playerB() {
+      if (this.isKananA && !this.isKananB) {
+        this.isServeA++;
+      } else if (!this.isKananA && this.isKananB) {
+        this.isServeA++;
+      }
+    }
+  },
+  methods: {
+    tambahPlayerA() {
+      this.playerA++;
+    },
+    kurangPlayerA() {
+      if (this.playerA > 0) {
+        this.playerA--;
+      }
+    },
+    tambahPlayerB() {
+      this.playerB++;
+    },
+    kurangPlayerB() {
+      if (this.playerB > 0) {
+        this.playerB--;
+      }
+    },
+    resetScore() {
+      this.playerA = 0;
+      this.playerB = 0;
+    }
+  }
+};
 </script>
 
 <style>
+.scoreBoard {
+  font-size: 60px;
+}
+.score {
+  border: 2px solid;
+}
 </style>

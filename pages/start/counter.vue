@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-container align="center" style="margin-top: 180px">
+      <b-container fluid="xl" align="center" style="margin-top: 60px">
         <Stopwatch />
         <b-row>
           <b-col>
@@ -30,7 +30,13 @@
         </b-row>
 
         <b-row>
-          <b-col>{{ isDeuce ? "Deuce" : "Bukan" }} </b-col>
+          <b-col>{{ isDeuce ? "Deuce" : "Bukan" }}</b-col>
+        </b-row>
+
+        <b-row>
+          <b-col>isBolaA : {{ isBolaA }} || isBolaB : {{ isBolaB }}</b-col>
+          <b-col>{{ status }}</b-col>
+          <b-col>counterBola : {{ counterBola }}</b-col>
         </b-row>
 
         <b-row>
@@ -39,7 +45,7 @@
             <b-button @click="tambahplayerA" variant="primary">+</b-button>
             <b-button @click="kurangplayerA" variant="danger">-</b-button>
           </b-col>
-          <b-col> </b-col>
+          <b-col></b-col>
           <!-- team B -->
           <b-col>
             <b-button @click="tambahplayerB" variant="primary">+</b-button>
@@ -49,9 +55,7 @@
         <!-- reset button -->
         <b-row style="padding: 0 10px;">
           <b-col>
-            <b-button variant="primary" @click="resetScore"
-              >Reset Score</b-button
-            >
+            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
           </b-col>
         </b-row>
       </b-container>
@@ -68,8 +72,8 @@ export default {
   },
   data() {
     return {
-      playerA: 20,
-      playerB: 20,
+      playerA: 0,
+      playerB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       counterBola: 0,
       keputusan: ""
