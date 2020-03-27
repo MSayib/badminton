@@ -5,106 +5,177 @@
       <h1>List Player</h1>
       <b-col md="auto">
         <b-col md="12" offset-md="10">
-          <b-button :href="'/start/player/'" variant="primary">
-            <b-icon icon="arrow-repeat" variant="white"></b-icon>Refresh
-          </b-button>
           <b-button v-b-modal.modal-prevent-closing variant="primary">
             <b-icon icon="plus" variant="white"></b-icon>Add
           </b-button>
         </b-col>
         <p class="mt-3">Current Page: {{ currentPage }}</p>
-        <b-table
-          id="my-table"
-          :fields="fields"
-          :items="items"
-          :per-page="perPage"
-          :current-page="currentPage"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
-          small
-        >
-          <template v-slot:cell(ID)="data">{{ data.index + 1 }}</template>
-          <template v-slot:cell(NAME)="data">
-            <p>{{ data.item.name }}</p>
-          </template>
-          <template v-slot:cell(GENDER)="data">
-            <p>{{ data.item.gender }}</p>
-          </template>
-          <template v-slot:cell(DATE)="data">
-            <p>{{ data.item.date }}</p>
-          </template>
-          <template v-slot:cell(ACTIONS)="data">
-            <nuxt-link :to="'/start/player/' + data.item.id">
-              <b-icon icon="eye" variant="primary"></b-icon>
-            </nuxt-link>
-            <nuxt-link :to="'/start/player/' + data.item.id + '/edit'">
-              <b-icon icon="pencil" variant="primary"></b-icon>
-            </nuxt-link>
-            <b-icon small @click="deleteData(data.item.id)" variant="primary" icon="trash"></b-icon>
-          </template>
-        </b-table>
-        <b-modal
-          id="modal-prevent-closing"
-          ref="modal"
-          title="Submit Your Name"
-          @show="resetModal"
-          @hidden="resetModal"
-          @ok="handleOk"
-        >
-          <form ref="form" @submit.stop.prevent="saveData">
-            <b-form-group
-              :state="nameState"
-              label="Name"
-              label-for="name-input"
-              invalid-feedback="Name is required"
-            >
-              <b-form-input id="name-input" v-model="name" :state="nameState" required></b-form-input>
-            </b-form-group>
-            <b-form-group
-              :state="genderState"
-              label="gender"
-              label-for="gender-input"
-              invalid-feedback="Gender is required"
-            >
-              <b-form-select
-                id="gender-input"
-                v-model="gender"
-                :options="options"
-                class="mb-3"
-                value-field="value"
-                text-field="item"
-                disabled-field="notEnabled"
+        <b-table-simple 
+            id="my-table"
+            :items="items"
+            :per-page="perPage"
+            :current-page="currentPage"
+            small>
+          <b-thead>
+            <b-tr>
+              <b-th>ID</b-th>
+              <b-th>Name</b-th>
+              <b-th>Gender</b-th>
+              <b-th>Date</b-th>
+              <b-th>Actions</b-th>
+            </b-tr>
+          </b-thead>
+          <b-tbody>
+            <b-tr v-for="item in items" :key="item.id">
+              
+              <td>{{item.id}}</td>
+              <td>{{ item.data().name }}</td>
+              <td>{{ item.data().gender }}</td>
+              <td>{{ item.data().date }}</td>
+              <td>
+                <b-button
+                  v-b-modal.modal-prevent-edit
+                  @click="editData(item)"
+                  variant="primary"
+                >
+                  <b-icon small icon="pencil"></b-icon>
+                </b-button>
+                <b-button @click="deleteData(item.id)" variant="primary">
+                  <b-icon small icon="trash"></b-icon>
+                </b-button>
+              </td>
+            </b-tr>
+          </b-tbody>
+          <b-modal
+            id="modal-prevent-closing"
+            ref="modal"
+            title="Submit Your Name"
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleOk"
+          >
+            <form ref="form" @submit.stop.prevent="saveData">
+              <b-form-group
+                :state="nameState"
+                label="Name"
+                label-for="name-input"
+                invalid-feedback="Name is required"
+              >
+                <b-form-input
+                  id="name-input"
+                  v-model="item.name"
+                  :state="nameState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
                 :state="genderState"
-                required
-              ></b-form-select>
-            </b-form-group>
-            <b-form-group
-              :state="dateState"
-              label="date"
-              label-for="datepicker-dateformat2"
-              invalid-feedback="Date is required"
-            >
-              <b-form-datepicker
-                id="datepicker-dateformat2"
-                v-model="date"
-                :date-format-options="{
-                  year: 'numeric',
-                  month: 'numeric',
-                  day: 'numeric'
-                }"
-                locale="en"
-                required
-              ></b-form-datepicker>
-            </b-form-group>
-          </form>
-        </b-modal>
+                label="gender"
+                label-for="gender-input"
+                invalid-feedback="Gender is required"
+              >
+                <b-form-select
+                  id="gender-input"
+                  v-model="item.gender"
+                  :options="options"
+                  class="mb-3"
+                  value-field="value"
+                  text-field="item"
+                  disabled-field="notEnabled"
+                  :state="genderState"
+                  required
+                  placeholder="Please select a gender"
+                ></b-form-select>
+              </b-form-group>
+              <b-form-group
+                :state="dateState"
+                label="date"
+                label-for="datepicker-dateformat2"
+                invalid-feedback="Date is required"
+              >
+                <b-form-datepicker
+                  id="datepicker-dateformat2"
+                  v-model="item.date"
+                  :date-format-options="{
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric'
+                  }"
+                  locale="en"
+                  required
+                ></b-form-datepicker>
+              </b-form-group>
+            </form>
+          </b-modal>
+          <b-modal
+            id="modal-prevent-edit"
+            ref="modal"
+            title="Submit Your Name"
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleUpdateOk"
+          >
+            <form ref="form" @submit.stop.prevent="updateData">
+              <b-form-group
+                :state="nameState"
+                label="Name"
+                label-for="name-input"
+                invalid-feedback="Name is required"
+              >
+                <b-form-input
+                  id="name-input"
+                  v-model="item.name"
+                  :state="nameState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                :state="genderState"
+                label="gender"
+                label-for="gender-input"
+                invalid-feedback="Gender is required"
+              >
+                <b-form-select
+                  id="gender-input"
+                  v-model="item.gender"
+                  :options="options"
+                  class="mb-3"
+                  value-field="value"
+                  text-field="item"
+                  disabled-field="notEnabled"
+                  :state="genderState"
+                  required
+                  placeholder="Please select a gender"
+                ></b-form-select>
+              </b-form-group>
+              <b-form-group
+                :state="dateState"
+                label="date"
+                label-for="datepicker-dateformat2"
+                invalid-feedback="Date is required"
+              >
+                <b-form-datepicker
+                  id="datepicker-dateformat2"
+                  v-model="item.date"
+                  :date-format-options="{
+                    year: 'numeric',
+                    month: 'numeric',
+                    day: 'numeric'
+                  }"
+                  locale="en"
+                  required
+                ></b-form-datepicker>
+              </b-form-group>
+            </form>
+          </b-modal>
+        </b-table-simple>
 
         <b-pagination
           right
           v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          aria-controls="my-table"
+        :total-rows="rows"
+        :per-page="perPage"
+        aria-controls="my-table"
         ></b-pagination>
       </b-col>
     </b-container>
@@ -125,23 +196,24 @@ export default {
       showDismissibleAlert: true,
       sortBy: "date",
       sortDesc: true,
-      perPage: 5,
+      perPage: 3,
       currentPage: 1,
+     
       items: [],
-      fields: ["ID", "NAME", "GENDER", "DATE", "ACTIONS"],
-      id: null,
-      name: null,
-      gender: null,
-      date: null,
+      item: {
+        id: null,
+        name: null,
+        gender: null,
+        date: null
+      },
       nameState: null,
       genderState: null,
       dateState: null,
-      peoples: [],
       options: [
-        { item: "Please select a gender", value: null },
         { item: "Female", value: "F" },
         { item: "Male", value: "M" }
-      ]
+      ],
+      activeItem: null
     };
   },
 
@@ -150,22 +222,26 @@ export default {
       return this.items.length;
     }
   },
+ 
   methods: {
+    watcher() {
+    db.collection("peoples").orderBy('date')
+    .onSnapshot((querySnapshot) => {
+        this.items = [];
+        querySnapshot.forEach((doc) => {
+            this.items.push(doc);
+        });
+      
+    });
+  },
     readData() {
       db.collection("peoples")
         .orderBy("date")
         .get()
         .then(querySnapshot => {
-          this.loading = false;
           querySnapshot.forEach(doc => {
-            const data = {
-              id: doc.id,
-              name: doc.data().name,
-              gender: doc.data().gender,
-              date: doc.data().date
-            };
             console.log(doc.data());
-            this.items.push(data);
+            this.items.push(doc);
           });
         });
     },
@@ -185,52 +261,76 @@ export default {
       // Trigger submit handler
       this.saveData();
     },
+    handleUpdateOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.updateData();
+    },
     resetModal() {
       this.name = "";
-      this.nameState = null;
       this.gender = "";
-      this.genderState = null;
       this.date = "";
+      this.nameState = null;
+
+      this.genderState = null;
+
       this.dateState = null;
     },
     saveData() {
       // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
+      if (this.checkFormValidity()) {
+        db.collection("peoples")
+          .add(this.item)
+          .then(docRef => this.watcher())
+          
+          .catch(error => console.log(err));
+        // Hide the modal manually
+        this.$nextTick(() => {
+          this.$bvModal.hide("modal-prevent-closing");
+        });
       }
-      db.collection("peoples")
-        .add({
-          name: this.name,
-          gender: this.gender,
-          date: this.date
-        })
-        .then(docRef => this.$router.push("/start/player"))
-
-        .catch(error => console.log(err));
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-prevent-closing");
-      });
+      return;
     },
-
+    updateData() {
+      db.collection("peoples")
+        .doc(this.activeItem)
+        .update(this.item)
+        .then(() => {
+          this.watcher()
+          console.log("Document successfully updated!");
+        })
+        .catch(function(error) {
+          console.error("Error updating document: ", error);
+        });
+        this.$nextTick(() => {
+          this.$bvModal.hide("modal-prevent-edit");
+        });
+    },
+    editData(item) {
+      this.item = item.data();
+      this.activeItem = item.id;
+    },
     deleteData(id) {
       if (confirm("Are you sure?")) {
         alert(id);
         db.collection("peoples")
           .doc(id)
           .delete()
-          .then(function() {
+          .then(() => {
+            this.watcher();
             console.log("Document successfully deleted!");
           })
-          .catch(function(error) {
+          .catch((error) => {
             console.error("Error removing document: ", error);
           });
       }
     }
   },
-  mounted() {
+  created() {
     this.readData();
   },
+
   asyncData({ req, redirect }) {
     if (process.server) {
       const user = getUserFromCookie(req);
