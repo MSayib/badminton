@@ -1,16 +1,11 @@
 <template>
   <div>
     <div>
-      <b-container fluid="xl" align="center" style="margin-top: 60px">
+      <b-container fluid="xl" align="center" style="margin-top: 100px">
         <Stopwatch />
         <b-row>
           <b-col>
             <h4>Score Counter</h4>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <h4>{{ keputusan }}</h4>
           </b-col>
         </b-row>
         <b-row>
@@ -20,7 +15,7 @@
             </b-card>
           </b-col>
           <b-col cols="4" style="margin-top: 40px">
-            <b-img :src="img" width="90%" fluid alt="Responsive image" />
+            <b-img :src="img" width="60%" fluid alt="Responsive image" />
           </b-col>
           <b-col>
             <b-card border-variant="dark" header="Player B" align="center">
@@ -30,13 +25,7 @@
         </b-row>
 
         <b-row>
-          <b-col>{{ isDeuce ? "Deuce" : "Bukan" }}</b-col>
-        </b-row>
-
-        <b-row>
-          <b-col>isBolaA : {{ isBolaA }} || isBolaB : {{ isBolaB }}</b-col>
-          <b-col>{{ status }}</b-col>
-          <b-col>counterBola : {{ counterBola }}</b-col>
+          <b-col>{{ status }} </b-col>
         </b-row>
 
         <b-row>
@@ -107,6 +96,28 @@ export default {
         }
       }
     },
+    isMenangA() {
+      if (this.playerA >= 21) {
+        if (
+          this.playerA >= this.playerB + 2 
+        ) {
+          return true;
+        } else if (this.playerA == 30) {
+          return true;
+        }
+      }
+    },
+    isMenangB() {
+      if (this.playerB >= 21) {
+        if (
+          this.playerB >= this.playerA + 2
+        ) {
+          return true;
+        } else if (this.playerB == 30) {
+          return true;
+        }
+      }
+    },
     isDeuce() {
       if (this.playerA >= 20 && this.playerB >= 20) {
         if (this.playerA === this.playerB) {
@@ -119,13 +130,28 @@ export default {
       const orang = this.counterBola % 2 === 0 ? "A" : "B";
       const skorygdigunakan = orang === "A" ? this.playerA : this.playerB;
       const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
-      return `si ${orang} servis dari ${posisi}`;
+      return `Player ${orang} servis dari ${posisi}`;
     }
   },
   watch: {
     isDeuce(val) {
       if (val) {
-        alert("deuce!!");
+        alert("Deuce!!");
+      }
+    },
+    isMatchPoint(val) {
+      if (val) {
+        alert("Match Point!");
+      }
+    },
+    isMenangA(val) {
+      if (val) {
+        alert("Player A Menang");
+      }
+    },
+    isMenangB(val) {
+      if (val) {
+        alert("Player B Menang");
       }
     }
   },
