@@ -15,11 +15,7 @@
         </b-row>
         <b-row>
           <b-col>
-            <b-card
-              border-variant="dark"
-              header="Player A1 / Player A2"
-              align="center"
-            >
+            <b-card border-variant="dark" header="Player A1 / Player A2" align="center">
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
@@ -27,19 +23,16 @@
             <b-img :src="img" width="90%" fluid alt="Responsive image" />
           </b-col>
           <b-col>
-            <b-card
-              border-variant="dark"
-              header="Player B1 / Player B2"
-              align="center"
-            >
+            <b-card border-variant="dark" header="Player B1 / Player B2" align="center">
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
             </b-card>
           </b-col>
         </b-row>
         <b-row>
-          <b-col>isKananA {{ isKananA }} || isKananB {{ isKananB }}</b-col>
+          <!-- <b-col>isKananA {{ isKananA }} || isKananB {{ isKananB }}</b-col> -->
           <b-col>{{ status }}</b-col>
-          <b-col>isServeA :{{ isServeA }} isServeB:{{ isServeB }}</b-col>
+          <!-- <b-col>isServeA :{{ isServeA }} isServeB:{{ isServeB }}</b-col>
+          <b-col>whoIsServe {{ whoIsServe }}</b-col> -->
         </b-row>
         <b-row>
           <!-- team A -->
@@ -57,9 +50,7 @@
         <!-- reset button -->
         <b-row style="padding: 0 10px;">
           <b-col>
-            <b-button variant="primary" @click="resetScore"
-              >Reset Score</b-button
-            >
+            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
           </b-col>
         </b-row>
       </b-container>
@@ -80,7 +71,8 @@ export default {
       playerB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
-      isServeB: 0
+      isServeB: 0,
+      whoIsServe: true
     };
   },
 
@@ -120,34 +112,39 @@ export default {
 
       return false;
     },
-    isMenangA(){
-      if (this.playerA >= 21){
-        if (this.playerA >= this.playerB + 2){
-          return true
-        }else if(this.playerA === 30){
-          return true
-        }     
+    isMenangA() {
+      if (this.playerA >= 21) {
+        if (this.playerA >= this.playerB + 2) {
+          return true;
+        } else if (this.playerA === 30) {
+          return true;
+        }
       }
     },
-    isMenangB(){
-      if (this.playerB >= 21){
-        if(this.playerB >= this.playerA +2){
-          return true
-        }else if(this.playerB === 30){
-          return true
+    isMenangB() {
+      if (this.playerB >= 21) {
+        if (this.playerB >= this.playerA + 2) {
+          return true;
+        } else if (this.playerB === 30) {
+          return true;
         }
       }
     },
     status() {
-      const teamAServe = this.isServeA % 2 === 0 ? "A1" : "A2";
-      const skorGenapA = teamAServe ? this.playerA : "";
-      const posisiA = skorGenapA % 2 === 0 ? "Kanan" : "Kiri";
+      const siapaSihYangServe = this.whoIsServe === true ? "Team A" : "Team B";
 
-      const teamBServe = this.isServeB % 2 === 1 ? "B1" : "B2";
-      const skorGenapB = teamBServe ? this.playerB : "";
-      const posisiB = skorGenapB % 2 === 0 ? "Kanan" : "Kiri";
 
-      return `Pemain ${teamAServe} serve di posisi ${posisiA}`;
+      // Buat Tim A kalo dia yang serve
+      const ohTeamAServe = siapaSihYangServe === "Team A" ? this.isServeA : "";
+      const mauSiapaNihYangServeA = ohTeamAServe % 2 === 0 ? "A1" : "A2";
+      const posisiServeADimana = this.playerA % 2 === 0 ? "Kanan" : "Kiri";
+
+      const ohTeamBServe = siapaSihYangServe === "Team B" ? this.isServeB : "";
+      const mauSiapaNihYangServeB = ohTeamBServe % 2 === 0 ? "B2" : "B1";
+      const posisiServeBDimana = this.playerB % 2 === 0 ? "Kanan" : "Kiri";
+
+      return `Pemain ${siapaSihYangServe === "Team A" ? mauSiapaNihYangServeA : mauSiapaNihYangServeB}
+      serve di posisi ${siapaSihYangServe === "Team A" ? posisiServeADimana : posisiServeBDimana}`;
     }
   },
 
@@ -162,17 +159,18 @@ export default {
         alert("Deuce!");
       }
     },
-    isMenangA(val){
-      if (val){
-        alert("Tim A Menang!")
+    isMenangA(val) {
+      if (val) {
+        alert("Tim A Menang!");
       }
     },
-    isMenangB(val){
-      if (val){
-        alert("Tim B Menang")
+    isMenangB(val) {
+      if (val) {
+        alert("Tim B Menang");
       }
     },
     playerA() {
+      this.whoIsServe = true;
       if (this.isKananA && !this.isKananB) {
         return;
       } else if (!this.isKananA && !this.isKananB) {
@@ -182,6 +180,7 @@ export default {
       }
     },
     playerB() {
+      this.whoIsServe = false;
       if (this.isKananA && !this.isKananB) {
         this.isServeA++;
       } else if (!this.isKananA && this.isKananB) {
