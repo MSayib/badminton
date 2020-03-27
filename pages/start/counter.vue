@@ -1,16 +1,11 @@
 <template>
   <div>
     <div>
-      <b-container fluid="sm" align="center" style="margin-top: 100px">
+      <b-container fluid="xl" align="center" style="margin-top: 100px">
         <Stopwatch />
         <b-row>
           <b-col>
             <h4>Score Counter</h4>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <h4>{{ keputusan }}</h4>
           </b-col>
         </b-row>
         <b-row>
@@ -68,8 +63,8 @@ export default {
   },
   data() {
     return {
-      playerA: 20,
-      playerB: 20,
+      playerA: 0,
+      playerB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       counterBola: 0,
       keputusan: ""
@@ -104,17 +99,25 @@ export default {
       }
     },
     isMenangA() {
-      if (this.playerA >= this.playerB + 2) {
-        return true;
-      } else {
-        return false;
+      if (this.playerA >= 21) {
+        if (
+          this.playerA >= this.playerB + 2 
+        ) {
+          return true;
+        } else if (this.playerA == 30) {
+          return true;
+        }
       }
     },
     isMenangB() {
-      if (this.playerA + 2 <= this.playerB) {
-        return true;
-      } else {
-        return false;
+      if (this.playerB >= 21) {
+        if (
+          this.playerB >= this.playerA + 2
+        ) {
+          return true;
+        } else if (this.playerB == 30) {
+          return true;
+        }
       }
     },
     isDeuce() {
@@ -129,7 +132,7 @@ export default {
       const orang = this.counterBola % 2 === 0 ? "A" : "B";
       const skorygdigunakan = orang === "A" ? this.playerA : this.playerB;
       const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
-      return `si ${orang} servis dari ${posisi}`;
+      return `Player ${orang} servis dari ${posisi}`;
     }
   },
   watch: {
