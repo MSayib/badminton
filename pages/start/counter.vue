@@ -2,7 +2,13 @@
   <div>
     <div>
       <b-container fluid="xl" align="center" style="margin-top: 100px">
-        <Stopwatch />
+        <Stopwatch
+          :timer="formattedTimer"
+          :state="timerState"
+          @start="start"
+          @pause="pause"
+          @stop="stop"
+        />
         <b-row>
           <b-col>
             <h4>Score Counter</h4>
@@ -25,7 +31,7 @@
         </b-row>
 
         <b-row>
-          <b-col>{{ status }} </b-col>
+          <b-col>{{ status }}</b-col>
         </b-row>
 
         <b-row>
@@ -44,7 +50,9 @@
         <!-- reset button -->
         <b-row style="padding: 0 10px;">
           <b-col>
-            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
+            <b-button variant="primary" @click="resetScore"
+              >Reset Score</b-button
+            >
           </b-col>
         </b-row>
       </b-container>
@@ -65,7 +73,11 @@ export default {
       playerB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       counterBola: 0,
-      keputusan: ""
+      timerState: "stoped",
+      formattedTimer: "00:00:00",
+      currentTimer: 0,
+      ticker: undefined,
+      historys: [{ playerA: 0, playerB: 0, counterBola: "true" }]
     };
   },
   computed: {
@@ -98,9 +110,7 @@ export default {
     },
     isMenangA() {
       if (this.playerA >= 21) {
-        if (
-          this.playerA >= this.playerB + 2 
-        ) {
+        if (this.playerA >= this.playerB + 2) {
           return true;
         } else if (this.playerA == 30) {
           return true;
@@ -109,9 +119,7 @@ export default {
     },
     isMenangB() {
       if (this.playerB >= 21) {
-        if (
-          this.playerB >= this.playerA + 2
-        ) {
+        if (this.playerB >= this.playerA + 2) {
           return true;
         } else if (this.playerB == 30) {
           return true;
@@ -156,30 +164,71 @@ export default {
     }
   },
   methods: {
+    start() {
+      if (this.timerState !== "running") {
+        this.tick();
+        this.timerState = "running";
+      }
+    },
+    pause() {
+      window.clearInterval(this.ticker);
+      this.timerState = "paused";
+    },
+    stop() {
+      window.clearInterval(this.ticker);
+      this.currentTimer = 0;
+      this.formattedTimer = "00:00:00";
+      this.timerState = "stoped";
+    },
+    tick() {
+      this.ticker = setInterval(() => {
+        this.currentTimer++;
+        this.formattedTimer = this.formatTime(this.currentTimer);
+      }, 1000);
+    },
+    formatTime(seconds) {
+      const measuredTime = new Date(null);
+      measuredTime.setSeconds(seconds);
+      const MHSTime = measuredTime.toISOString().substr(11, 8);
+      return MHSTime;
+    },
     tambahplayerA() {
+      this.historys.push({
+        playerA: this.playerA,
+        playerB: this.playerB,
+        counterBola: this.counterBola
+      });
       this.playerA++;
 
       if (this.isBolaB) {
         this.counterBola++;
       }
     },
+    kurangplayerA() {
+      const lastServe = this.historys.pop();
+      this.playerA = lastServe.playerA;
+      this.playerB = lastServe.playerB;
+      this.counterBola = lastServe.counterBola;
+    },
     tambahplayerB() {
+      this.historys.push({
+        playerA: this.playerA,
+        playerB: this.playerB,
+        counterBola: this.counterBola
+      });
       this.playerB++;
 
       if (this.isBolaA) {
         this.counterBola++;
       }
     },
-    kurangplayerA() {
-      this.playerA -= 1;
-    },
     kurangplayerB() {
-      this.playerB -= 1;
+      const lastServe = this.historys.pop();
+      this.playerA = lastServe.playerA;
+      this.playerB = lastServe.playerB;
+      this.counterBola = lastServe.counterBola;
     },
     resetScore() {
-      (this.playerA = 0), (this.playerB = 0);
-    },
-    resetData() {
       (this.playerA = 0), (this.playerB = 0);
     }
   }

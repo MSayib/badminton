@@ -1,21 +1,27 @@
 <template>
   <div>
     <div>
-      <b-container fluid="xl" align="center" style="margin-top: 60px">
-        <Stopwatch />
+      <b-container fluid="xl" align="center" style="margin-top: 100px">
+        <Stopwatch
+          :timer="formattedTimer"
+          :state="timerState"
+          @start="start"
+          @pause="pause"
+          @stop="stop"
+        />
         <b-row>
           <b-col>
             <h4>Score Counter</h4>
           </b-col>
         </b-row>
-        <b-row>
-          <!-- <b-col>
-            <h4>{{ keputusan }}</h4>
-          </b-col>-->
-        </b-row>
+        <b-row> </b-row>
         <b-row>
           <b-col>
-            <b-card border-variant="dark" header="Player A1 / Player A2" align="center">
+            <b-card
+              border-variant="dark"
+              header="Player A1 / Player A2"
+              align="center"
+            >
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
@@ -23,16 +29,19 @@
             <b-img :src="img" width="90%" fluid alt="Responsive image" />
           </b-col>
           <b-col>
-            <b-card border-variant="dark" header="Player B1 / Player B2" align="center">
+            <b-card
+              border-variant="dark"
+              header="Player B1 / Player B2"
+              align="center"
+            >
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
             </b-card>
           </b-col>
         </b-row>
         <b-row>
-          <!-- <b-col>isKananA {{ isKananA }} || isKananB {{ isKananB }}</b-col> -->
-          <b-col>{{ status }}</b-col>
-          <!-- <b-col>isServeA :{{ isServeA }} isServeB:{{ isServeB }}</b-col>
-          <b-col>whoIsServe {{ whoIsServe }}</b-col> -->
+          <b-col>
+            {{ status }}
+          </b-col>
         </b-row>
         <b-row>
           <!-- team A -->
@@ -50,7 +59,9 @@
         <!-- reset button -->
         <b-row style="padding: 0 10px;">
           <b-col>
-            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
+            <b-button variant="primary" @click="resetScore"
+              >Reset Score</b-button
+            >
           </b-col>
         </b-row>
       </b-container>
@@ -72,7 +83,12 @@ export default {
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
       isServeB: 0,
-      whoIsServe: true
+      whoIsServe: true,
+      timerState: "stoped",
+      currentTimer: 0,
+      formattedTimer: "00:00:00",
+      ticker: undefined,
+      historys: []
     };
   },
 
@@ -133,7 +149,6 @@ export default {
     status() {
       const siapaSihYangServe = this.whoIsServe === true ? "Team A" : "Team B";
 
-
       // Buat Tim A kalo dia yang serve
       const ohTeamAServe = siapaSihYangServe === "Team A" ? this.isServeA : "";
       const mauSiapaNihYangServeA = ohTeamAServe % 2 === 0 ? "A1" : "A2";
@@ -143,8 +158,14 @@ export default {
       const mauSiapaNihYangServeB = ohTeamBServe % 2 === 0 ? "B2" : "B1";
       const posisiServeBDimana = this.playerB % 2 === 0 ? "Kanan" : "Kiri";
 
-      return `Pemain ${siapaSihYangServe === "Team A" ? mauSiapaNihYangServeA : mauSiapaNihYangServeB}
-      serve di posisi ${siapaSihYangServe === "Team A" ? posisiServeADimana : posisiServeBDimana}`;
+      return `Pemain ${
+        siapaSihYangServe === "Team A"
+          ? mauSiapaNihYangServeA
+          : mauSiapaNihYangServeB
+      }
+      serve di posisi ${
+        siapaSihYangServe === "Team A" ? posisiServeADimana : posisiServeBDimana
+      }`;
     }
   },
 
@@ -189,21 +210,73 @@ export default {
     }
   },
   methods: {
+    start() {
+      if (this.timerState !== "running") {
+        this.tick();
+        this.timerState = "running";
+      }
+    },
+    pause() {
+      window.clearInterval(this.ticker);
+      this.timerState = "paused";
+    },
+    stop() {
+      window.clearInterval(this.ticker);
+      this.currentTimer = 0;
+      this.formattedTimer = "00:00:00";
+      this.timerState = "stoped";
+    },
+    tick() {
+      this.ticker = setInterval(() => {
+        this.currentTimer++;
+        this.formattedTimer = this.formatTime(this.currentTimer);
+      }, 250);
+    },
+    formatTime(seconds) {
+      const measuredTime = new Date(null);
+      measuredTime.setSeconds(seconds);
+      const MHSTime = measuredTime.toISOString().substr(11, 8);
+      return MHSTime;
+    },
     tambahPlayerA() {
+      this.historys.push({
+        scoreA: this.playerA,
+        scoreB: this.playerB,
+        serveA: this.isServeA,
+        serveB: this.isServeB,
+        playerA: this.whoIsServe
+      });
       this.playerA++;
+      console.log(this.historys);
     },
     kurangPlayerA() {
-      if (this.playerA > 0) {
-        this.playerA--;
-      }
+      const lastState = this.historys.pop();
+      this.playerB = lastState.scoreB;
+      this.playerA = lastState.scoreA;
+      this.isServeA = lastState.serveA;
+      this.isServeB = lastState.serveB;
+      this.whoIsServe = lastState.playerA;
+
+      console.log(this.historys);
     },
     tambahPlayerB() {
+      this.historys.push({
+        scoreA: this.playerA,
+        scoreB: this.playerB,
+        serveA: this.isServeA,
+        serveB: this.isServeB,
+        playerA: this.whoIsServe
+      });
       this.playerB++;
+      console.log(this.historys);
     },
     kurangPlayerB() {
-      if (this.playerB > 0) {
-        this.playerB--;
-      }
+      const lastState = this.historys.pop();
+      this.playerB = lastState.scoreB;
+      this.playerA = lastState.scoreA;
+      this.isServeA = lastState.serveA;
+      this.isServeB = lastState.serveB;
+      this.whoIsServe = lastState.playerA;
     },
     resetScore() {
       this.playerA = 0;

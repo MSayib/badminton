@@ -1,40 +1,37 @@
 <template>
   <div>
-    <button @click="start">Start</button>
-    <button @click="stop">Stop</button>
-    <button @click="reset">Reset</button>
-    <p>{{ formattedElapsedTime }}</p>
+    <p class="time">{{ timer }}</p>
+    <b-button
+      variant="info"
+      @click="$emit('start')"
+      :disabled="state === 'running'"
+      ><span>Start</span>
+    </b-button>
+    <b-button
+      variant="warning"
+      @click="$emit('pause')"
+      :disabled="state === 'stoped' || state === 'paused'"
+      ><span>Pause</span></b-button
+    >
+    <b-button
+      variant="danger"
+      @click="$emit('stop')"
+      :disabled="state === 'stoped'"
+      ><span>Stop</span></b-button
+    >
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      elapsedTime: 0,
-      timer: ""
-    };
-  },
-  computed: {
-    formattedElapsedTime() {
-      const date = new Date(null);
-      date.setSeconds(this.elapsedTime / 1000);
-      const utc = date.toUTCString();
-      return utc.substr(utc.indexOf(":") - 2, 8);
-    }
-  },
-  methods: {
-    start() {
-      this.timer = setInterval(() => {
-        this.elapsedTime += 1000;
-      }, 1000);
-    },
-    stop() {
-      clearInterval(this.timer);
-    },
-    reset() {
-      this.elapsedTime = 0;
-    }
-  }
+  name: "Timer",
+  props: ["timer", "state"]
 };
 </script>
+
+<style>
+.time {
+  font-family: "Share Tech Mono";
+  font-size: 2em;
+}
+</style>
