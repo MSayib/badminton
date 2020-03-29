@@ -1,35 +1,57 @@
 <template>
   <div>
-    <b-container fluid>
-      <Navbar />
-      <h1>Dashboard</h1>
-      <b-col md="auto">
-        <b-alert v-model="showDismissibleAlert" variant="success" dismissible>Selamat datang, Admin!</b-alert>
+    <sidebar-menu :menu="menu" />
+    <b-container fluid="xl">
+      <b-row>
+        <b-col>
+          <h1>Dashboard</h1>
+          <b-col md="auto">
+            <b-alert
+              v-model="showDismissibleAlert"
+              variant="success"
+              dismissible
+              >Selamat datang, Admin!</b-alert
+            >
 
-        <b-table
-          id="my-table"
-          :items="peoples"
-          :per-page="perPage"
-          :current-page="currentPage"
-          small
-        ></b-table>
-        <b-pagination
-          v-model="currentPage"
-          :total-rows="rows"
-          :per-page="perPage"
-          first-text="First"
-          prev-text="Prev"
-          next-text="Next"
-          last-text="Last"
-          aria-controls="my-table"
-        ></b-pagination>
-      </b-col>
+            <b-table
+              id="my-table"
+              :items="peoples"
+              :per-page="perPage"
+              :current-page="currentPage"
+              small
+            ></b-table>
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="rows"
+              :per-page="perPage"
+              first-text="First"
+              prev-text="Prev"
+              next-text="Next"
+              last-text="Last"
+              aria-controls="my-table"
+            ></b-pagination>
+          </b-col>
+        </b-col>
+      </b-row>
+      <b-row align="center">
+        <b-col>
+          <div>
+            <b-button v-b-modal.modal-center>Lets Play</b-button>
+
+            <b-modal id="modal-center" centered hide-footer title="Pilih Mode">
+              <div class="d-block text-center">
+                <b-button variant="primary" to="/start/counter" size="lg"
+                  >Single Match</b-button
+                >
+                <b-button to="/start/counterDouble" variant="danger" size="lg"
+                  >Double Match</b-button
+                >
+              </div>
+            </b-modal>
+          </div>
+        </b-col>
+      </b-row>
     </b-container>
-
-    <div>
-      <b-button variant="primary" to="/start/counter" size="lg">Single Match</b-button>
-      <b-button to="/start/counterDouble" variant="danger" size="lg">Double Match</b-button>
-    </div>
   </div>
 </template>
 
@@ -39,8 +61,10 @@ import { getUserFromCookie } from "~/helpers";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
+import { SidebarMenu } from "vue-sidebar-menu";
+
 export default {
-  components: { Navbar },
+  components: { SidebarMenu },
   asyncData({ req, redirect }) {
     if (process.server) {
       const user = getUserFromCookie(req);
@@ -57,6 +81,29 @@ export default {
   },
   data() {
     return {
+      menu: [
+        {
+          header: true,
+          title: "Main Navigation",
+          hiddenOnCollapse: true
+        },
+        {
+          href: "/",
+          title: "Dashboard",
+          icon: "fa fa-user"
+        },
+        {
+          href: "/charts",
+          title: "Charts",
+          icon: "fa fa-chart-area",
+          child: [
+            {
+              href: "/charts/sublink",
+              title: "Sub Link"
+            }
+          ]
+        }
+      ],
       showDismissibleAlert: true,
       name: null,
       gender: null,
@@ -64,7 +111,7 @@ export default {
       nameState: null,
       genderState: null,
       dateState: null,
-      perPage: 4,
+      perPage: 10,
       currentPage: 1,
       peoples: [],
       options: [

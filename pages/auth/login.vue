@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-container align="center" style="margin-top: 150px;">
+      <b-container fluid="xl" align="center" style="margin-top: 150px;">
         <b-row>
           <b-col>
             <b-card

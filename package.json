@@ -21,6 +21,7 @@
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "nuxt": "^2.0.0",
+    "vue-sidebar-menu": "^4.5.3",
     "vue-sweetalert2": "^3.0.3"
   },
   "devDependencies": {
