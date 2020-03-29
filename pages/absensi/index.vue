@@ -10,15 +10,17 @@
           </b-button>
         </b-col>
         <p class="mt-3">Current Page: {{ currentPage }}</p>
-        <b-table-simple 
-            id="my-table"
-            :items="items"
-            :per-page="perPage"
-            :current-page="currentPage"
-            small>
+        <b-table-simple
+          id="my-table"
+          :items="items"
+          :per-page="perPage"
+          :current-page="currentPage"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
+          small
+        >
           <b-thead>
             <b-tr>
-              <b-th>ID</b-th>
               <b-th>Name</b-th>
               <b-th>Gender</b-th>
               <b-th>Date</b-th>
@@ -27,17 +29,11 @@
           </b-thead>
           <b-tbody>
             <b-tr v-for="item in items" :key="item.id">
-              
-              <td>{{item.id}}</td>
               <td>{{ item.data().name }}</td>
               <td>{{ item.data().gender }}</td>
               <td>{{ item.data().date }}</td>
               <td>
-                <b-button
-                  v-b-modal.modal-prevent-edit
-                  @click="editData(item)"
-                  variant="primary"
-                >
+                <b-button v-b-modal.modal-prevent-edit @click="editData(item)" variant="primary">
                   <b-icon small icon="pencil"></b-icon>
                 </b-button>
                 <b-button @click="deleteData(item.id)" variant="primary">
@@ -61,12 +57,7 @@
                 label-for="name-input"
                 invalid-feedback="Name is required"
               >
-                <b-form-input
-                  id="name-input"
-                  v-model="item.name"
-                  :state="nameState"
-                  required
-                ></b-form-input>
+                <b-form-input id="name-input" v-model="item.name" :state="nameState" required></b-form-input>
               </b-form-group>
               <b-form-group
                 :state="genderState"
@@ -119,24 +110,20 @@
               <b-form-group
                 :state="nameState"
                 label="Name"
-                label-for="name-input"
+                label-for="name-edit"
                 invalid-feedback="Name is required"
+                
               >
-                <b-form-input
-                  id="name-input"
-                  v-model="item.name"
-                  :state="nameState"
-                  required
-                ></b-form-input>
+                <b-form-input id="name-edit" v-model="item.name" :state="nameState" required></b-form-input>
               </b-form-group>
               <b-form-group
                 :state="genderState"
                 label="gender"
-                label-for="gender-input"
+                label-for="gender-edit"
                 invalid-feedback="Gender is required"
               >
                 <b-form-select
-                  id="gender-input"
+                  id="gender-edit"
                   v-model="item.gender"
                   :options="options"
                   class="mb-3"
@@ -151,11 +138,11 @@
               <b-form-group
                 :state="dateState"
                 label="date"
-                label-for="datepicker-dateformat2"
+                label-for="date-edit"
                 invalid-feedback="Date is required"
               >
                 <b-form-datepicker
-                  id="datepicker-dateformat2"
+                  id="date-edit"
                   v-model="item.date"
                   :date-format-options="{
                     year: 'numeric',
@@ -173,9 +160,9 @@
         <b-pagination
           right
           v-model="currentPage"
-        :total-rows="rows"
-        :per-page="perPage"
-        aria-controls="my-table"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
         ></b-pagination>
       </b-col>
     </b-container>
@@ -225,7 +212,8 @@ export default {
  
   methods: {
     watcher() {
-    db.collection("peoples").orderBy('date')
+    db.collection("peoples")
+    .orderBy('date')
     .onSnapshot((querySnapshot) => {
         this.items = [];
         querySnapshot.forEach((doc) => {
@@ -283,14 +271,22 @@ export default {
         db.collection("peoples")
           .add(this.item)
           .then(docRef => this.watcher())
-          
           .catch(error => console.log(err));
+          Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Your data has been saved',
+          showConfirmButton: false,
+          timer: 1500
+        })
+         
         // Hide the modal manually
         this.$nextTick(() => {
           this.$bvModal.hide("modal-prevent-closing");
         });
       }
       return;
+     
     },
     updateData() {
       db.collection("peoples")
@@ -298,10 +294,23 @@ export default {
         .update(this.item)
         .then(() => {
           this.watcher()
-          console.log("Document successfully updated!");
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Your data has been updated',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          
         })
-        .catch(function(error) {
-          console.error("Error updating document: ", error);
+        .catch((error) => {
+          Swal.fire({
+            position: 'center',
+            icon: 'warning',
+            title: 'Your data has been error updated',
+            showConfirmButton: false,
+            timer: 1500
+          })
         });
         this.$nextTick(() => {
           this.$bvModal.hide("modal-prevent-edit");
@@ -312,19 +321,25 @@ export default {
       this.activeItem = item.id;
     },
     deleteData(id) {
-      if (confirm("Are you sure?")) {
-        alert(id);
-        db.collection("peoples")
-          .doc(id)
-          .delete()
-          .then(() => {
-            this.watcher();
-            console.log("Document successfully deleted!");
-          })
-          .catch((error) => {
-            console.error("Error removing document: ", error);
-          });
-      }
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          db.collection("peoples").doc(id).delete()
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+          this.watcher();
+        }
+      })
     }
   },
   created() {
@@ -336,7 +351,7 @@ export default {
       const user = getUserFromCookie(req);
       console.log(user);
       if (!user) {
-        redirect("/start/player");
+        redirect("/absensi/");
       }
     } else {
       let user = firebase.auth().currentUser;
@@ -345,7 +360,7 @@ export default {
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

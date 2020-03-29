@@ -1,0 +1,33 @@
+tambah poin
+    timnya poin + 1
+    tim yg serve terakhir?
+        pindah posisi serve
+    bukan?
+        ganti yg serve
+        tidak pindah posisi
+    
+tambah poin
+    tim A : a1, a2
+    tim B : b1, b2
+
+    jika timA last serve dan poin + 1 dan jumlah poin timA adalah ganjil = posisi pindah kiri
+    jika timA last serve dan poin + 1 dan jumlah poin timA adalah genap = posisi pindah kanan
+    jika timA last serve dan poin + 1 pada timB = pindah serve ke timB dan posisi timA tetap
+
+
+tambah poin :
+    - poin +1
+    - serve terakhir?
+        pindah posisi serve
+        total poin ganjil?
+            posisi serve di kiri
+        total poin genap?
+            posisi serve di kanan
+    - bukan serve terakhir?
+        posisi tetap
+
+1. Skor kedua Tim 0 - 0
+2. Ketika pertandingan di mulai, Team A melakukan serve.
+3. Pemain A1 melakukan serve dari sisi kanan
+4. Tim A mendapatkan poin dari servenya
+5. Pemain A1 pindah posisi ke kiri

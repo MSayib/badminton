@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt />
+    <nuxt/>
   </div>
 </template>
 <script>
@@ -41,7 +41,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.$router.push("/");
+          this.$router.push("/auth/logout");
         });
     }
   }

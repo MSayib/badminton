@@ -14,7 +14,30 @@ export default {
         content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href: "//unpkg.com/bootstrap/dist/css/bootstrap.min.css"
+      },
+      {
+        rel: "stylesheet",
+        href: "//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css"
+      },
+      {
+        rel: "stylesheet",
+        href:
+          "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      }
+    ],
+
+    script: [
+      { src: "//unpkg.com/vue@latest/dist/vue.min.js" },
+      { src: "//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js" },
+      {
+        src: "//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color

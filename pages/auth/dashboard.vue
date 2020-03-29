@@ -1,72 +1,46 @@
 <template>
   <div>
-      <navbar />
-    <b-row>
-      <b-container fluid>
-        <h1>Dashboard</h1>
-        <b-col md="auto">
-          <b-alert
-            v-model="showDismissibleAlert"
-            variant="success"
-            dismissible
-          >Selamat datang, Admin!</b-alert>
-        </b-col>
-        <b-col md="auto">
-          <p class="mt-3">Current Page: {{ currentPage }}</p>
-          <b-table
-            id="my-table"
-            :items="items"
-            :per-page="perPage"
-            :current-page="currentPage"
-            small
-          ></b-table>
-          <b-pagination
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-          ></b-pagination>
-        </b-col>
-      </b-container>
-    </b-row>
+    <b-container fluid>
+      <Navbar />
+      <h1>Dashboard</h1>
+      <b-col md="auto">
+        <b-alert v-model="showDismissibleAlert" variant="success" dismissible>Selamat datang, Admin!</b-alert>
+
+        <b-table
+          id="my-table"
+          :items="peoples"
+          :per-page="perPage"
+          :current-page="currentPage"
+          small
+        ></b-table>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          first-text="First"
+          prev-text="Prev"
+          next-text="Next"
+          last-text="Last"
+          aria-controls="my-table"
+        ></b-pagination>
+      </b-col>
+    </b-container>
+
+    <div>
+      <b-button variant="primary" to="/start/counter" size="lg">Single Match</b-button>
+      <b-button to="/start/counterDouble" variant="danger" size="lg">Double Match</b-button>
+    </div>
   </div>
 </template>
 
 <script>
-import navbar from '~/components/navbar'
+import Navbar from "~/components/navbar";
 import { getUserFromCookie } from "~/helpers";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import db from "~/plugins/firebase";
 export default {
-    components:{navbar},
-  data() {
-    return {
-      showDismissibleAlert: true,
-      perPage: 4,
-      currentPage: 1,
-      items: [
-        { id: 1, first_name: "M Sayib", team_name: "A" },
-        { id: 2, first_name: "Muchlas", team_name: "A" },
-        { id: 3, first_name: "Fikri", team_name: "A" },
-        { id: 4, first_name: "Farhan", team_name: "A" },
-        { id: 5, first_name: "Aisyah", team_name: "B" },
-        { id: 6, first_name: "Firda", team_name: "B" },
-        { id: 7, first_name: "Ayu", team_name: "B" },
-        { id: 8, first_name: "Juni", team_name: "B" },
-        { id: 9, first_name: "Alfin", team_name: "A" }
-      ]
-    };
-  },
-  computed: {
-    rows() {
-      return this.items.length;
-    }
-  },
-  methods: {
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    }
-  },
+  components: { Navbar },
   asyncData({ req, redirect }) {
     if (process.server) {
       const user = getUserFromCookie(req);
@@ -80,8 +54,51 @@ export default {
         redirect("/auth/login");
       }
     }
+  },
+  data() {
+    return {
+      showDismissibleAlert: true,
+      name: null,
+      gender: null,
+      date: null,
+      nameState: null,
+      genderState: null,
+      dateState: null,
+      perPage: 4,
+      currentPage: 1,
+      peoples: [],
+      options: [
+        { item: "Please select a gender", value: null },
+        { item: "Female", value: "F" },
+        { item: "Male", value: "M" }
+      ]
+    };
+  },
+  computed: {
+    rows() {
+      return this.peoples.length;
+    }
+  },
+  mounted() {
+    this.getDataGuest();
+  },
+  methods: {
+    getDataGuest() {
+      db.collection("peoples")
+        .orderBy("name")
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            const data = {
+              id: doc.id,
+              name: doc.data().name,
+              gender: doc.data().gender,
+              date: doc.data().date
+            };
+            this.peoples.push(data);
+          });
+        });
+    }
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

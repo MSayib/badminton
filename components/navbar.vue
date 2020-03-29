@@ -8,8 +8,8 @@
         <b-navbar-nav class="ml-auto">
           <b-navbar-brand to="/auth/dashboard">Dashboard</b-navbar-brand>
           <b-nav-item-dropdown text="Games" right>
-            <b-nav-item :to="'/start/player'">Player</b-nav-item>
-            <b-nav-item :to="'/start/count/'">Scoreboard</b-nav-item>
+            <b-nav-item :to="'/absensi'">Player</b-nav-item>
+            <b-nav-item :to="'/start/'">Scoreboard</b-nav-item>
             <b-nav-item :to="'/start/history'">History</b-nav-item>
           </b-nav-item-dropdown>
 
@@ -24,13 +24,13 @@
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-
   </div>
 </template>
 <script>
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import Cookies from "js-cookie";
+import Swal from 'sweetalert2'
 
 export default {
   data() {
@@ -61,12 +61,24 @@ export default {
       });
     },
     logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.push("/");
-        });
+      Swal.fire({
+        title: "Do you want to logout?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, logout!"
+      }).then(result => {
+        if (result.value) {
+          firebase
+            .auth()
+            .signOut()
+            .then(() => {
+              this.$router.push("/");
+            });
+          Swal.fire("Logout!", "Your account has been logout.", "success");
+        }
+      });
     }
   }
 };
