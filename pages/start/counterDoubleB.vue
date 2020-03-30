@@ -5,10 +5,10 @@
         <b-row>
           <b-col>
             <h5>Pilih Server</h5>
-            <b-button variant="primary">Serve Tim A</b-button>
-            <nuxt-link to="/start/counterDoubleB">
-              <b-button variant="danger">Serve Tim B</b-button>
+            <nuxt-link to="/start/counterDouble">
+              <b-button variant="primary">Serve Tim A</b-button>
             </nuxt-link>
+            <b-button variant="danger">Serve Tim B</b-button>
           </b-col>
         </b-row>
         <Stopwatch
@@ -93,10 +93,10 @@ export default {
 
   computed: {
     isKananA() {
-      return this.isServeA % 2 === 0;
+      return this.isServeA % 2 === 1;
     },
     isKananB() {
-      return this.isServeB % 2 === 1;
+      return this.isServeB % 2 === 0;
     },
     isMatchPoint() {
       if (this.playerA <= 21 && this.playerB <= 21) {
@@ -146,15 +146,15 @@ export default {
       }
     },
     status() {
-      const siapaSihYangServe = this.whoIsServe === true ? "Team A" : "Team B";
+      const siapaSihYangServe = this.whoIsServe === true ? "Team B" : "Team A";
 
       // Buat Tim A kalo dia yang serve
       const ohTeamAServe = siapaSihYangServe === "Team A" ? this.isServeA : "";
-      const mauSiapaNihYangServeA = ohTeamAServe % 2 === 0 ? "A1" : "A2";
+      const mauSiapaNihYangServeA = ohTeamAServe % 2 === 0 ? "A2" : "A1";
       const posisiServeADimana = this.playerA % 2 === 0 ? "Kanan" : "Kiri";
       // Buat Tim B kalo dia serve
       const ohTeamBServe = siapaSihYangServe === "Team B" ? this.isServeB : "";
-      const mauSiapaNihYangServeB = ohTeamBServe % 2 === 0 ? "B2" : "B1";
+      const mauSiapaNihYangServeB = ohTeamBServe % 2 === 0 ? "B1" : "B2";
       const posisiServeBDimana = this.playerB % 2 === 0 ? "Kanan" : "Kiri";
 
       return `Pemain ${
@@ -190,20 +190,20 @@ export default {
       }
     },
     playerA() {
-      this.whoIsServe = true;
-      if (this.isKananA && !this.isKananB) {
-        return;
-      } else if (!this.isKananA && !this.isKananB) {
+      this.whoIsServe = false;
+      if (this.isKananB && !this.isKananA) {
         this.isServeB++;
-      } else if (this.isKananA && this.isKananB) {
+      } else if (!this.isKananB && this.isKananA) {
         this.isServeB++;
       }
     },
     playerB() {
-      this.whoIsServe = false;
-      if (this.isKananA && !this.isKananB) {
+      this.whoIsServe = true;
+      if (this.isKananB && !this.isKananA) {
+        return;
+      } else if (!this.isKananB && !this.isKananA) {
         this.isServeA++;
-      } else if (!this.isKananA && this.isKananB) {
+      } else if (this.isKananB && this.isKananA) {
         this.isServeA++;
       }
     }
