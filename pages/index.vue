@@ -57,24 +57,6 @@
                   required
                 ></b-form-select>
               </b-form-group>
-              <b-form-group
-                :state="dateState"
-                label="date"
-                label-for="datepicker-dateformat2"
-                invalid-feedback="Date is required"
-              >
-                <b-form-datepicker
-                  id="datepicker-dateformat2"
-                  v-model="date"
-                  :date-format-options="{
-                    year: 'numeric',
-                    month: 'numeric',
-                    day: 'numeric'
-                  }"
-                  locale="en"
-                  required
-                ></b-form-datepicker>
-              </b-form-group>
             </form>
           </b-modal>
           <b-button variant="outline-danger" size="lg">Help</b-button>
@@ -91,6 +73,7 @@
 <script>
 import db from "~/plugins/firebase";
 import Logo from "~/components/Logo.vue";
+import Swal from "sweetalert2";
 
 export default {
   components: { Logo },
@@ -98,14 +81,11 @@ export default {
     return {
       name: null,
       gender: null,
-      date: null,
+      date: Date.now(),
       nameState: null,
       genderState: null,
-      dateState: null,
-
       peoples: [],
       options: [
-        { item: "Please select a gender", value: null },
         { item: "Female", value: "F" },
         { item: "Male", value: "M" }
       ]
@@ -113,7 +93,6 @@ export default {
   },
 
   methods: {
-    
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
       this.nameState = valid;
@@ -133,7 +112,6 @@ export default {
       this.gender = "";
       this.genderState = null;
       this.date = "";
-      this.dateState = null;
     },
     handleSubmit() {
       // Exit when the form isn't valid
@@ -146,10 +124,17 @@ export default {
         .add({
           name: this.name,
           gender: this.gender,
-          date: this.date
+          date: Date.now()
         })
         .then(docRef => this.$router.push("/"))
         .catch(error => console.log(err));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Your data has been saved",
+        showConfirmButton: false,
+        timer: 1500
+      });
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");

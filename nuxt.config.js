@@ -70,7 +70,8 @@ export default {
     "bootstrap-vue/nuxt",
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
-    "@nuxtjs/pwa"
+    "@nuxtjs/pwa",
+    "@nuxtjs/moment"
   ],
   bootstrapVue: {
     icons: true // Install the IconsPlugin (in addition to BootStrapVue plugin
