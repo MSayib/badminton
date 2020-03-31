@@ -61,6 +61,8 @@ import { getUserFromCookie } from "~/helpers";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
+import moment from "moment";
+
 export default {
   components: { Navbar },
   asyncData({ req, redirect }) {
@@ -86,7 +88,7 @@ export default {
       nameState: null,
       genderState: null,
       dateState: null,
-      perPage: 10,
+      perPage: 3,
       currentPage: 1,
       peoples: [],
       options: [
@@ -115,7 +117,7 @@ export default {
               id: doc.id,
               name: doc.data().name,
               gender: doc.data().gender,
-              date: doc.data().date
+              date: moment(doc.data().date).format("LLLL")
             };
             this.peoples.push(data);
           });
