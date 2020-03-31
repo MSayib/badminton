@@ -230,7 +230,7 @@ export default {
       this.counterBola = lastServe.counterBola;
     },
     resetScore() {
-      (this.playerA = 0), (this.playerB = 0);
+      (this.playerA = 0), (this.playerB = 0), (this.counterBola = 0);
     }
   }
 };

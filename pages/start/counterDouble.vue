@@ -1,22 +1,14 @@
 <template>
   <div>
     <div>
-      <b-container fluid="xl" align="center" style="margin-top: 100px">
-        <b-row>
-          <b-col>
-            <h5>Pilih Server</h5>
-            <b-button variant="primary">Serve Tim A</b-button>
-            <nuxt-link to="/start/counterDoubleB">
-              <b-button variant="danger">Serve Tim B</b-button>
-            </nuxt-link>
-          </b-col>
-        </b-row>
+      <b-container fluid="xl" align="center" style="margin-top: 10px">
         <Ronde
           :timer="formattedTimer"
           :state="timerState"
           @start="start"
           @pause="pause"
           @stop="stop"
+          :set="this.set.length +1"
         />
         <b-row>
           <b-col>
@@ -25,17 +17,30 @@
         </b-row>
         <b-row></b-row>
         <b-row>
-          <b-col>
-            <b-card border-variant="dark" header="Player A1 / Player A2" align="center">
+          <b-col v-if="this.set.length % 2 === 0">
+            <b-card border-variant="dark" :header="A1 + ' / ' + A2 " align="center">
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
+
+          <b-col v-else>
+            <b-card border-variant="dark" :header="B2 + ' / ' + B1 " align="center">
+              <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
+            </b-card>
+          </b-col>
+
           <b-col cols="4" style="margin-top: 40px">
             <b-img :src="img" width="90%" fluid alt="Responsive image" />
           </b-col>
-          <b-col>
-            <b-card border-variant="dark" header="Player B1 / Player B2" align="center">
+          <b-col v-if="this.set.length % 2 === 0">
+            <b-card border-variant="dark" :header="B1 + ' / ' + B2" align="center">
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
+            </b-card>
+          </b-col>
+
+          <b-col v-else>
+            <b-card border-variant="dark" :header="A1 + ' / ' + A2" align="center">
+              <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
         </b-row>
@@ -46,21 +51,36 @@
 
         <b-row>
           <!-- team A -->
-          <b-col>
+          <b-col v-if="this.set.length % 2 === 0">
             <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
             <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
           </b-col>
-          <b-col></b-col>
-          <!-- team B -->
-          <b-col>
+
+          <b-col v-else>
             <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
             <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
           </b-col>
+          <b-col></b-col>
+          <!-- team B -->
+          <b-col v-if="this.set.length % 2 === 0">
+            <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
+          </b-col>
+
+          <b-col v-else>
+            <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
+          </b-col>
         </b-row>
         <!-- reset button -->
-        <b-row style="padding: 0 10px;">
+        <b-row style="padding: 8px 14px;">
           <b-col>
-            <b-button size="sm" variant="primary" @click="resetScore">Reset Score</b-button>
+            <b-button size="sm" variant="primary" @click="simpanSet">Simpan Set</b-button>
+            <b-button
+              size="sm"
+              style="background-color: green"
+              @click="simpanPertandingan"
+            >Simpan Pertandingan</b-button>
           </b-col>
         </b-row>
       </b-container>
@@ -70,6 +90,7 @@
 
 <script>
 import Ronde from "~/components/counter/ronde.vue";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -79,6 +100,10 @@ export default {
     return {
       playerA: 0,
       playerB: 0,
+      A1: "Pemain A1",
+      A2: "Pemain A2",
+      B1: "Pemain B1",
+      B2: "Pemain B2",
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
       isServeB: 0,
@@ -87,7 +112,8 @@ export default {
       currentTimer: 0,
       formattedTimer: "00:00:00",
       ticker: undefined,
-      historys: []
+      historys: [],
+      set: []
     };
   },
 
@@ -150,14 +176,14 @@ export default {
 
       // Buat Tim A kalo dia yang serve
       const ohTeamAServe = siapaSihYangServe === "Team A" ? this.isServeA : "";
-      const mauSiapaNihYangServeA = ohTeamAServe % 2 === 0 ? "A1" : "A2";
+      const mauSiapaNihYangServeA = ohTeamAServe % 2 === 0 ? this.A1 : this.A2;
       const posisiServeADimana = this.playerA % 2 === 0 ? "Kanan" : "Kiri";
       // Buat Tim B kalo dia serve
       const ohTeamBServe = siapaSihYangServe === "Team B" ? this.isServeB : "";
-      const mauSiapaNihYangServeB = ohTeamBServe % 2 === 0 ? "B2" : "B1";
+      const mauSiapaNihYangServeB = ohTeamBServe % 2 === 0 ? this.B2 : this.B1;
       const posisiServeBDimana = this.playerB % 2 === 0 ? "Kanan" : "Kiri";
 
-      return `Pemain ${
+      return `${
         siapaSihYangServe === "Team A"
           ? mauSiapaNihYangServeA
           : mauSiapaNihYangServeB
@@ -182,29 +208,15 @@ export default {
     isMenangA(val) {
       if (val) {
         alert("Tim A Menang!");
+        window.clearInterval(this.ticker);
+        this.timerState = "paused";
       }
     },
     isMenangB(val) {
       if (val) {
         alert("Tim B Menang");
-      }
-    },
-    playerA() {
-      this.whoIsServe = true;
-      if (this.isKananA && !this.isKananB) {
-        return;
-      } else if (!this.isKananA && !this.isKananB) {
-        this.isServeB++;
-      } else if (this.isKananA && this.isKananB) {
-        this.isServeB++;
-      }
-    },
-    playerB() {
-      this.whoIsServe = false;
-      if (this.isKananA && !this.isKananB) {
-        this.isServeA++;
-      } else if (!this.isKananA && this.isKananB) {
-        this.isServeA++;
+        window.clearInterval(this.ticker);
+        this.timerState = "paused";
       }
     }
   },
@@ -229,7 +241,7 @@ export default {
       this.ticker = setInterval(() => {
         this.currentTimer++;
         this.formattedTimer = this.formatTime(this.currentTimer);
-      }, 250);
+      }, 1000);
     },
     formatTime(seconds) {
       const measuredTime = new Date(null);
@@ -238,6 +250,7 @@ export default {
       return MHSTime;
     },
     tambahPlayerA() {
+      this.whoIsServe = true;
       this.historys.push({
         scoreA: this.playerA,
         scoreB: this.playerB,
@@ -247,6 +260,14 @@ export default {
       });
       this.playerA++;
       console.log(this.historys);
+
+      if (this.isKananA && !this.isKananB) {
+        return;
+      } else if (!this.isKananA && !this.isKananB) {
+        this.isServeB++;
+      } else if (this.isKananA && this.isKananB) {
+        this.isServeB++;
+      }
     },
     kurangPlayerA() {
       const lastState = this.historys.pop();
@@ -256,9 +277,16 @@ export default {
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
 
+      if (confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)) {
+        this.whoIsServe = true;
+      } else {
+        this.whoIsServe = false;
+      }
+
       console.log(this.historys);
     },
     tambahPlayerB() {
+      this.whoIsServe = false;
       this.historys.push({
         scoreA: this.playerA,
         scoreB: this.playerB,
@@ -268,6 +296,12 @@ export default {
       });
       this.playerB++;
       console.log(this.historys);
+
+      if (this.isKananA && !this.isKananB) {
+        this.isServeA++;
+      } else if (!this.isKananA && this.isKananB) {
+        this.isServeA++;
+      }
     },
     kurangPlayerB() {
       const lastState = this.historys.pop();
@@ -276,10 +310,44 @@ export default {
       this.isServeA = lastState.serveA;
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
+
+      if (confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)) {
+        this.whoIsServe = true;
+      } else {
+        this.whoIsServe = false;
+      }
+
+      console.log(this.historys);
     },
-    resetScore() {
+    simpanSet() {
+      const ronde = this.set.length + 1;
+      this.set.push({
+        ronde: ronde,
+        stopwatch: this.formattedTimer,
+        tim: [
+          {
+            nama_tim: "A",
+            score: this.playerA
+          },
+          {
+            nama_tim: "B",
+            score: this.playerB
+          }
+        ]
+      });
+      window.clearInterval(this.ticker);
+      this.currentTimer = 0;
+      this.formattedTimer = "00:00:00";
+      this.whoIsServe = !this.whoIsServe;
+      this.isServeA = 0;
+      this.isServeB = 0;
       this.playerA = 0;
       this.playerB = 0;
+      console.log("ronde : ", this.set);
+    },
+
+    simpanPertandingan() {
+      //
     }
   }
 };
