@@ -188,24 +188,6 @@ export default {
       if (val) {
         alert("Tim B Menang");
       }
-    },
-    playerA() {
-      this.whoIsServe = false;
-      if (this.isKananB && !this.isKananA) {
-        this.isServeB++;
-      } else if (!this.isKananB && this.isKananA) {
-        this.isServeB++;
-      }
-    },
-    playerB() {
-      this.whoIsServe = true;
-      if (this.isKananB && !this.isKananA) {
-        return;
-      } else if (!this.isKananB && !this.isKananA) {
-        this.isServeA++;
-      } else if (this.isKananB && this.isKananA) {
-        this.isServeA++;
-      }
     }
   },
   methods: {
@@ -238,6 +220,7 @@ export default {
       return MHSTime;
     },
     tambahPlayerA() {
+      this.whoIsServe = false;
       this.historys.push({
         scoreA: this.playerA,
         scoreB: this.playerB,
@@ -247,6 +230,12 @@ export default {
       });
       this.playerA++;
       console.log(this.historys);
+
+      if (this.isKananB && !this.isKananA) {
+        this.isServeB++;
+      } else if (!this.isKananB && this.isKananA) {
+        this.isServeB++;
+      }
     },
     kurangPlayerA() {
       const lastState = this.historys.pop();
@@ -256,9 +245,16 @@ export default {
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
 
+      if (confirm("Apakah yang terakhir serve tim A?")) {
+        this.whoIsServe = false;
+      } else {
+        this.whoIsServe = true;
+      }
+
       console.log(this.historys);
     },
     tambahPlayerB() {
+      this.whoIsServe = true;
       this.historys.push({
         scoreA: this.playerA,
         scoreB: this.playerB,
@@ -268,6 +264,14 @@ export default {
       });
       this.playerB++;
       console.log(this.historys);
+
+      if (this.isKananB && !this.isKananA) {
+        return;
+      } else if (!this.isKananB && !this.isKananA) {
+        this.isServeA++;
+      } else if (this.isKananB && this.isKananA) {
+        this.isServeA++;
+      }
     },
     kurangPlayerB() {
       const lastState = this.historys.pop();
@@ -276,6 +280,12 @@ export default {
       this.isServeA = lastState.serveA;
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
+
+      if (confirm("Apakah yang terakhir serve tim A?")) {
+        this.whoIsServe = false;
+      } else {
+        this.whoIsServe = true;
+      }
     },
     resetScore() {
       this.playerA = 0;
