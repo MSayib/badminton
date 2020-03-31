@@ -1,22 +1,23 @@
 <template>
   <div>
     <div>
-      <b-container fluid="xl" align="center" style="margin-top: 100px">
-        <Stopwatch
+      <b-container fluid="xl" align="center" style="margin-top: 50px;">
+        <b-row>
+          <b-col>
+            <h4>Score Counter</h4>
+          </b-col>
+        </b-row>
+        <Ronde
           :timer="formattedTimer"
           :state="timerState"
           @start="start"
           @pause="pause"
           @stop="stop"
         />
+        <br />
         <b-row>
           <b-col>
-            <h4>Score Counter</h4>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <b-card border-variant="dark" header="Player A" align="center">
+            <b-card border-variant="light" header="Player A" align="center">
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
@@ -24,7 +25,7 @@
             <b-img :src="img" width="60%" fluid alt="Responsive image" />
           </b-col>
           <b-col>
-            <b-card border-variant="dark" header="Player B" align="center">
+            <b-card border-variant="light" header="Player B" align="center">
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
             </b-card>
           </b-col>
@@ -61,11 +62,11 @@
 </template>
 
 <script>
-import Stopwatch from "~/components/stopwatch.vue";
+import Ronde from "~/components/counter/ronde.vue";
 
 export default {
   components: {
-    Stopwatch
+    Ronde
   },
   data() {
     return {
@@ -237,9 +238,6 @@ export default {
 
 <style>
 .scoreBoard {
-  font-size: 60px;
-}
-.score {
-  border: 2px solid;
+  font-size: 2.5em;
 }
 </style>

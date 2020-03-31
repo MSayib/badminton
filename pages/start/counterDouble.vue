@@ -11,7 +11,7 @@
             </nuxt-link>
           </b-col>
         </b-row>
-        <Stopwatch
+        <Ronde
           :timer="formattedTimer"
           :state="timerState"
           @start="start"
@@ -69,11 +69,11 @@
 </template>
 
 <script>
-import Stopwatch from "~/components/stopwatch.vue";
+import Ronde from "~/components/counter/ronde.vue";
 
 export default {
   components: {
-    Stopwatch
+    Ronde
   },
   data() {
     return {
@@ -287,9 +287,6 @@ export default {
 
 <style>
 .scoreBoard {
-  font-size: 60px;
-}
-.score {
-  border: 2px solid;
+  font-size: 2.5em;
 }
 </style>

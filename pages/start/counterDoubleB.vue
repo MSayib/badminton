@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <b-container fluid="xl" align="center" style="margin-top: 100px">
+      <b-container fluid="xl" align="center" style="margin-top: 50px">
         <b-row>
           <b-col>
             <h5>Pilih Server</h5>
@@ -11,7 +11,7 @@
             <b-button variant="danger">Serve Tim B</b-button>
           </b-col>
         </b-row>
-        <Stopwatch
+        <Ronde
           :timer="formattedTimer"
           :state="timerState"
           @start="start"
@@ -69,11 +69,11 @@
 </template>
 
 <script>
-import Stopwatch from "~/components/stopwatch.vue";
+import Ronde from "~/components/counter/ronde.vue";
 
 export default {
   components: {
-    Stopwatch
+    Ronde
   },
   data() {
     return {
@@ -287,9 +287,6 @@ export default {
 
 <style>
 .scoreBoard {
-  font-size: 60px;
-}
-.score {
-  border: 2px solid;
+  font-size: 2.5em;
 }
 </style>
