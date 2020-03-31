@@ -7,14 +7,14 @@
             <b-col md="4">
               <b-card-body title="Set">
                 <b-card-text class="set">
-                  1
+                  {{set}}
                 </b-card-text>
               </b-card-body>
             </b-col>
             <b-col md="8">
               <b-card-body title="Timer">
                 <b-card-text>
-                  <p class="time">{{ timer }}</p>
+                  <span style="font-family: Share Tech Mono; font-size: 1.2em;">{{ timer }}</span><br>
                   <b-button
                     variant="info"
                     pill
@@ -52,7 +52,7 @@
 <script>
 export default {
   name: "Timer",
-  props: ["timer", "state"]
+  props: ["timer", "state", "set"]
 };
 </script>
 
