@@ -23,16 +23,23 @@
                   required
                 ></b-form-input>
               </b-form-group>
-              <b-form-group label="Nama Pemain">
-                <b-form-select
+              <div>
+                <label class="typo__label">Nama Pemain</label>
+                <multiselect
                   v-model="playerA"
                   :options="items"
-                  class="mb-3"
-                  value-field="name"
-                  text-field="name"
-                  disabled-field="notEnabled"
-                ></b-form-select>
-              </b-form-group>
+                  :close-on-select="false"
+                  :clear-on-select="false"
+                  :hide-selected="true"
+                  :preserve-search="true"
+                  placeholder="Pick some"
+                  label="name"
+                  track-by="name"
+                  :preselect-first="true"
+                  id="pemain"
+                  @select="onSelect"
+                ></multiselect>
+              </div>
             </b-form>
           </b-card>
         </b-col>
@@ -52,16 +59,23 @@
                   required
                 ></b-form-input>
               </b-form-group>
-              <b-form-group label="Nama Pemain">
-                <b-form-select
+              <div>
+                <label class="typo__label">Nama Pemain</label>
+                <multiselect
                   v-model="playerB"
                   :options="items"
-                  class="mb-3"
-                  value-field="name"
-                  text-field="name"
-                  disabled-field="notEnabled"
-                ></b-form-select>
-              </b-form-group>
+                  :close-on-select="false"
+                  :clear-on-select="false"
+                  :hide-selected="true"
+                  :preserve-search="true"
+                  placeholder="Pick some"
+                  label="name"
+                  track-by="name"
+                  :preselect-first="true"
+                  id="pemain"
+                  @select="onSelect"
+                ></multiselect>
+              </div>
             </b-form>
           </b-card>
         </b-col>
@@ -69,8 +83,13 @@
       <br />
       <b-row>
         <b-col md="12" offset-md="5">
-              <b-button @click="onSubmit" type="submit" variant="primary">Submit</b-button>
-              <b-button type="reset" variant="danger">Reset</b-button></b-col>
+          <b-button @click="onSubmit" type="submit" variant="primary"
+            >Submit</b-button
+          >
+          <b-button @click="onReset" type="reset" variant="danger"
+            >Reset</b-button
+          ></b-col
+        >
       </b-row>
     </b-container>
   </div>
@@ -82,8 +101,10 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
 import moment from "moment";
+import Multiselect from "vue-multiselect";
 
 export default {
+  components: { Multiselect },
   data() {
     return {
       timA: "",
@@ -97,17 +118,28 @@ export default {
     };
   },
   methods: {
+    onSelect(option, id) {
+      console.log(option, id);
+    },
+
     onSubmit(evt) {
       evt.preventDefault();
       localStorage.setItem("timA", JSON.stringify(this.timA));
       localStorage.setItem("playerA", JSON.stringify(this.playerA));
       localStorage.setItem("timB", JSON.stringify(this.timB));
       localStorage.setItem("playerB", JSON.stringify(this.playerB));
+
+      this.$router.push("/start/counterSingle");
     },
     onReset(evt) {
       evt.preventDefault();
-      // Reset our form values
-      this.form.item = null;
+      this.timA = null;
+      this.timB = null;
+      this.playerA = null;
+      this.playerB = null;
+      this.timAState = null;
+      this.timBState = null;
+
       // Trick to reset/clear native browser form validation state
       this.show = false;
       this.$nextTick(() => {

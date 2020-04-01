@@ -22,6 +22,7 @@
     "js-cookie": "^2.2.1",
     "jwt-decode": "^2.2.0",
     "nuxt": "^2.0.0",
+    "nuxt-vue-multiselect": "^1.0.4",
     "vue-sweetalert2": "^3.0.3"
   },
   "devDependencies": {

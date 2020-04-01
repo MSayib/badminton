@@ -40,10 +40,10 @@
 
             <b-modal id="modal-center" centered hide-footer title="Pilih Mode">
               <div class="d-block text-center">
-                <b-button variant="primary" to="/start/form" size="lg"
+                <b-button variant="primary" to="/start/formSingle" size="lg"
                   >Single Match</b-button
                 >
-                <b-button to="/start/counterDouble" variant="danger" size="lg"
+                <b-button to="/start/formDouble" variant="danger" size="lg"
                   >Double Match</b-button
                 >
               </div>
