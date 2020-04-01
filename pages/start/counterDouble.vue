@@ -18,13 +18,13 @@
         <b-row></b-row>
         <b-row>
           <b-col v-if="this.set.length % 2 === 0">
-            <b-card border-variant="dark" :header="A1 + ' / ' + A2 " align="center">
+            <b-card border-variant="dark" :header="A1 + ' (Kanan)/ ' + A2 + ' (Kiri)'" align="center">
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
 
           <b-col v-else>
-            <b-card border-variant="dark" :header="B2 + ' / ' + B1 " align="center">
+            <b-card border-variant="dark" :header="B1 + ' (Kanan)/ ' + B2 + ' (Kiri)' " align="center">
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
             </b-card>
           </b-col>
@@ -33,13 +33,13 @@
             <b-img :src="img" width="90%" fluid alt="Responsive image" />
           </b-col>
           <b-col v-if="this.set.length % 2 === 0">
-            <b-card border-variant="dark" :header="B1 + ' / ' + B2" align="center">
+            <b-card border-variant="dark" :header="B1 + ' (Kanan)/ ' + B2 + ' (Kiri)' " align="center">
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
             </b-card>
           </b-col>
 
           <b-col v-else>
-            <b-card border-variant="dark" :header="A1 + ' / ' + A2" align="center">
+            <b-card border-variant="dark" :header="A1 + ' (Kanan)/ ' + A2 + ' (Kiri)'" align="center">
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
@@ -100,10 +100,10 @@ export default {
     return {
       playerA: 0,
       playerB: 0,
-      A1: "Pemain A1",
-      A2: "Pemain A2",
-      B1: "Pemain B1",
-      B2: "Pemain B2",
+      A1: "Muchlas",
+      A2: "Fikri",
+      B1: "Sayib",
+      B2: "Farhan",
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
       isServeB: 0,
@@ -207,14 +207,14 @@ export default {
     },
     isMenangA(val) {
       if (val) {
-        alert("Tim A Menang!");
+        alert(`${this.A1} dan ${this.A2} Menang`);
         window.clearInterval(this.ticker);
         this.timerState = "paused";
       }
     },
     isMenangB(val) {
       if (val) {
-        alert("Tim B Menang");
+        alert(`${this.B1} dan ${this.B2} Menang`);
         window.clearInterval(this.ticker);
         this.timerState = "paused";
       }
@@ -261,12 +261,20 @@ export default {
       this.playerA++;
       console.log(this.historys);
 
-      if (this.isKananA && !this.isKananB) {
-        return;
-      } else if (!this.isKananA && !this.isKananB) {
-        this.isServeB++;
-      } else if (this.isKananA && this.isKananB) {
-        this.isServeB++;
+      if (this.set.length % 2 === 0) {
+        if (this.isKananA && !this.isKananB) {
+          return;
+        } else if (!this.isKananA && !this.isKananB) {
+          this.isServeB++;
+        } else if (this.isKananA && this.isKananB) {
+          this.isServeB++;
+        }
+      } else {
+        if (this.isKananA && !this.isKananB) {
+          this.isServeB++;
+        } else if (!this.isKananA && this.isKananB) {
+          this.isServeB++;
+        }
       }
     },
     kurangPlayerA() {
@@ -277,7 +285,9 @@ export default {
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
 
-      if (confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)) {
+      if (
+        confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)
+      ) {
         this.whoIsServe = true;
       } else {
         this.whoIsServe = false;
@@ -297,10 +307,18 @@ export default {
       this.playerB++;
       console.log(this.historys);
 
-      if (this.isKananA && !this.isKananB) {
-        this.isServeA++;
-      } else if (!this.isKananA && this.isKananB) {
-        this.isServeA++;
+      if (this.set.length % 2 === 0) {
+        if (this.isKananA && !this.isKananB) {
+          this.isServeA++;
+        } else if (!this.isKananA && this.isKananB) {
+          this.isServeA++;
+        }
+      } else {
+        if (this.isKananA && this.isKananB) {
+          this.isServeA++;
+        } else if (!this.isKananA && !this.isKananB) {
+          this.isServeA++;
+        }
       }
     },
     kurangPlayerB() {
@@ -311,7 +329,9 @@ export default {
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
 
-      if (confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)) {
+      if (
+        confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)
+      ) {
         this.whoIsServe = true;
       } else {
         this.whoIsServe = false;
@@ -326,11 +346,11 @@ export default {
         stopwatch: this.formattedTimer,
         tim: [
           {
-            nama_tim: "A",
+            nama_tim: `${this.A1} dan ${this.A2}`,
             score: this.playerA
           },
           {
-            nama_tim: "B",
+            nama_tim: `${this.B1} dan ${this.B2}`,
             score: this.playerB
           }
         ]
@@ -338,16 +358,23 @@ export default {
       window.clearInterval(this.ticker);
       this.currentTimer = 0;
       this.formattedTimer = "00:00:00";
-      this.whoIsServe = !this.whoIsServe;
-      this.isServeA = 0;
-      this.isServeB = 0;
+      this.timerState = "stoped";
+      if (this.set.length % 2 === 0) {
+        this.whoIsServe = true;
+        this.isServeA = 0;
+        this.isServeB = 0;
+      } else {
+        this.whoIsServe = false;
+        this.isServeA = 1;
+        this.isServeB = 1;
+      }
       this.playerA = 0;
       this.playerB = 0;
       console.log("ronde : ", this.set);
     },
 
     simpanPertandingan() {
-      //
+      console.log("tersimpan wksksk");
     }
   }
 };
