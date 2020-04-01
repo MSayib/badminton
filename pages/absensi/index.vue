@@ -47,7 +47,7 @@
             @hidden="resetModal"
             @ok="handleOk"
           >
-            <form ref="form" @submit="saveData">
+            <form ref="form" @submit.stop.prevent="saveData">
               <b-form-group
                 :state="nameState"
                 label="Name"
@@ -77,14 +77,7 @@
               </b-form-group>
             </form>
           </b-modal>
-          <b-modal
-            id="modal-prevent-edit"
-            ref="modal"
-            title="Edit Your Name"
-            @show="resetModal"
-            @hidden="resetModal"
-            @ok="handleUpdateOk"
-          >
+          <b-modal id="modal-prevent-edit" ref="modal" title="Edit Your Name" @ok="handleUpdateOk">
             <form ref="form" @submit.prevent="updateData">
               <b-form-group
                 :state="nameState"
@@ -225,11 +218,16 @@ export default {
       this.updateData();
     },
     resetModal() {
-      this.name = "";
-      this.gender = "";
-      this.date = "";
+      // this.name = "";
+      // this.gender = "";
+      // this.date = "";
       this.nameState = null;
       this.genderState = null;
+      this.item = {
+        name: null,
+        gender: null,
+        date: Date.now()
+      };
     },
     addNew() {
       this.modal = "new";
