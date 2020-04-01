@@ -8,7 +8,7 @@
       >
         <b-row no-gutters>
           <b-col>
-            <b-card-body title="Player A">
+            <b-card-body :title="A1 + '/' + A2">
               <b-card-text class="scoreBoard">{{ScoreTimA}}</b-card-text>
             </b-card-body>
           </b-col>
@@ -20,7 +20,7 @@
             </b-card-body>
           </b-col>
           <b-col sm="5">
-            <b-card-body title="Player B">
+            <b-card-body :title="B1 + '/' + B2">
               <b-card-text class="scoreBoard">{{ScoreTimB}}</b-card-text>
             </b-card-body>
           </b-col>
@@ -35,6 +35,10 @@ export default {
     props: {
         ScoreTimA: Number,
         ScoreTimB: Number,
+        A1: String,
+        A2: String,
+        B1: String,
+        B2: String,
         img: String
     }
 };

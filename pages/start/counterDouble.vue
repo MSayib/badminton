@@ -2,6 +2,11 @@
   <div>
     <div>
       <b-container fluid="xl" align="center" style="margin-top: 10px">
+        <b-row>
+          <b-col>
+            <h4>Score Counter</h4>
+          </b-col>
+        </b-row>
         <Ronde
           :timer="formattedTimer"
           :state="timerState"
@@ -10,53 +15,44 @@
           @stop="stop"
           :set="this.set.length + 1"
         />
-        <b-row>
-          <b-col>
-            <h4>Score Counter</h4>
-          </b-col>
-        </b-row>
         <b-row></b-row>
         <b-row>
-          <b-col v-if="this.set.length % 2 === 0">
+          <b-col>
             <b-card
               border-variant="dark"
-              :header="A1 + ' / ' + A2"
-              align="center"
+              class="overflow-hidden"
+              style="max-width: 970px;"
+              :header="`SET ${this.set.length + 1}`"
             >
-              <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
-            </b-card>
-          </b-col>
-
-          <b-col v-else>
-            <b-card
-              border-variant="dark"
-              :header="B2 + ' / ' + B1"
-              align="center"
-            >
-              <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
-            </b-card>
-          </b-col>
-
-          <b-col cols="4" style="margin-top: 40px">
-            <b-img :src="img" width="90%" fluid alt="Responsive image" />
-          </b-col>
-          <b-col v-if="this.set.length % 2 === 0">
-            <b-card
-              border-variant="dark"
-              :header="B1 + ' / ' + B2"
-              align="center"
-            >
-              <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
-            </b-card>
-          </b-col>
-
-          <b-col v-else>
-            <b-card
-              border-variant="dark"
-              :header="A1 + ' / ' + A2"
-              align="center"
-            >
-              <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
+              <b-row no-gutters>
+                <b-col sm="5" v-if="this.set.length % 2 === 0">
+                  <b-card-body :title="A1 + '/' + A2">
+                    <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
+                  </b-card-body>
+                </b-col>
+                <b-col sm="5" v-else>
+                  <b-card-body :title="B1 + '/' + B2">
+                    <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
+                  </b-card-body>
+                </b-col>
+                <b-col sm="2">
+                  <b-card-body>
+                    <b-card-text>
+                      <b-img :src="img" width="50%" />
+                    </b-card-text>
+                  </b-card-body>
+                </b-col>
+                <b-col sm="5" v-if="this.set.length % 2 === 0">
+                  <b-card-body :title="B1 + '/' + B2">
+                    <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
+                  </b-card-body>
+                </b-col>
+                <b-col sm="5" v-else>
+                  <b-card-body :title="A1 + '/' + A2">
+                    <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
+                  </b-card-body>
+                </b-col>
+              </b-row>
             </b-card>
           </b-col>
         </b-row>
@@ -118,6 +114,19 @@
             >
           </b-col>
         </b-row>
+        <b-row>
+          <b-col>
+            <ScoreTim
+              :ScoreTimA="ScoreTimA"
+              :ScoreTimB="ScoreTimB"
+              :img="img"
+              :A1="A1"
+              :A2="A2"
+              :B1="B1"
+              :B2="B2"
+            />
+          </b-col>
+        </b-row>
       </b-container>
     </div>
   </div>
@@ -125,16 +134,20 @@
 
 <script>
 import Ronde from "~/components/counter/ronde.vue";
+import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
 
 export default {
   components: {
-    Ronde
+    Ronde,
+    ScoreTim
   },
   data() {
     return {
       playerA: 0,
       playerB: 0,
+      ScoreTimA: 0,
+      ScoreTimB: 0,
       A1: "Muchlas",
       A2: "Fikri",
       B1: "Sayib",
@@ -243,15 +256,75 @@ export default {
     isMenangA(val) {
       if (val) {
         alert(`${this.A1} dan ${this.A2} Menang`);
+        const ronde = this.set.length + 1;
+        this.set.push({
+          ronde: ronde,
+          stopwatch: this.formattedTimer,
+          tim: [
+            {
+              nama_tim: `${this.A1} dan ${this.A2}`,
+              score: this.playerA
+            },
+            {
+              nama_tim: `${this.B1} dan ${this.B2}`,
+              score: this.playerB
+            }
+          ]
+        });
         window.clearInterval(this.ticker);
-        this.timerState = "paused";
+        this.currentTimer = 0;
+        this.formattedTimer = "00:00:00";
+        this.timerState = "stoped";
+        if (this.set.length % 2 === 0) {
+          this.whoIsServe = true;
+          this.isServeA = 0;
+          this.isServeB = 0;
+        } else {
+          this.whoIsServe = false;
+          this.isServeA = 1;
+          this.isServeB = 1;
+        }
+        this.playerA = 0;
+        this.playerB = 0;
+
+        this.ScoreTimA++;
       }
     },
     isMenangB(val) {
       if (val) {
         alert(`${this.B1} dan ${this.B2} Menang`);
+        const ronde = this.set.length + 1;
+        this.set.push({
+          ronde: ronde,
+          stopwatch: this.formattedTimer,
+          tim: [
+            {
+              nama_tim: `${this.A1} dan ${this.A2}`,
+              score: this.playerA
+            },
+            {
+              nama_tim: `${this.B1} dan ${this.B2}`,
+              score: this.playerB
+            }
+          ]
+        });
         window.clearInterval(this.ticker);
-        this.timerState = "paused";
+        this.currentTimer = 0;
+        this.formattedTimer = "00:00:00";
+        this.timerState = "stoped";
+        if (this.set.length % 2 === 0) {
+          this.whoIsServe = true;
+          this.isServeA = 0;
+          this.isServeB = 0;
+        } else {
+          this.whoIsServe = false;
+          this.isServeA = 1;
+          this.isServeB = 1;
+        }
+        this.playerA = 0;
+        this.playerB = 0;
+
+        this.ScoreTimB++;
       }
     }
   },
