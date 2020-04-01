@@ -43,6 +43,9 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/pwa"
   ],
+  bootstrapVue: {
+    icons: true // Install the IconsPlugin (in addition to BootStrapVue plugin
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

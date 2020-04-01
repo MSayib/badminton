@@ -47,7 +47,7 @@
             @hidden="resetModal"
             @ok="handleOk"
           >
-            <form ref="form" @submit.stop.prevent="saveData">
+            <form ref="form" @submit="saveData">
               <b-form-group
                 :state="nameState"
                 label="Name"
