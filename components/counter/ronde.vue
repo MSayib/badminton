@@ -2,19 +2,20 @@
   <div>
     <b-row>
       <b-col>
-        <b-card no-body class="overflow-hidden" style="max-width: 350px;">
+        <b-card
+          no-body
+          border-variant="light"
+          class="overflow-hidden"
+          style="max-width: 350px"
+        >
           <b-row no-gutters>
-            <b-col md="4">
-              <b-card-body title="Set">
-                <b-card-text class="set">
-                  {{set}}
-                </b-card-text>
-              </b-card-body>
-            </b-col>
-            <b-col md="8">
+            <b-col>
               <b-card-body title="Timer">
                 <b-card-text>
-                  <span style="font-family: Share Tech Mono; font-size: 1.2em;">{{ timer }}</span><br>
+                  <span
+                    style="font-family: Share Tech Mono; font-size: 1.2em;"
+                    >{{ timer }}</span
+                  ><br />
                   <b-button
                     variant="info"
                     pill
@@ -52,7 +53,7 @@
 <script>
 export default {
   name: "Timer",
-  props: ["timer", "state", "set"]
+  props: ["timer", "state"]
 };
 </script>
 

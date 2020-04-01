@@ -8,7 +8,7 @@
           @start="start"
           @pause="pause"
           @stop="stop"
-          :set="this.set.length +1"
+          :set="this.set.length + 1"
         />
         <b-row>
           <b-col>
@@ -18,13 +18,21 @@
         <b-row></b-row>
         <b-row>
           <b-col v-if="this.set.length % 2 === 0">
-            <b-card border-variant="dark" :header="A1 + ' / ' + A2 " align="center">
+            <b-card
+              border-variant="dark"
+              :header="A1 + ' / ' + A2"
+              align="center"
+            >
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
 
           <b-col v-else>
-            <b-card border-variant="dark" :header="B2 + ' / ' + B1 " align="center">
+            <b-card
+              border-variant="dark"
+              :header="B2 + ' / ' + B1"
+              align="center"
+            >
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
             </b-card>
           </b-col>
@@ -33,13 +41,21 @@
             <b-img :src="img" width="90%" fluid alt="Responsive image" />
           </b-col>
           <b-col v-if="this.set.length % 2 === 0">
-            <b-card border-variant="dark" :header="B1 + ' / ' + B2" align="center">
+            <b-card
+              border-variant="dark"
+              :header="B1 + ' / ' + B2"
+              align="center"
+            >
               <b-card-text class="scoreBoard">{{ playerB }}</b-card-text>
             </b-card>
           </b-col>
 
           <b-col v-else>
-            <b-card border-variant="dark" :header="A1 + ' / ' + A2" align="center">
+            <b-card
+              border-variant="dark"
+              :header="A1 + ' / ' + A2"
+              align="center"
+            >
               <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
             </b-card>
           </b-col>
@@ -52,35 +68,54 @@
         <b-row>
           <!-- team A -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahPlayerA" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangPlayerA" variant="danger"
+              >-</b-button
+            >
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahPlayerB" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangPlayerB" variant="danger"
+              >-</b-button
+            >
           </b-col>
           <b-col></b-col>
           <!-- team B -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahPlayerB" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangPlayerB" variant="danger"
+              >-</b-button
+            >
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahPlayerA" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangPlayerA" variant="danger"
+              >-</b-button
+            >
           </b-col>
         </b-row>
         <!-- reset button -->
         <b-row style="padding: 8px 14px;">
           <b-col>
-            <b-button size="sm" variant="primary" @click="simpanSet">Simpan Set</b-button>
+            <b-button size="sm" variant="primary" @click="simpanSet"
+              >Simpan Set</b-button
+            >
             <b-button
               size="sm"
               style="background-color: green"
               @click="simpanPertandingan"
-            >Simpan Pertandingan</b-button>
+              >Simpan Pertandingan</b-button
+            >
           </b-col>
         </b-row>
       </b-container>
@@ -277,7 +312,9 @@ export default {
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
 
-      if (confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)) {
+      if (
+        confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)
+      ) {
         this.whoIsServe = true;
       } else {
         this.whoIsServe = false;
@@ -311,7 +348,9 @@ export default {
       this.isServeB = lastState.serveB;
       this.whoIsServe = lastState.playerA;
 
-      if (confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)) {
+      if (
+        confirm(`Apakah yang serve sebelumnya adalah ${this.A1} / ${this.A2}?`)
+      ) {
         this.whoIsServe = true;
       } else {
         this.whoIsServe = false;
@@ -338,7 +377,11 @@ export default {
       window.clearInterval(this.ticker);
       this.currentTimer = 0;
       this.formattedTimer = "00:00:00";
-      this.whoIsServe = !this.whoIsServe;
+      if (this.set.length % 2 === 0) {
+        this.whoIsServe = true;
+      } else {
+        this.whoIsServe = false;
+      }
       this.isServeA = 0;
       this.isServeB = 0;
       this.playerA = 0;
