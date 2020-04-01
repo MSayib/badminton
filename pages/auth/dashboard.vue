@@ -109,7 +109,7 @@ export default {
   methods: {
     getDataGuest() {
       db.collection("peoples")
-        .orderBy("name")
+        .orderBy("date")
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {

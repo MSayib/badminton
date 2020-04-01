@@ -10,36 +10,67 @@
         <b-col md="6">
           <b-card class="mt-3" header="Tim A">
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-              <b-form-select
-                v-model="item"
-                :options="items"
-                class="mb-3"
-                value-field="name"
-                text-field="name"
-                disabled-field="notEnabled"
-              ></b-form-select>
-              <b-button type="submit" variant="primary">Submit</b-button>
-              <b-button type="reset" variant="danger">Reset</b-button>
+              <b-form-group
+                :state="timAState"
+                label="Nama Tim"
+                label-for="timA-input"
+                invalid-feedback="Name tim is required"
+              >
+                <b-form-input
+                  id="timA-input"
+                  v-model="timA"
+                  :state="timAState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group label="Nama Pemain">
+                <b-form-select
+                  v-model="playerA"
+                  :options="items"
+                  class="mb-3"
+                  value-field="name"
+                  text-field="name"
+                  disabled-field="notEnabled"
+                ></b-form-select>
+              </b-form-group>
             </b-form>
           </b-card>
         </b-col>
         <b-col md="6">
           <b-card class="mt-3" header="Tim B">
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-              <b-form-select
-                v-model="item"
-                :options="items"
-                class="mb-3"
-                value-field="name"
-                text-field="name"
-                disabled-field="notEnabled"
-              ></b-form-select>
-              <div>{{item}}</div>
-              <b-button type="submit" variant="primary">Submit</b-button>
-              <b-button type="reset" variant="danger">Reset</b-button>
+              <b-form-group
+                :state="timBState"
+                label="Nama Tim"
+                label-for="timB-input"
+                invalid-feedback="Name tim is required"
+              >
+                <b-form-input
+                  id="timB-input"
+                  v-model="timB"
+                  :state="timBState"
+                  required
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group label="Nama Pemain">
+                <b-form-select
+                  v-model="playerB"
+                  :options="items"
+                  class="mb-3"
+                  value-field="name"
+                  text-field="name"
+                  disabled-field="notEnabled"
+                ></b-form-select>
+              </b-form-group>
             </b-form>
           </b-card>
         </b-col>
+      </b-row>
+      <br />
+      <b-row>
+        <b-col md="12" offset-md="5">
+              <b-button @click="onSubmit" type="submit" variant="primary">Submit</b-button>
+              <b-button type="reset" variant="danger">Reset</b-button></b-col>
       </b-row>
     </b-container>
   </div>
@@ -55,7 +86,12 @@ import moment from "moment";
 export default {
   data() {
     return {
-      item: "",
+      timA: "",
+      timB: "",
+      timAState: null,
+      timBState: null,
+      playerA: "",
+      playerB: "",
       items: [],
       show: true
     };
@@ -63,7 +99,10 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      localStorage.setItem("timA", JSON.stringify(this.timA));
+      localStorage.setItem("playerA", JSON.stringify(this.playerA));
+      localStorage.setItem("timB", JSON.stringify(this.timB));
+      localStorage.setItem("playerB", JSON.stringify(this.playerB));
     },
     onReset(evt) {
       evt.preventDefault();
