@@ -6,138 +6,115 @@
         <h1>List Player</h1>
         <b-col md="auto">
           <b-col md="12" offset-md="10">
-            <b-button
-              @click="addNew"
-              v-b-modal.modal-prevent-closing
-              variant="primary"
-            >
+            <b-button @click="addNew" v-b-modal.modal-prevent-closing variant="primary">
               <b-icon icon="plus" variant="white"></b-icon>Add
             </b-button>
           </b-col>
           <p class="mt-3">Current Page: {{ currentPage }}</p>
-          <b-table-simple
+          <b-table
             id="my-table"
+            :fields="fields"
             :items="items"
             :per-page="perPage"
             :current-page="currentPage"
             :sort-by.sync="sortBy"
             :sort-desc.sync="sortDesc"
             small
+            responsive="sm"
           >
-            <b-thead>
-              <b-tr>
-                <b-th>Name</b-th>
-                <b-th>Gender</b-th>
-                <b-th>Date</b-th>
-                <b-th>Actions</b-th>
-              </b-tr>
-            </b-thead>
-            <b-tbody>
-              <b-tr v-for="item in items" :key="item.id">
-                <td>{{ item.name }}</td>
-                <td>{{ item.gender }}</td>
-                <td>{{ item.date }}</td>
-                <td>
-                  <b-button
-                    v-b-modal.modal-prevent-edit
-                    @click="editData(item)"
-                    variant="primary"
-                  >
-                    <b-icon small icon="pencil"></b-icon>
-                  </b-button>
-                  <b-button @click="deleteData(item)" variant="primary">
-                    <b-icon small icon="trash"></b-icon>
-                  </b-button>
-                </td>
-              </b-tr>
-            </b-tbody>
-            <b-modal
-              id="modal-prevent-closing"
-              ref="modal"
-              title="Submit Your Name"
-              @show="resetModal"
-              @hidden="resetModal"
-              @ok="handleOk"
-            >
-              <form ref="form" @submit.stop.prevent="saveData">
-                <b-form-group
-                  :state="nameState"
-                  label="Name"
-                  label-for="name-input"
-                  invalid-feedback="Name is required"
-                >
-                  <b-form-input
-                    id="name-input"
-                    v-model="item.name"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
+            <template v-slot:cell(index)="data">{{ data.index + 1 }}</template>
+            <template v-slot:cell(name)="data">
+              <p>{{data.item.name}}</p>
+            </template>
+            <template v-slot:cell(gender)="data">
+              <p>{{data.item.gender}}</p>
+            </template>
+
+            <template v-slot:cell(action)="data">
+              <b-button v-b-modal.modal-prevent-edit @click="editData(data.item)" variant="primary">
+                <b-icon small icon="pencil"></b-icon>
+              </b-button>
+              <b-button @click="deleteData(data.item.id)" variant="primary">
+                <b-icon small icon="trash"></b-icon>
+              </b-button>
+            </template>
+          </b-table>
+          <b-modal
+            id="modal-prevent-closing"
+            ref="modal"
+            title="Submit Your Name"
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleOk"
+          >
+            <form ref="form" @submit.stop.prevent="saveData">
+              <b-form-group
+                :state="nameState"
+                label="Name"
+                label-for="name-input"
+                invalid-feedback="Name is required"
+              >
+                <b-form-input id="name-input" v-model="item.name" :state="nameState" required></b-form-input>
+              </b-form-group>
+              <b-form-group
+                :state="genderState"
+                label="gender"
+                label-for="gender-input"
+                invalid-feedback="Gender is required"
+              >
+                <b-form-select
+                  id="gender-input"
+                  v-model="item.gender"
+                  :options="options"
+                  class="mb-3"
+                  value-field="value"
+                  text-field="item"
+                  disabled-field="notEnabled"
                   :state="genderState"
-                  label="gender"
-                  label-for="gender-input"
-                  invalid-feedback="Gender is required"
-                >
-                  <b-form-select
-                    id="gender-input"
-                    v-model="item.gender"
-                    :options="options"
-                    class="mb-3"
-                    value-field="value"
-                    text-field="item"
-                    disabled-field="notEnabled"
-                    :state="genderState"
-                    required
-                    placeholder="Please select a gender"
-                  ></b-form-select>
-                </b-form-group>
-              </form>
-            </b-modal>
-            <b-modal
-              id="modal-prevent-edit"
-              ref="modal"
-              title="Edit Your Name"
-              @show="resetModal"
-              @hidden="resetModal"
-              @ok="handleUpdateOk"
-            >
-              <form ref="form" @submit.prevent="updateData">
-                <b-form-group
-                  :state="nameState"
-                  label="Name"
-                  label-for="name-edit"
-                  invalid-feedback="Name is required"
-                >
-                  <b-form-input
-                    id="name-edit"
-                    v-model="item.name"
-                    :state="nameState"
-                    required
-                  ></b-form-input>
-                </b-form-group>
-                <b-form-group
+                  required
+                  placeholder="Please select a gender"
+                ></b-form-select>
+              </b-form-group>
+            </form>
+          </b-modal>
+          <b-modal
+            id="modal-prevent-edit"
+            ref="modal"
+            title="Edit Your Name"
+            @show="resetModal"
+            @hidden="resetModal"
+            @ok="handleUpdateOk"
+          >
+            <form ref="form" @submit.prevent="updateData">
+              <b-form-group
+                :state="nameState"
+                label="Name"
+                label-for="name-edit"
+                invalid-feedback="Name is required"
+              >
+                <b-form-input id="name-edit" v-model="item.name" :state="nameState" required></b-form-input>
+              </b-form-group>
+              <b-form-group
+                :state="genderState"
+                label="gender"
+                label-for="gender-edit"
+                invalid-feedback="Gender is required"
+              >
+                <b-form-select
+                  id="gender-edit"
+                  v-model="item.gender"
+                  :options="options"
+                  class="mb-3"
+                  value-field="value"
+                  text-field="item"
+                  disabled-field="notEnabled"
                   :state="genderState"
-                  label="gender"
-                  label-for="gender-edit"
-                  invalid-feedback="Gender is required"
-                >
-                  <b-form-select
-                    id="gender-edit"
-                    v-model="item.gender"
-                    :options="options"
-                    class="mb-3"
-                    value-field="value"
-                    text-field="item"
-                    disabled-field="notEnabled"
-                    :state="genderState"
-                    required
-                    placeholder="Please select a gender"
-                  ></b-form-select>
-                </b-form-group>
-              </form>
-            </b-modal>
-          </b-table-simple>
+                  required
+                  placeholder="Please select a gender"
+                ></b-form-select>
+              </b-form-group>
+            </form>
+          </b-modal>
 
           <b-pagination
             right
@@ -168,7 +145,7 @@ export default {
       showDismissibleAlert: true,
       sortBy: "date",
       sortDesc: true,
-      perPage: 3,
+      perPage: 5,
       currentPage: 1,
 
       items: [],
@@ -177,6 +154,13 @@ export default {
         gender: null,
         date: Date.now()
       },
+      fields: [
+        { key: "index", label: "No" },
+        { key: "name", label: "Name", sortable: true },
+        { key: "gender", label: "Gender", sortable: false },
+        { key: "date", label: "Create at", sortable: true },
+        { key: "action", label: "Action" }
+      ],
       nameState: null,
       genderState: null,
       options: [
@@ -233,15 +217,11 @@ export default {
       return valid;
     },
     handleOk(bvModalEvt) {
-      // Prevent modal from closing
       bvModalEvt.preventDefault();
-      // Trigger submit handler
       this.saveData();
     },
     handleUpdateOk(bvModalEvt) {
-      // Prevent modal from closing
       bvModalEvt.preventDefault();
-      // Trigger submit handler
       this.updateData();
     },
     resetModal() {
@@ -254,10 +234,8 @@ export default {
     addNew() {
       this.modal = "new";
       this.resetModal();
-      //$("#modal-prevent-closing").modal("show");
     },
     saveData() {
-      // Exit when the form isn't valid
       if (this.checkFormValidity()) {
         db.collection("peoples")
           .add(this.item)
@@ -270,8 +248,6 @@ export default {
           showConfirmButton: false,
           timer: 1500
         });
-
-        // Hide the modal manually
         this.$nextTick(() => {
           this.$bvModal.hide("modal-prevent-closing");
         });
@@ -309,7 +285,7 @@ export default {
       this.item = item;
       this.activeItem = item.id;
     },
-    deleteData(doc) {
+    deleteData(id) {
       Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -321,7 +297,7 @@ export default {
       }).then(result => {
         if (result.value) {
           db.collection("peoples")
-            .doc(doc.id)
+            .doc(id)
             .delete();
           Swal.fire("Deleted!", "Your file has been deleted.", "success");
           this.watcher();
