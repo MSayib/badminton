@@ -62,53 +62,35 @@
         <b-row>
           <!-- team A -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahplayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerA" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahplayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerB" variant="danger">-</b-button>
           </b-col>
           <!-- team B -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahplayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerB" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahplayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerA" variant="danger">-</b-button>
           </b-col>
         </b-row>
         <!-- reset button -->
         <b-row>
           <b-col>
-            <b-button variant="primary" @click="resetScore"
-              >Reset Score</b-button
-            >
+            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
             <!-- <b-button variant="info" @click="simpanSet">Simpan Round</b-button> -->
           </b-col>
         </b-row>
         <b-row>
           <b-col>
-            <ScoreTim :ScoreTimA="ScoreTimA" :ScoreTimB="ScoreTimB" :img="img"/>
+            <ScoreTim :ScoreTimA="ScoreTimA" :ScoreTimB="ScoreTimB" :img="img" :A="A" :B="B" />
           </b-col>
         </b-row>
       </b-container>
@@ -140,7 +122,8 @@ export default {
       currentTimer: 0,
       ticker: undefined,
       historys: [],
-      set: []
+      set: [],
+      pertandingan: []
     };
   },
   computed: {
