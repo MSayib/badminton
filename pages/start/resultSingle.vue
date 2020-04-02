@@ -13,8 +13,8 @@
           <table class="infoPlayers">
             <thead>
               <tr>
-                <th class="players">Nama Team</th>
-                <th class="players">Nama Pemain</th>
+                <th class="players">Teams</th>
+                <th class="players">Players</th>
               </tr>
             </thead>
             <tbody>
@@ -32,7 +32,7 @@
           <table class="infoResults">
             <thead>
               <tr>
-                <th class="results">Nama Tim</th>
+                <th class="results">Teams</th>
                 <th class="results">Set {{ ronde1 }}</th>
                 <th class="results">Set {{ ronde2 }}</th>
                 <th class="results">Set {{ ronde3 }}</th>
@@ -57,13 +57,13 @@
       </b-row>
       <b-row>
         <b-col style="margin-top: 20px">
-          <b-button variant="primary">Simpan Pertandingan</b-button>
-          <b-button variant="danger" disabled>Unggah Dokumentasi</b-button>
+          <b-button variant="primary">Save Results</b-button>
+          <b-button variant="danger" disabled>Upload Documentation</b-button>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <p style="color: #6c757d">*Fitur "Unggah Dokumentasi" untuk saat ini belum tersedia</p>
+          <p style="color: #6c757d">*Upload Documentation feature is currently not available</p>
         </b-col>
       </b-row>
     </b-container>
