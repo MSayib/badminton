@@ -1,6 +1,73 @@
 <template>
   <div>
-    <input type="text" :value="partai" disabled /> <br />
+    <b-container fluid align="center" style="margin-top: 48px">
+      <b-row>
+        <b-col>
+          <div class="title">
+            <h2>{{ partai }} Match Result</h2>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <table class="infoPlayers">
+            <thead>
+              <tr>
+                <th class="players">Nama Team</th>
+                <th class="players">Nama Pemain</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ namaTimA }}</td>
+                <td>{{ A }}</td>
+              </tr>
+              <tr>
+                <td>{{ namaTimB }}</td>
+                <td>{{ B }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="infoResults">
+            <thead>
+              <tr>
+                <th class="results">Nama Tim</th>
+                <th class="results">Set {{ ronde1 }}</th>
+                <th class="results">Set {{ ronde2 }}</th>
+                <th class="results">Set {{ ronde3 }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="results">{{ namaTimA }} ({{ A }})</td>
+                <td class="results">{{ scoreA1 }}</td>
+                <td class="results">{{ scoreA2 }}</td>
+                <td class="results">{{ scoreA3 }}</td>
+              </tr>
+              <tr>
+                <td class="results">{{ namaTimB }} ({{ B }})</td>
+                <td class="results">{{ scoreB1 }}</td>
+                <td class="results">{{ scoreB2 }}</td>
+                <td class="results">{{ scoreB3 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col style="margin-top: 20px">
+          <b-button variant="primary">Simpan Pertandingan</b-button>
+          <b-button variant="danger" disabled>Unggah Dokumentasi</b-button>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <p style="color: #6c757d">*Fitur "Unggah Dokumentasi" untuk saat ini belum tersedia</p>
+        </b-col>
+      </b-row>
+    </b-container>
+    <!-- <input type="text" :value="partai" disabled /> <br />
     <input type="text" :value="namaTimA" />
     <input type="text" :value="A" /><br />
     <input type="text" :value="namaTimB" />
@@ -36,7 +103,7 @@
           <td>{{ scoreB3 }}</td>
         </tr>
       </tbody>
-    </table>
+    </table>-->
   </div>
 </template>
 
@@ -82,12 +149,57 @@ export default {
     this.scoreB1 = resSet[0]["tim"][1]["score"];
     this.scoreA2 = resSet[1]["tim"][0]["score"];
     this.scoreB2 = resSet[1]["tim"][1]["score"];
-    if(resSet[2]){
-        this.scoreA3 = resSet[2]["tim"][0]["score"]
-        this.scoreB3 = resSet[2]["tim"][1]["score"]
+    if (resSet[2]) {
+      this.scoreA3 = resSet[2]["tim"][0]["score"];
+      this.scoreB3 = resSet[2]["tim"][1]["score"];
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+.title {
+  text-transform: capitalize;
+}
+table.infoPlayers {
+  border-collapse: collapse;
+  width: 100%;
+  border-bottom: 2px solid #ddd;
+  border-right: 2px solid #ddd;
+  border-left: 2px solid #ddd;
+}
+th,
+td {
+  padding: 10px 18px;
+  font-size: 18px;
+  text-align: center;
+}
+
+th.players {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.results {
+  text-align: left;
+  border: none;
+}
+
+th.results {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+td.results {
+  border-bottom: 2px solid #ddd;
+}
+
+table.infoResults {
+  width: 100%;
+  margin-top: 20px;
+  border-right: 2px solid #ddd;
+  border-left: 2px solid #ddd;
+}
+</style>
