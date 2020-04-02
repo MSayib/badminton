@@ -109,6 +109,7 @@
 <script>
 import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
+import Swal from "sweetalert2";
 
 export default {
   components: {
@@ -256,6 +257,7 @@ export default {
         window.clearInterval(this.ticker);
         this.currentTimer = 0;
         this.formattedTimer = "00:00:00";
+        this.timerState = "stoped";
         this.counterBola = 0;
         this.playerA = 0;
         this.playerB = 0;
@@ -288,6 +290,7 @@ export default {
         window.clearInterval(this.ticker);
         this.currentTimer = 0;
         this.formattedTimer = "00:00:00";
+        this.timerState = "stoped";
         this.counterBola = 0;
         this.playerA = 0;
         this.playerB = 0;
@@ -299,7 +302,19 @@ export default {
     },
     isMenangPertandinganA(val) {
       if (val) {
-        alert("Pemenang Pertandingan Tim A");
+        alert("Pemenang pertandingan Tim A");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        });
+        Toast.fire({
+          position: "center",
+          icon: "success",
+          title: "Mantap! Tim A Menang"
+        });
         this.tim.push(
           {
             tim: this.namaTimA,
@@ -310,14 +325,35 @@ export default {
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
+        this.$router.push("/start/resultSingle");
       }
     },
     isMenangPertandinganB(val) {
       if (val) {
         alert("Pemenang Pertandingan Tim B");
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true
+        });
+        Toast.fire({
+          position: "center",
+          icon: "success",
+          title: "Mantap! Tim A Menang"
+        });
+        this.tim.push(
+          {
+            tim: this.namaTimA,
+            pemain: this.A
+          },
+          { tim: this.namaTimB, pemain: this.B }
+        );
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
+        this.$router.push("/start/resultSingle");
       }
     }
   },
@@ -386,31 +422,6 @@ export default {
       this.playerB = lastServe.playerB;
       this.counterBola = lastServe.counterBola;
     },
-    // simpanSet() {
-    //   const ronde = this.set.length + 1;
-    //   this.set.push({
-    //     ronde: ronde,
-    //     stopwatch: this.formattedTimer,
-    //     tim: [
-    //       {
-    //         nama_tim: "A",
-    //         score: this.playerA
-    //       },
-    //       {
-    //         nama_tim: "B",
-    //         score: this.playerB
-    //       }
-    //     ]
-    //   });
-    //   window.clearInterval(this.ticker);
-    //   this.currentTimer = 0;
-    //   this.formattedTimer = "00:00:00";
-    //   this.counterBola = 0;
-    //   this.playerA = 0;
-    //   this.playerB = 0;
-
-    //   console.log("Ronde :", this.set);
-    // },
     resetScore() {
       (this.playerA = 0), (this.playerB = 0), (this.counterBola = 0);
     }
