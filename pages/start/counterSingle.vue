@@ -23,8 +23,8 @@
               style="max-width: 970px;"
               :header="`SET ${this.set.length + 1}`"
             >
-              <b-row no-gutters>
-                <b-col sm="5" v-if="this.set.length % 2 === 0">
+              <b-row no-gutters >
+                <b-col sm="5" v-if="this.set.length % 2 === 0" >
                   <b-card-body :title="A">
                     <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
                   </b-card-body>
@@ -108,9 +108,15 @@
         </b-row>
         <b-row>
           <b-col>
-            <ScoreTim :ScoreTimA="ScoreTimA" :ScoreTimB="ScoreTimB" :img="img"/>
+            <ScoreTim
+              :ScoreTimA="ScoreTimA"
+              :ScoreTimB="ScoreTimB"
+              :img="img"
+              :A="A"
+              :B="B"
+            />
           </b-col>
-        </b-row>
+        </b-row>  
       </b-container>
     </div>
   </div>
@@ -129,8 +135,8 @@ export default {
     return {
       playerA: 19,
       playerB: 19,
-      A: "Player A",
-      B: "Player B",
+      A: [],
+      B: [],
       ScoreTimA: 0,
       ScoreTimB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
@@ -140,7 +146,8 @@ export default {
       currentTimer: 0,
       ticker: undefined,
       historys: [],
-      set: []
+      set: [],
+      pertandingan: []
     };
   },
   computed: {
@@ -191,14 +198,18 @@ export default {
     },
     isMenangPertandinganA() {
       if (this.ScoreTimA >= 0) {
-        if (this.ScoreTimA >= this.ScoreTimB + 1) {
+        if (this.ScoreTimA >= this.ScoreTimB + 2) {
+          return true;
+        } else if (this.ScoreTimA === 2) {
           return true;
         }
       }
     },
     isMenangPertandinganB() {
       if (this.ScoreTimB >= 0) {
-        if (this.ScoreTimB >= this.ScoreTimA + 1) {
+        if (this.ScoreTimB >= this.ScoreTimA + 2) {
+          return true;
+        } else if (this.ScoreTimB === 2) {
           return true;
         }
       }
@@ -217,6 +228,10 @@ export default {
       const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
       return `Player ${orang} servis dari ${posisi}`;
     }
+  },
+  mounted() {
+    this.A.push(JSON.parse(localStorage.getItem("playerA")));
+    this.B.push(JSON.parse(localStorage.getItem("playerB")));
   },
   watch: {
     isDeuce(val) {
