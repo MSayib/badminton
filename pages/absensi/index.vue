@@ -6,10 +6,18 @@
         <h1>List Player</h1>
         <b-col md="auto">
           <b-col md="12" offset-md="10">
-            <b-button @click="addNew" v-b-modal.modal-prevent-closing variant="primary">
-              <b-icon icon="plus" variant="white"></b-icon>Add
+            <b-button
+              @click="addNew"
+              v-b-modal.modal-prevent-closing
+              variant="primary"
+            >
+              <b-icon icon="plus" variant="white"></b-icon> Add
+            </b-button>
+            <b-button @click="exportExcel" variant="primary">
+              <b-icon icon="download" variant="white"></b-icon> Export
             </b-button>
           </b-col>
+
           <p class="mt-3">Current Page: {{ currentPage }}</p>
           <b-table
             id="my-table"
@@ -24,14 +32,18 @@
           >
             <template v-slot:cell(index)="data">{{ data.index + 1 }}</template>
             <template v-slot:cell(name)="data">
-              <p>{{data.item.name}}</p>
+              <p>{{ data.item.name }}</p>
             </template>
             <template v-slot:cell(gender)="data">
-              <p>{{data.item.gender}}</p>
+              <p>{{ data.item.gender }}</p>
             </template>
 
             <template v-slot:cell(action)="data">
-              <b-button v-b-modal.modal-prevent-edit @click="editData(data.item)" variant="primary">
+              <b-button
+                v-b-modal.modal-prevent-edit
+                @click="editData(data.item)"
+                variant="primary"
+              >
                 <b-icon small icon="pencil"></b-icon>
               </b-button>
               <b-button @click="deleteData(data.item.id)" variant="primary">
@@ -54,7 +66,12 @@
                 label-for="name-input"
                 invalid-feedback="Name is required"
               >
-                <b-form-input id="name-input" v-model="item.name" :state="nameState" required></b-form-input>
+                <b-form-input
+                  id="name-input"
+                  v-model="item.name"
+                  :state="nameState"
+                  required
+                ></b-form-input>
               </b-form-group>
               <b-form-group
                 :state="genderState"
@@ -77,7 +94,12 @@
               </b-form-group>
             </form>
           </b-modal>
-          <b-modal id="modal-prevent-edit" ref="modal" title="Edit Your Name" @ok="handleUpdateOk">
+          <b-modal
+            id="modal-prevent-edit"
+            ref="modal"
+            title="Edit Your Name"
+            @ok="handleUpdateOk"
+          >
             <form ref="form" @submit.prevent="updateData">
               <b-form-group
                 :state="nameState"
@@ -85,7 +107,12 @@
                 label-for="name-edit"
                 invalid-feedback="Name is required"
               >
-                <b-form-input id="name-edit" v-model="item.name" :state="nameState" required></b-form-input>
+                <b-form-input
+                  id="name-edit"
+                  v-model="item.name"
+                  :state="nameState"
+                  required
+                ></b-form-input>
               </b-form-group>
               <b-form-group
                 label="gender"
@@ -129,6 +156,8 @@ import "firebase/auth";
 import db from "~/plugins/firebase";
 import Swal from "sweetalert2";
 import moment from "moment";
+import { json2excel, excel2json } from "js2excel";
+
 export default {
   name: "Absensi",
   components: { Navbar },
@@ -170,6 +199,18 @@ export default {
   },
 
   methods: {
+    exportExcel() {
+      let data = this.items;
+      try {
+        json2excel({
+          data,
+          name: "absensi-badminton-data",
+          formateDate: "yyyy/mm/dd"
+        });
+      } catch (e) {
+        console.error("export error");
+      }
+    },
     watcher() {
       db.collection("peoples")
         .orderBy("date")
