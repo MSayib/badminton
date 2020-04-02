@@ -105,6 +105,8 @@
               :A2="A2"
               :B1="B1"
               :B2="B2"
+              :timA="NamaTimA"
+              :timB="NamaTimB"
             />
           </b-col>
         </b-row>
@@ -134,6 +136,8 @@ export default {
       A2: "",
       B1: "",
       B2: "",
+      NamaTimA: "",
+      NamaTimB: "",
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
       isServeB: 0,
@@ -148,17 +152,17 @@ export default {
     };
   },
   mounted() {
-    var A = localStorage.getItem("playerA");
-    var nameA = JSON.parse(A);
-    this.A1 = nameA[0]["name"];
-    this.A2 = nameA[1]["name"];
+    const resA = JSON.parse(localStorage.getItem("playerA"));
+    this.A1 = resA[0]["name"];
+    this.A2 = resA[1]["name"];
 
-    var B = localStorage.getItem("playerB");
-    var nameB = JSON.parse(B);
-    this.B1 = nameB[0]["name"];
-    this.B2 = nameB[1]["name"];
+    const resB = JSON.parse(localStorage.getItem("playerB"));
+    this.B1 = resB[0]["name"];
+    this.B2 = resB[1]["name"];
+
+    this.NamaTimA = JSON.parse(localStorage.getItem("timA"));
+    this.NamaTimB = JSON.parse(localStorage.getItem("timB"));
   },
-
   computed: {
     isKananA() {
       return this.isServeA % 2 === 0;

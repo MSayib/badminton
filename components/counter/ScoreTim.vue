@@ -1,11 +1,15 @@
 <template>
   <b-row>
     <b-col>
-      <b-card border-variant="light" class="overflow-hidden" style="max-width: 500px;">
+      <b-card
+        border-variant="light"
+        class="overflow-hidden"
+        style="max-width: 800px;"
+      >
         <b-row no-gutters>
           <b-col>
-            <b-card-body :title="A || A1 + ' (Kanan)/ ' + A2 + ' (Kiri)'">
-              <b-card-text class="scoreBoard">{{ScoreTimA}}</b-card-text>
+            <b-card-body :title="`${timA} (${A || A1 + ' / ' + A2})`">
+              <b-card-text class="scoreBoard">{{ ScoreTimA }}</b-card-text>
             </b-card-body>
           </b-col>
           <b-col sm="2">
@@ -15,9 +19,9 @@
               </b-card-text>
             </b-card-body>
           </b-col>
-          <b-col sm="5">
-            <b-card-body :title="B || B1 + ' (Kanan)/ ' + B2 + ' (Kiri)'">
-              <b-card-text class="scoreBoard">{{ScoreTimB}}</b-card-text>
+          <b-col>
+            <b-card-body :title="`${timB} (${B || B1 + ' / ' + B2})`">
+              <b-card-text class="scoreBoard">{{ ScoreTimB }}</b-card-text>
             </b-card-body>
           </b-col>
         </b-row>
@@ -33,6 +37,8 @@ export default {
     ScoreTimB: Number,
     A: String,
     B: String,
+    timA: String,
+    timB: String,
     A1: String,
     A2: String,
     B1: String,

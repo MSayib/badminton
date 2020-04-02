@@ -1,53 +1,28 @@
 <template>
-  <div>
-    <b-form-select
-      v-model="selected"
-      :options="items"
-      class="mb-3"
-      value-field="name"
-      text-field="name"
-      disabled-field="notEnabled"
-    ></b-form-select>
-    <div>{{selected}}</div>
-  </div>
+  <b-card
+    bg-variant="danger"
+    text-variant="white"
+    header="Meninggal"
+    class="text-center"
+  >
+    <b-card-text>{{ deaths.value }} Jiwa</b-card-text>
+  </b-card>
 </template>
-
 <script>
-import { getUserFromCookie } from "~/helpers";
-import * as firebase from "firebase/app";
-import "firebase/auth";
-import db from "~/plugins/firebase";
-import moment from "moment";
-
 export default {
   data() {
     return {
-      selected: "",
-      items: []
+      deaths: []
     };
   },
-  methods: {
-    readData() {
-      db.collection("peoples")
-        .orderBy("date")
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            // console.log(doc.data());
-            this.items.push({
-              id: doc.id,
-              name: doc.data().name,
-              gender: doc.data().gender,
-              date: moment(doc.data().date).format("LLLL")
-            });
-          });
-        });
-    }
+  mounted() {
+    this.getData();
   },
-  created() {
-    this.readData();
+  methods: {
+    async getData() {
+      const res = await this.$axios.get("https://covid19.mathdro.id/api");
+      this.deaths = res.data.deaths;
+    }
   }
 };
 </script>
-
-<style lang="scss" scoped></style>
