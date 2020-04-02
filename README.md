@@ -12,6 +12,7 @@ $ npm install cookieparser jwt-decode js-cookie
 $ npm install sweetalert2 --save-dev
 $ npm install --save-dev @nuxtjs/moment
 $ npm install nuxt-vue-multiselect --save
+$ npm install js2excel --save
 
 # serve with hot reload at localhost:3000
 $ npm run dev
