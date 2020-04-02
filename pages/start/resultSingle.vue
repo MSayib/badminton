@@ -57,57 +57,25 @@
       </b-row>
       <b-row>
         <b-col style="margin-top: 20px">
-          <b-button variant="primary">Save Results</b-button>
+          <b-button variant="primary" @click="submit">Save Results</b-button>
           <b-button variant="danger" disabled>Upload Documentation</b-button>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
-          <p style="color: #6c757d">*Upload Documentation feature is currently not available</p>
+          <p style="color: #6c757d">
+            *Upload Documentation feature is currently not available
+          </p>
         </b-col>
       </b-row>
     </b-container>
-    <!-- <input type="text" :value="partai" disabled /> <br />
-    <input type="text" :value="namaTimA" />
-    <input type="text" :value="A" /><br />
-    <input type="text" :value="namaTimB" />
-    <input type="text" :value="B" /><br />
-
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Set {{ ronde1 }}</th>
-          <th>Set {{ ronde2 }}</th>
-          <th>Set {{ ronde3 }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ namaTimA }}</td>
-          <td>{{ namaTimB }}</td>
-          <td>{{ namaTimA }}</td>
-        </tr>
-        <tr>
-          <td>{{ scoreA1 }}</td>
-          <td>{{ scoreB2 }}</td>
-          <td>{{ scoreA3 }}</td>
-        </tr>
-        <tr>
-          <td>{{ namaTimB }}</td>
-          <td>{{ namaTimA }}</td>
-          <td>{{ namaTimB }}</td>
-        </tr>
-        <tr>
-          <td>{{ scoreB1 }}</td>
-          <td>{{ scoreA2 }}</td>
-          <td>{{ scoreB3 }}</td>
-        </tr>
-      </tbody>
-    </table>-->
   </div>
 </template>
 
 <script>
+import db from "~/plugins/firebase";
+import Swal from "sweetalert2";
+
 export default {
   data() {
     return {
@@ -152,6 +120,34 @@ export default {
     if (resSet[2]) {
       this.scoreA3 = resSet[2]["tim"][0]["score"];
       this.scoreB3 = resSet[2]["tim"][1]["score"];
+    }
+  },
+  methods: {
+    submit() {
+      db.collection("pertandingan")
+        .add({
+          partai: this.partai,
+          created_at: Date.now(),
+          set: JSON.parse(localStorage.getItem("set")),
+          tim: [
+            {
+              pemain: this.A,
+              tim: this.namaTimA
+            },
+            {
+              pemain: this.B,
+              tim: this.namaTimB
+            }
+          ]
+        })
+        .catch(error => console.log(err));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Data Berhasil Disave",
+        showConfirmButton: false,
+        timer: 1500
+      });
     }
   }
 };
