@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar />
     <b-container class="body" fluid="xl">
       <b-row>
         <b-col>
@@ -16,29 +17,18 @@
                 label-for="timA-input"
                 invalid-feedback="Name tim is required"
               >
-                <b-form-input
-                  id="timA-input"
-                  v-model="timA"
-                  :state="timAState"
-                  required
-                ></b-form-input>
+                <b-form-input id="timA-input" v-model="timA" :state="timAState" required></b-form-input>
               </b-form-group>
               <div>
                 <label class="typo__label">Nama Pemain</label>
-                <multiselect
+                <b-form-select
                   v-model="playerA"
                   :options="items"
-                  :close-on-select="false"
-                  :clear-on-select="false"
-                  :hide-selected="true"
-                  :preserve-search="true"
-                  placeholder="Pick some"
-                  label="name"
-                  track-by="name"
-                  :preselect-first="true"
-                  id="pemain"
-                  @select="onSelect"
-                ></multiselect>
+                  class="mb-3"
+                  value-field="name"
+                  text-field="name"
+                  disabled-field="notEnabled"
+                ></b-form-select>
               </div>
             </b-form>
           </b-card>
@@ -52,29 +42,18 @@
                 label-for="timB-input"
                 invalid-feedback="Name tim is required"
               >
-                <b-form-input
-                  id="timB-input"
-                  v-model="timB"
-                  :state="timBState"
-                  required
-                ></b-form-input>
+                <b-form-input id="timB-input" v-model="timB" :state="timBState" required></b-form-input>
               </b-form-group>
               <div>
                 <label class="typo__label">Nama Pemain</label>
-                <multiselect
+                <b-form-select
                   v-model="playerB"
                   :options="items"
-                  :close-on-select="false"
-                  :clear-on-select="false"
-                  :hide-selected="true"
-                  :preserve-search="true"
-                  placeholder="Pick some"
-                  label="name"
-                  track-by="name"
-                  :preselect-first="true"
-                  id="pemain"
-                  @select="onSelect"
-                ></multiselect>
+                  class="mb-3"
+                  value-field="name"
+                  text-field="name"
+                  disabled-field="notEnabled"
+                ></b-form-select>
               </div>
             </b-form>
           </b-card>
@@ -83,13 +62,9 @@
       <br />
       <b-row>
         <b-col md="12" offset-md="5">
-          <b-button @click="onSubmit" type="submit" variant="primary"
-            >Submit</b-button
-          >
-          <b-button @click="onReset" type="reset" variant="danger"
-            >Reset</b-button
-          ></b-col
-        >
+          <b-button @click="onSubmit" type="submit" variant="primary">Submit</b-button>
+          <b-button @click="onReset" type="reset" variant="danger">Reset</b-button>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -102,9 +77,10 @@ import "firebase/auth";
 import db from "~/plugins/firebase";
 import moment from "moment";
 import Multiselect from "vue-multiselect";
+import Navbar from "~/components/navbar";
 
 export default {
-  components: { Multiselect },
+  components: { Multiselect, Navbar },
   data() {
     return {
       timA: "",

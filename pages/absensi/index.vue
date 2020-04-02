@@ -88,7 +88,6 @@
                 <b-form-input id="name-edit" v-model="item.name" :state="nameState" required></b-form-input>
               </b-form-group>
               <b-form-group
-                :state="genderState"
                 label="gender"
                 label-for="gender-edit"
                 invalid-feedback="Gender is required"

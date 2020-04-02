@@ -16,12 +16,7 @@
                 label-for="timA-input"
                 invalid-feedback="Name tim is required"
               >
-                <b-form-input
-                  id="timA-input"
-                  v-model="timA"
-                  :state="timAState"
-                  required
-                ></b-form-input>
+                <b-form-input id="timA-input" v-model="timA" :state="timAState" required></b-form-input>
               </b-form-group>
               <div>
                 <label class="typo__label">Nama Pemain</label>
@@ -49,12 +44,7 @@
                 label-for="timB-input"
                 invalid-feedback="Name tim is required"
               >
-                <b-form-input
-                  id="timB-input"
-                  v-model="timB"
-                  :state="timBState"
-                  required
-                ></b-form-input>
+                <b-form-input id="timB-input" v-model="timB" :state="timBState" required></b-form-input>
               </b-form-group>
               <div>
                 <label class="typo__label">Nama Pemain</label>
@@ -77,13 +67,9 @@
       <br />
       <b-row>
         <b-col md="12" offset-md="5">
-          <b-button @click="onSubmit" type="submit" variant="primary"
-            >Submit</b-button
-          >
-          <b-button @click="onReset" type="reset" variant="danger"
-            >Reset</b-button
-          ></b-col
-        >
+          <b-button @click="onSubmit" type="submit" variant="primary">Submit</b-button>
+          <b-button @click="onReset" type="reset" variant="danger">Reset</b-button>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -131,6 +117,7 @@ export default {
 
     onSubmit(evt) {
       evt.preventDefault();
+      localStorage.setItem("partai", JSON.stringify("Ganda"));
       localStorage.setItem("timA", JSON.stringify(this.timA));
       localStorage.setItem("playerA", JSON.stringify(this.playerA));
       localStorage.setItem("timB", JSON.stringify(this.timB));

@@ -64,54 +64,35 @@
         <b-row>
           <!-- team A -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahPlayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahPlayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
           </b-col>
           <b-col></b-col>
           <!-- team B -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahPlayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahPlayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
           </b-col>
         </b-row>
         <!-- reset button -->
         <b-row style="padding: 8px 14px;">
           <b-col>
-            <b-button size="sm" variant="primary" @click="simpanSet"
-              >Simpan Set</b-button
-            >
+            <b-button size="sm" variant="primary" @click="simpanSet">Simpan Set</b-button>
             <b-button
               size="sm"
               style="background-color: green"
               @click="simpanPertandingan"
-              >Simpan Pertandingan</b-button
-            >
+            >Simpan Pertandingan</b-button>
           </b-col>
         </b-row>
         <b-row>
@@ -136,6 +117,7 @@
 import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
+import db from "~/plugins/firebase";
 
 export default {
   components: {
@@ -148,10 +130,10 @@ export default {
       playerB: 0,
       ScoreTimA: 0,
       ScoreTimB: 0,
-      A1: "Fikri",
-      A2: "Muchlas",
-      B1: "Farhan",
-      B2: "Sayib",
+      A1: "",
+      A2: "",
+      B1: "",
+      B2: "",
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
       isServeB: 0,
@@ -161,8 +143,20 @@ export default {
       formattedTimer: "00:00:00",
       ticker: undefined,
       historys: [],
+      historyB: [],
       set: []
     };
+  },
+  mounted() {
+    var A = localStorage.getItem("playerA");
+    var nameA = JSON.parse(A);
+    this.A1 = nameA[0]["name"];
+    this.A2 = nameA[1]["name"];
+
+    var B = localStorage.getItem("playerB");
+    var nameB = JSON.parse(B);
+    this.B1 = nameB[0]["name"];
+    this.B2 = nameB[1]["name"];
   },
 
   computed: {
@@ -369,6 +363,8 @@ export default {
       this.playerA++;
       console.log(this.historys);
 
+      localStorage.setItem("scoreA", this.historys["length"]);
+
       if (this.set.length % 2 === 0) {
         if (this.isKananA && !this.isKananB) {
           return;
@@ -402,18 +398,22 @@ export default {
       }
 
       console.log(this.historys);
+      localStorage.setItem("scoreA", this.historys["length"]);
     },
     tambahPlayerB() {
       this.whoIsServe = false;
-      this.historys.push({
+      this.historyB.push({
         scoreA: this.playerA,
+
         scoreB: this.playerB,
         serveA: this.isServeA,
         serveB: this.isServeB,
         playerA: this.whoIsServe
       });
+
       this.playerB++;
-      console.log(this.historys);
+      console.log(this.historyB);
+      localStorage.setItem("scoreB", this.historyB);
 
       if (this.set.length % 2 === 0) {
         if (this.isKananA && !this.isKananB) {
@@ -428,6 +428,7 @@ export default {
           this.isServeA++;
         }
       }
+      localStorage.setItem("scoreB", this.historys["length"]);
     },
     kurangPlayerB() {
       const lastState = this.historys.pop();
@@ -446,6 +447,7 @@ export default {
       }
 
       console.log(this.historys);
+      localStorage.setItem("scoreB", this.historys["length"]);
     },
     simpanSet() {
       const ronde = this.set.length + 1;
@@ -454,12 +456,14 @@ export default {
         stopwatch: this.formattedTimer,
         tim: [
           {
-            nama_tim: `${this.A1} dan ${this.A2}`,
-            score: this.playerA
+            // nama_tim: `${this.A1} dan ${this.A2}`,
+            nama_tim: localStorage.getItem("timA"),
+            score: localStorage.getItem("scoreA")
           },
           {
-            nama_tim: `${this.B1} dan ${this.B2}`,
-            score: this.playerB
+            // nama_tim: `${this.B1} dan ${this.B2}`,
+            nama_tim: localStorage.getItem("timB"),
+            score: localStorage.getItem("scoreB")
           }
         ]
       });
@@ -479,6 +483,25 @@ export default {
       this.playerA = 0;
       this.playerB = 0;
       console.log("ronde : ", this.set);
+
+      db.collection("pertandingan")
+        .add({
+          partai: localStorage.getItem("partai"),
+          created_at: Date.now(),
+          set: this.set,
+          tim: {
+            A: {
+              pemain: [this.A1, this.A2],
+              tim: localStorage.getItem("timA")
+            },
+            B: {
+              pemain: [this.A1, this.A2],
+              tim: localStorage.getItem("timB")
+            }
+          }
+        })
+        .then(docRef => this.$router.push("/start/counterDouble"))
+        .catch(error => console.log(err));
     },
 
     simpanPertandingan() {
