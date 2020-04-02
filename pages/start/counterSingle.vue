@@ -23,8 +23,8 @@
               style="max-width: 970px;"
               :header="`SET ${this.set.length + 1}`"
             >
-              <b-row no-gutters >
-                <b-col sm="5" v-if="this.set.length % 2 === 0" >
+              <b-row no-gutters>
+                <b-col sm="5" v-if="this.set.length % 2 === 0">
                   <b-card-body :title="A">
                     <b-card-text class="scoreBoard">{{ playerA }}</b-card-text>
                   </b-card-body>
@@ -114,9 +114,11 @@
               :img="img"
               :A="A"
               :B="B"
+              :timA="namaTimA"
+              :timB="namaTimB"
             />
           </b-col>
-        </b-row>  
+        </b-row>
       </b-container>
     </div>
   </div>
@@ -135,8 +137,10 @@ export default {
     return {
       playerA: 19,
       playerB: 19,
-      A: [],
-      B: [],
+      A: "",
+      B: "",
+      namaTimA: "",
+      namaTimB: "",
       ScoreTimA: 0,
       ScoreTimB: 0,
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
@@ -146,9 +150,18 @@ export default {
       currentTimer: 0,
       ticker: undefined,
       historys: [],
+      partai: "single",
       set: [],
-      pertandingan: []
+      tim: []
     };
+  },
+  mounted() {
+    const resA = JSON.parse(localStorage.getItem("playerA"));
+    this.A = resA["name"];
+    const resB = JSON.parse(localStorage.getItem("playerB"));
+    this.B = resB["name"];
+    this.namaTimA = JSON.parse(localStorage.getItem("timA"));
+    this.namaTimB = JSON.parse(localStorage.getItem("timB"));
   },
   computed: {
     isBolaA() {
@@ -229,10 +242,6 @@ export default {
       return `Player ${orang} servis dari ${posisi}`;
     }
   },
-  mounted() {
-    this.A.push(JSON.parse(localStorage.getItem("playerA")));
-    this.B.push(JSON.parse(localStorage.getItem("playerB")));
-  },
   watch: {
     isDeuce(val) {
       if (val) {
@@ -253,11 +262,11 @@ export default {
           stopwatch: this.formattedTimer,
           tim: [
             {
-              nama_tim: "A",
+              nama_tim: this.namaTimA,
               score: this.playerA
             },
             {
-              nama_tim: "B",
+              nama_tim: this.namaTimB,
               score: this.playerB
             }
           ]
@@ -309,6 +318,24 @@ export default {
     isMenangPertandinganA(val) {
       if (val) {
         alert("Pemenang Pertandingan Tim A");
+        this.tim.push(
+          {
+            tim: this.namaTimA,
+            pemain: this.A
+          },
+          { tim: this.namaTimB, pemain: this.B }
+        );
+        localStorage.setItem("set", JSON.stringify(this.set));
+        localStorage.setItem("tim", JSON.stringify(this.tim));
+        localStorage.setItem("partai", JSON.stringify(this.partai));
+      }
+    },
+    isMenangPertandinganB(val) {
+      if (val) {
+        alert("Pemenang Pertandingan Tim B");
+        localStorage.setItem("set", JSON.stringify(this.set));
+        localStorage.setItem("tim", JSON.stringify(this.tim));
+        localStorage.setItem("partai", JSON.stringify(this.partai));
       }
     }
   },

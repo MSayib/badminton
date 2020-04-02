@@ -124,6 +124,8 @@
               :A2="A2"
               :B1="B1"
               :B2="B2"
+              :timA="NamaTimA"
+              :timB="NamaTimB"
             />
           </b-col>
         </b-row>
@@ -148,10 +150,12 @@ export default {
       playerB: 0,
       ScoreTimA: 0,
       ScoreTimB: 0,
-      A1: "Fikri",
-      A2: "Muchlas",
-      B1: "Farhan",
-      B2: "Sayib",
+      A1: '',
+      A2: '',
+      B1: '',
+      B2: '',
+      NamaTimA: "",
+      NamaTimB: "",
       img: "https://i.ya-webdesign.com/images/vs-png-5.png",
       isServeA: 0,
       isServeB: 0,
@@ -164,7 +168,18 @@ export default {
       set: []
     };
   },
+  mounted() {
+    const resA = JSON.parse(localStorage.getItem("playerA"));
+    this.A1 = resA[0]["name"];
+    this.A2 = resA[1]["name"];
 
+    const resB = JSON.parse(localStorage.getItem("playerB"));
+    this.B1 = resB[0]["name"];
+    this.B2 = resB[1]["name"];
+
+    this.NamaTimA = JSON.parse(localStorage.getItem("timA"));
+    this.NamaTimB = JSON.parse(localStorage.getItem("timB"));
+  },
   computed: {
     isKananA() {
       return this.isServeA % 2 === 0;
