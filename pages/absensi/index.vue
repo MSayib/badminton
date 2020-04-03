@@ -42,11 +42,11 @@
               <b-button
                 v-b-modal.modal-prevent-edit
                 @click="editData(data.item)"
-                variant="primary"
+                variant="warning"
               >
                 <b-icon small icon="pencil"></b-icon>
               </b-button>
-              <b-button @click="deleteData(data.item.id)" variant="primary">
+              <b-button @click="deleteData(data.item.id)" variant="danger">
                 <b-icon small icon="trash"></b-icon>
               </b-button>
             </template>
