@@ -205,6 +205,22 @@ export default {
     }
   },
   methods: {
+    uploadImage(e) {
+      let file = e.target.files[0];
+      var storageRef = firebase.storage().ref("images/" + file.name);
+      let uploadTask = storageRef.put(file);
+      uploadTask.on(
+        "state_changed",
+        snapshot => {},
+        error => {},
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.images.push(downloadURL);
+            // console.log("File available at", downloadURL);
+          });
+        }
+      );
+    },
     submit() {
       db.collection("pertandingan")
         .add({
