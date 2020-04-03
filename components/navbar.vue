@@ -7,7 +7,7 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item :to="'/auth/dashboard'">Dashboard</b-nav-item>
           <b-nav-item :to="'/absensi'">Absensi</b-nav-item>
-          <b-nav-item :to="'/start/history'">History</b-nav-item>
+          <b-nav-item :to="'/history'">History</b-nav-item>
 
           <b-nav-item-dropdown right>
             <template v-slot:button-content>
