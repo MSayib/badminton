@@ -141,6 +141,7 @@ export default {
   },
   data() {
     return {
+      partai: "double",
       playerA: 0,
       playerB: 0,
       ScoreTimA: 0,
@@ -235,7 +236,7 @@ export default {
       if (this.ScoreTimA >= 0) {
         if (this.ScoreTimA >= this.ScoreTimB + 2) {
           return true;
-        } else if (this.scoreA === 2) {
+        } else if (this.ScoreTimA === 2) {
           return true;
         }
       }

@@ -4,7 +4,7 @@
       <b-row>
         <b-col>
           <div class="title">
-            <h2>Double Match Result</h2>
+            <h2>{{partai}} Match Result</h2>
           </div>
         </b-col>
       </b-row>
@@ -19,12 +19,12 @@
             </thead>
             <tbody>
               <tr>
-                <td>bogor</td>
-                <td>aisyah / farhan</td>
+                <td>{{namaTimA}}</td>
+                <td>{{A1}} / {{A2}}</td>
               </tr>
               <tr>
-                <td>jakarta</td>
-                <td>firda / juni</td>
+                <td>{{namaTimB}}</td>
+                <td>{{B1}} / {{B2}}</td>
               </tr>
             </tbody>
           </table>
@@ -44,47 +44,37 @@
             <thead>
               <tr>
                 <th class="results">Teams</th>
-                <th class="results">Set 1</th>
-                <th class="results">Set 2</th>
-                <th class="results">Set 3</th>
+                <th class="results">Set {{ronde1}}</th>
+                <th class="results">Set {{ronde2}}</th>
+                <th class="results">Set {{ronde3}}</th>
                 <th class="results"></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="results">bogor (aisyah / farhan )</td>
-                <td class="results">24</td>
-                <td class="results">18</td>
-                <td class="results">21</td>
+                <td class="results">{{namaTimA}} ({{A1}} / {{A2}} )</td>
+                <td class="results">{{scoreA1}}</td>
+                <td class="results">{{scoreA2}}</td>
+                <td class="results">{{scoreA3}}</td>
                 <td class="results">
-                  <div
-                    v-if="this.isMenangPertandinganA === true"
-                    class="winShow1"
-                  >
-                    win
-                  </div>
+                  <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
                   <div v-else class="loseShow1">lose</div>
                 </td>
               </tr>
               <tr>
                 <td class="results">times</td>
-                <td class="results">00 : 19 : 33</td>
-                <td class="results">00 : 13 : 58</td>
-                <td class="results">00 : 16 : 23</td>
+                <td class="results">{{stopwatch1}}</td>
+                <td class="results">{{stopwatch2}}</td>
+                <td class="results">{{stopwatch3}}</td>
                 <td class="results"></td>
               </tr>
               <tr>
-                <td class="results">jakarta (firda / juni )</td>
-                <td class="results">22</td>
-                <td class="results">21</td>
-                <td class="results">23</td>
+                <td class="results">{{namaTimB}} ({{B1}} / {{B2}} )</td>
+                <td class="results">{{scoreB1}}</td>
+                <td class="results">{{scoreB2}}</td>
+                <td class="results">{{scoreB3}}</td>
                 <td class="results">
-                  <div
-                    v-if="this.isMenangPertandinganB === true"
-                    class="winShow2"
-                  >
-                    win
-                  </div>
+                  <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
                   <div v-else class="loseShow2">lose</div>
                 </td>
               </tr>
@@ -120,26 +110,91 @@ import Swal from "sweetalert2";
 export default {
   data() {
     return {
-      ScoreTimA: 1,
-      ScoreTimB: 2
+      partai: "",
+      namaTimA: "",
+      namaTimB: "",
+      A1: "",
+      A2: "",
+      B1: "",
+      B2: "",
+      ronde1: "",
+      ronde2: "",
+      ronde3: "3",
+      stopwatch1: "",
+      stopwatch2: "",
+      stopwatch3: "00:00:00",
+      scoreA1: "",
+      scoreA2: "",
+      scoreA3: "0",
+      scoreB1: "",
+      scoreB2: "",
+      scoreB3: "0",
+      scoreTimA: "",
+      scoreTimB: ""
     };
+  },
+
+  mounted() {
+    // get general data
+    this.partai = JSON.parse(localStorage.getItem("partai"));
+    this.namaTimA = JSON.parse(localStorage.getItem("timA"));
+    this.namaTimB = JSON.parse(localStorage.getItem("timB"));
+
+    //get players in team A
+    const resA = JSON.parse(localStorage.getItem("playerA"));
+    this.A1 = resA[0]["name"];
+    this.A2 = resA[1]["name"];
+    //get players in team B
+    const resB = JSON.parse(localStorage.getItem("playerB"));
+    this.B1 = resB[0]["name"];
+    this.B2 = resB[1]["name"];
+    //get ronde
+    const resSet = JSON.parse(localStorage.getItem("set"))
+    this.ronde1 = resSet[0]["ronde"]
+    this.ronde2 = resSet[1]["ronde"]
+    if(resSet[2]){
+        this.ronde3 = resSet[2]["ronde"]
+    }
+    //get times in set
+    this.stopwatch1 = resSet[0]["stopwatch"]
+    this.stopwatch2 = resSet[1]["stopwatch"]
+    if(resSet[2]){
+        this.stopwatch3 = resSet[2]["stopwatch"]
+    }
+    //get scores in set
+    //get scores A
+    this.scoreA1 = resSet[0]["tim"][0]["score"]
+    this.scoreA2 = resSet[1]["tim"][0]["score"]
+    if(resSet[2]){
+        this.scoreA3 = resSet[2]["tim"][0]["score"]
+    }
+    //get scores B
+    this.scoreB1 = resSet[0]["tim"][1]["score"]
+    this.scoreB2 = resSet[1]["tim"][1]["score"]
+    if(resSet[2]){
+        this.scoreB3 = resSet[2]["tim"][1]["score"]
+    }
+    //get scoreTim
+    const resScore = JSON.parse(localStorage.getItem("scoreTim"))
+    this.scoreTimA = resScore[0]["scoreTimA"]
+    this.scoreTimB = resScore[0]["scoreTimB"]
   },
 
   computed: {
     isMenangPertandinganA() {
-      if (this.ScoreTimA >= 0) {
-        if (this.ScoreTimA >= this.ScoreTimB + 2) {
+      if (this.scoreTimA >= 0) {
+        if (this.scoreTimA >= this.scoreTimB + 2) {
           return true;
-        } else if (this.ScoreTimA === 2) {
+        } else if (this.scoreTimA === 2) {
           return true;
         }
       }
     },
     isMenangPertandinganB() {
-      if (this.ScoreTimB >= 0) {
-        if (this.ScoreTimB >= this.ScoreTimA + 2) {
+      if (this.scoreTimB >= 0) {
+        if (this.scoreTimB >= this.scoreTimA + 2) {
           return true;
-        } else if (this.ScoreTimB === 2) {
+        } else if (this.scoreTimB === 2) {
           return true;
         }
       }
