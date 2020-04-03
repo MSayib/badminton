@@ -28,6 +28,17 @@
               </tr>
             </tbody>
           </table>
+          
+          <div class="time">
+            <h5>time results</h5>
+            <table class="time">
+              <thead>
+                <tr>
+                  <th>00 : 49 : 54</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
 
           <table class="infoResults">
             <thead>
@@ -185,6 +196,16 @@ table.infoPlayers {
   border-left: 2px solid #ddd;
   text-transform: capitalize;
 }
+
+div.time {
+  margin: 12px 0;
+  text-transform: capitalize;
+}
+table.time {
+  border: 2px solid;
+  margin: 12px 0;
+}
+
 th,
 td {
   padding: 10px 18px;
