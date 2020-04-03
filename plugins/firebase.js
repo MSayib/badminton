@@ -1,6 +1,7 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 // eslint-disable-next-line no-var
 var firebaseConfig = {
   apiKey: "AIzaSyBgF8AJ9SLu02a20s3kjduw6zUbVtzZ6l8",

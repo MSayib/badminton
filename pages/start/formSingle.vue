@@ -17,12 +17,7 @@
                 label-for="timA-input"
                 invalid-feedback="Name tim is required"
               >
-                <b-form-input
-                  id="timA-input"
-                  v-model="timA"
-                  :state="timAState"
-                  required
-                ></b-form-input>
+                <b-form-input id="timA-input" v-model="timA" :state="timAState" required></b-form-input>
               </b-form-group>
               <div>
                 <label class="typo__label">Nama Pemain</label>
@@ -48,12 +43,7 @@
                 label-for="timB-input"
                 invalid-feedback="Name tim is required"
               >
-                <b-form-input
-                  id="timB-input"
-                  v-model="timB"
-                  :state="timBState"
-                  required
-                ></b-form-input>
+                <b-form-input id="timB-input" v-model="timB" :state="timBState" required></b-form-input>
               </b-form-group>
               <div>
                 <label class="typo__label">Nama Pemain</label>
@@ -73,12 +63,8 @@
       <br />
       <b-row>
         <b-col md="12" offset-md="5">
-          <b-button @click="onSubmit" type="submit" variant="primary"
-            >Submit</b-button
-          >
-          <b-button @click="onReset" type="reset" variant="danger"
-            >Reset</b-button
-          >
+          <b-button @click="onSubmit" type="submit" variant="primary">Submit</b-button>
+          <b-button @click="onReset" type="reset" variant="danger">Reset</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -107,6 +93,20 @@ export default {
       items: [],
       show: true
     };
+  },
+  asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/start/formSingle");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
   },
   methods: {
     onSelect(option, id) {

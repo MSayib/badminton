@@ -16,10 +16,18 @@
             <b-table
               id="my-table"
               :items="peoples"
+              :fields="fields"
               :per-page="perPage"
               :current-page="currentPage"
-              small
-            ></b-table>
+              small> 
+            <template v-slot:cell(index)="data">{{ data.index + 1 }}</template>
+            <template v-slot:cell(name)="data">
+              <p>{{ data.item.name }}</p>
+            </template>
+            <template v-slot:cell(gender)="data">
+              <p>{{ data.item.gender }}</p>
+            </template>
+            </b-table>
             <b-pagination
               v-model="currentPage"
               :total-rows="rows"
@@ -36,7 +44,7 @@
       <b-row align="center">
         <b-col>
           <div>
-            <b-button v-b-modal.modal-center>Lets Play</b-button>
+            <b-button v-b-modal.modal-center size="lg" variant="primary">Let's Play</b-button>
 
             <b-modal id="modal-center" centered hide-footer title="Pilih Mode">
               <div class="d-block text-center">
@@ -91,6 +99,12 @@ export default {
       perPage: 3,
       currentPage: 1,
       peoples: [],
+      fields: [
+        { key: "index", label: "No" },
+        { key: "name", label: "Name", sortable: true },
+        { key: "gender", label: "Gender", sortable: false },
+        { key: "date", label: "Create at", sortable: true },
+      ],
       options: [
         { item: "Please select a gender", value: null },
         { item: "Female", value: "F" },

@@ -86,19 +86,23 @@
       </b-row>
       <b-row>
         <b-col style="margin-top: 20px">
-          <nuxt-link to="/auth/dashboard">
-            <b-button variant="primary" @click="submit">Save Results</b-button>
-          </nuxt-link>
-          <b-button variant="danger" disabled>Upload Documentation</b-button>
+          <b-button variant="primary" disabled>
+            <input type="file" @change="uploadImage" class="form-control" />
+          </b-button>
         </b-col>
       </b-row>
       <b-row>
-        <b-col>
-          <p style="color: #6c757d">
-            *
-            <b>Upload Documentation</b> feature is currently not
-            <i>available</i>
-          </p>
+        <b-col style="margin-top: 20px" md="12" offset-md="4">
+          <div class="form-group d-flex">
+            <div class="p-1" v-for="i in images" :key="i.id">
+              <img :src="i" width="100px" />
+            </div>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col style="margin-top: 20px">
+          <b-button variant="primary" @click="submit">Save Results</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -106,6 +110,9 @@
 </template>
 
 <script>
+import { getUserFromCookie } from "~/helpers";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import db from "~/plugins/firebase";
 import Swal from "sweetalert2";
 
@@ -113,6 +120,7 @@ export default {
   data() {
     return {
       partai: "",
+      images: [],
       namaTimA: "",
       namaTimB: "",
       A1: "",
@@ -135,7 +143,20 @@ export default {
       scoreTimB: ""
     };
   },
-
+  asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/start/resultDouble");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
+  },
   mounted() {
     // get general data
     this.partai = JSON.parse(localStorage.getItem("partai"));
@@ -203,10 +224,28 @@ export default {
     }
   },
   methods: {
+    uploadImage(e) {
+      let file = e.target.files[0];
+      var storageRef = firebase.storage().ref("images/" + file.name);
+      let uploadTask = storageRef.put(file);
+
+      uploadTask.on(
+        "state_changed",
+        snapshot => {},
+        error => {},
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.images.push(downloadURL);
+            // console.log("File available at", downloadURL);
+          });
+        }
+      );
+    },
     submit() {
       db.collection("pertandingan")
         .add({
           partai: this.partai,
+          images: this.images,
           created_at: Date.now(),
           set: JSON.parse(localStorage.getItem("set")),
           tim: [
@@ -224,7 +263,7 @@ export default {
       Swal.fire({
         position: "center",
         icon: "success",
-        title: "Data Berhasil Disave",
+        title: "Your data has been saved",
         showConfirmButton: false,
         timer: 1500
       });

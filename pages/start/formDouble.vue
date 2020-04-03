@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar />
     <b-container class="body" fluid="xl">
       <b-row>
         <b-col>
@@ -82,9 +83,10 @@ import "firebase/auth";
 import db from "~/plugins/firebase";
 import moment from "moment";
 import Multiselect from "vue-multiselect";
+import Navbar from "~/components/navbar";
 
 export default {
-  components: { Multiselect },
+  components: { Multiselect, Navbar },
   data() {
     return {
       timA: "",
@@ -96,6 +98,20 @@ export default {
       items: [],
       show: true
     };
+  },
+  asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/start/formDouble");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
   },
   methods: {
     addTagA(newTag) {

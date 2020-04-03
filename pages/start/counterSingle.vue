@@ -110,6 +110,10 @@
 import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
+import { getUserFromCookie } from "~/helpers";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import db from "~/plugins/firebase";
 
 export default {
   components: {
@@ -138,6 +142,20 @@ export default {
       tim: [],
       scoreTim: []
     };
+  },
+  asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/start/counterSingle");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
   },
   mounted() {
     const resA = JSON.parse(localStorage.getItem("playerA"));
@@ -239,7 +257,7 @@ export default {
     },
     isMenangA(val) {
       if (val) {
-        alert("Player A Menang");
+        alert(this.A + " is Win !");
         const ronde = this.set.length + 1;
         this.set.push({
           ronde: ronde,
@@ -272,7 +290,7 @@ export default {
     },
     isMenangB(val) {
       if (val) {
-        alert("Player B Menang");
+        alert(this.B + " is Win !");
         const ronde = this.set.length + 1;
         this.set.push({
           ronde: ronde,
@@ -303,7 +321,7 @@ export default {
     },
     isMenangPertandinganA(val) {
       if (val) {
-        alert("Pemenang pertandingan Tim A");
+        alert("The Winner is Team " + this.namaTimA + " (" + this.A + ")");
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -314,7 +332,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: `Mantap! ${this.A} Kamu Menang`
+          title: "Congratulations ! Team " + this.namaTimA + " (" + this.A + ")"
         });
         this.tim.push(
           {
@@ -336,7 +354,7 @@ export default {
     },
     isMenangPertandinganB(val) {
       if (val) {
-        alert("Pemenang Pertandingan Tim B");
+        alert("The Winner is Team " + this.namaTimB + " (" + this.B + ")");
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -347,7 +365,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: `Mantap! ${this.B} Kamu Menang`
+          title: "Congratulations! Team " + this.namaTimB + " (" + this.B + ")"
         });
         this.tim.push(
           {
