@@ -404,7 +404,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: "Mantap! Tim B Menang"
         });
         this.tim.push(
           {

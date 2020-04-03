@@ -62,29 +62,47 @@
         <b-row>
           <!-- team A -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahplayerA" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangplayerA" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahplayerA" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangplayerA" variant="danger"
+              >-</b-button
+            >
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahplayerB" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangplayerB" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahplayerB" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangplayerB" variant="danger"
+              >-</b-button
+            >
           </b-col>
           <!-- team B -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahplayerB" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangplayerB" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahplayerB" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangplayerB" variant="danger"
+              >-</b-button
+            >
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahplayerA" variant="primary">+</b-button>
-            <b-button size="lg" @click="kurangplayerA" variant="danger">-</b-button>
+            <b-button size="lg" @click="tambahplayerA" variant="primary"
+              >+</b-button
+            >
+            <b-button size="lg" @click="kurangplayerA" variant="danger"
+              >-</b-button
+            >
           </b-col>
         </b-row>
         <!-- reset button -->
         <b-row>
           <b-col>
-            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
+            <b-button variant="primary" @click="resetScore"
+              >Reset Score</b-button
+            >
             <!-- <b-button variant="info" @click="simpanSet">Simpan Round</b-button> -->
           </b-col>
         </b-row>
@@ -111,7 +129,6 @@ import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
 
-
 export default {
   components: {
     Ronde,
@@ -136,7 +153,8 @@ export default {
       historys: [],
       partai: "single",
       set: [],
-      tim: []
+      tim: [],
+      scoreTim: []
     };
   },
   mounted() {
@@ -220,7 +238,7 @@ export default {
       return false;
     },
     status() {
-      const orang = this.counterBola % 2 === 0 ? "A" : "B";
+      const orang = this.counterBola % 2 === 0 ? `${this.A}` : `${this.B}`;
       const skorygdigunakan = orang === "A" ? this.playerA : this.playerB;
       const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
       return `Player ${orang} servis dari ${posisi}`;
@@ -323,6 +341,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: this.B }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          scoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
@@ -342,7 +365,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: "Mantap! Tim B Menang"
         });
         this.tim.push(
           {
@@ -351,6 +374,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: this.B }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          scoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
