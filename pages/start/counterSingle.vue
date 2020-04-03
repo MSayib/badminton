@@ -62,47 +62,29 @@
         <b-row>
           <!-- team A -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahplayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerA" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahplayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerB" variant="danger">-</b-button>
           </b-col>
           <!-- team B -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahplayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerB" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahplayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangplayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahplayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangplayerA" variant="danger">-</b-button>
           </b-col>
         </b-row>
         <!-- reset button -->
         <b-row>
           <b-col>
-            <b-button variant="primary" @click="resetScore"
-              >Reset Score</b-button
-            >
+            <b-button variant="primary" @click="resetScore">Reset Score</b-button>
             <!-- <b-button variant="info" @click="simpanSet">Simpan Round</b-button> -->
           </b-col>
         </b-row>
@@ -128,13 +110,10 @@
 import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
-<<<<<<< HEAD
-=======
 import { getUserFromCookie } from "~/helpers";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
 
 export default {
   components: {
@@ -143,8 +122,8 @@ export default {
   },
   data() {
     return {
-      playerA: 19,
-      playerB: 19,
+      playerA: 0,
+      playerB: 0,
       A: "",
       B: "",
       namaTimA: "",
@@ -259,13 +238,8 @@ export default {
       return false;
     },
     status() {
-<<<<<<< HEAD
-      const orang = this.counterBola % 2 === 0 ? `${this.A}` : `${this.B}`;
-      const skorygdigunakan = orang === "A" ? this.playerA : this.playerB;
-=======
       const orang = this.counterBola % 2 === 0 ? this.A : this.B;
       const skorygdigunakan = orang === this.A ? this.playerA : this.playerB;
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
       const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
       return `${orang} servis dari ${posisi}`;
     }
@@ -391,11 +365,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-<<<<<<< HEAD
-          title: "Mantap! Tim B Menang"
-=======
           title: "Congratulations! Team " + this.namaTimB + " (" + this.B + ")"
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
         });
         this.tim.push(
           {
@@ -406,11 +376,7 @@ export default {
         );
         this.scoreTim.push({
           scoreTimA: this.ScoreTimA,
-<<<<<<< HEAD
-          scoreTimB: this.ScoreTimB
-=======
           ScoreTimB: this.ScoreTimB
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
         });
         localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
