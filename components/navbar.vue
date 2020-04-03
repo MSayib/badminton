@@ -4,17 +4,12 @@
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
-        <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <b-navbar-brand to="/auth/dashboard">Dashboard</b-navbar-brand>
-          <b-nav-item-dropdown text="Games" right>
-            <b-nav-item :to="'/absensi'">Player</b-nav-item>
-            <b-nav-item :to="'/start/'">Scoreboard</b-nav-item>
-            <b-nav-item :to="'/start/history'">History</b-nav-item>
-          </b-nav-item-dropdown>
+          <b-nav-item :to="'/auth/dashboard'">Dashboard</b-nav-item>
+          <b-nav-item :to="'/absensi'">Absensi</b-nav-item>
+          <b-nav-item :to="'/start/history'">History</b-nav-item>
 
           <b-nav-item-dropdown right>
-            <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
               <em>User</em>
             </template>
@@ -30,7 +25,7 @@
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import Cookies from "js-cookie";
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 export default {
   data() {
@@ -92,7 +87,7 @@ html {
   word-spacing: 1px;
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
+  -moz-osx-font-smoothing: black;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
@@ -114,7 +109,7 @@ html {
 }
 
 .button--green:hover {
-  color: #fff;
+  color: #3b8070;
   background-color: #3b8070;
 }
 

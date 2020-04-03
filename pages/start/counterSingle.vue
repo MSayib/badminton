@@ -115,7 +115,6 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
 
-
 export default {
   components: {
     Ronde,
@@ -257,7 +256,7 @@ export default {
     },
     isMenangA(val) {
       if (val) {
-        alert("Player A Menang");
+        alert(this.A + " is Win !");
         const ronde = this.set.length + 1;
         this.set.push({
           ronde: ronde,
@@ -290,7 +289,7 @@ export default {
     },
     isMenangB(val) {
       if (val) {
-        alert("Player B Menang");
+        alert(this.B + " is Win !");
         const ronde = this.set.length + 1;
         this.set.push({
           ronde: ronde,
@@ -321,7 +320,7 @@ export default {
     },
     isMenangPertandinganA(val) {
       if (val) {
-        alert("Pemenang pertandingan Tim A");
+        alert("The Winner is Team " + this.namaTimA + " (" + this.A + ")");
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -332,7 +331,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: "Congratulations ! Team " + this.namaTimA + " (" + this.A + ")"
         });
         this.tim.push(
           {
@@ -349,7 +348,7 @@ export default {
     },
     isMenangPertandinganB(val) {
       if (val) {
-        alert("Pemenang Pertandingan Tim B");
+        alert("The Winner is Team " + this.namaTimB + " (" + this.B + ")");
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -360,7 +359,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: "Congratulations! Team " + this.namaTimB + " (" + this.B + ")"
         });
         this.tim.push(
           {
