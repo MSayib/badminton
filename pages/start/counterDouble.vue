@@ -557,6 +557,10 @@ export default {
 </script>
 
 <style>
+*{
+  text-transform: capitalize;
+}
+
 .scoreBoard {
   font-size: 2.5em;
 }

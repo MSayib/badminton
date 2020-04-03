@@ -34,7 +34,7 @@
             <table class="time">
               <thead>
                 <tr>
-                  <th>00 : 49 : 54</th>
+                  <th>{{stopwatch1}}</th>
                 </tr>
               </thead>
             </table>
@@ -47,36 +47,38 @@
                 <th class="results">Set {{ronde1}}</th>
                 <th class="results">Set {{ronde2}}</th>
                 <th class="results">Set {{ronde3}}</th>
-                <th class="results"></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="results">{{namaTimA}} ({{A1}} / {{A2}} )</td>
+                <td class="results">
+                  <div>
+                    {{namaTimA}} ({{A1}} / {{A2}} )
+                    <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
+                    <div v-else class="loseShow1">lose</div>
+                  </div>
+                </td>
                 <td class="results">{{scoreA1}}</td>
                 <td class="results">{{scoreA2}}</td>
                 <td class="results">{{scoreA3}}</td>
-                <td class="results">
-                  <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
-                  <div v-else class="loseShow1">lose</div>
-                </td>
               </tr>
               <tr>
                 <td class="results">times</td>
                 <td class="results">{{stopwatch1}}</td>
                 <td class="results">{{stopwatch2}}</td>
                 <td class="results">{{stopwatch3}}</td>
-                <td class="results"></td>
               </tr>
               <tr>
-                <td class="results">{{namaTimB}} ({{B1}} / {{B2}} )</td>
+                <td class="results">
+                  <div>
+                    {{namaTimB}} ({{B1}} / {{B2}} )
+                    <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
+                    <div v-else class="loseShow2">lose</div>
+                  </div>
+                </td>
                 <td class="results">{{scoreB1}}</td>
                 <td class="results">{{scoreB2}}</td>
                 <td class="results">{{scoreB3}}</td>
-                <td class="results">
-                  <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
-                  <div v-else class="loseShow2">lose</div>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -120,8 +122,8 @@ export default {
       ronde1: "",
       ronde2: "",
       ronde3: "3",
-      stopwatch1: "",
-      stopwatch2: "",
+      stopwatch1: Number(""),
+      stopwatch2: Number(""),
       stopwatch3: "00:00:00",
       scoreA1: "",
       scoreA2: "",
@@ -149,35 +151,35 @@ export default {
     this.B1 = resB[0]["name"];
     this.B2 = resB[1]["name"];
     //get ronde
-    const resSet = JSON.parse(localStorage.getItem("set"))
-    this.ronde1 = resSet[0]["ronde"]
-    this.ronde2 = resSet[1]["ronde"]
-    if(resSet[2]){
-        this.ronde3 = resSet[2]["ronde"]
+    const resSet = JSON.parse(localStorage.getItem("set"));
+    this.ronde1 = resSet[0]["ronde"];
+    this.ronde2 = resSet[1]["ronde"];
+    if (resSet[2]) {
+      this.ronde3 = resSet[2]["ronde"];
     }
     //get times in set
-    this.stopwatch1 = resSet[0]["stopwatch"]
-    this.stopwatch2 = resSet[1]["stopwatch"]
-    if(resSet[2]){
-        this.stopwatch3 = resSet[2]["stopwatch"]
+    this.stopwatch1 = resSet[0]["stopwatch"];
+    this.stopwatch2 = resSet[1]["stopwatch"];
+    if (resSet[2]) {
+      this.stopwatch3 = resSet[2]["stopwatch"];
     }
     //get scores in set
     //get scores A
-    this.scoreA1 = resSet[0]["tim"][0]["score"]
-    this.scoreA2 = resSet[1]["tim"][0]["score"]
-    if(resSet[2]){
-        this.scoreA3 = resSet[2]["tim"][0]["score"]
+    this.scoreA1 = resSet[0]["tim"][0]["score"];
+    this.scoreA2 = resSet[1]["tim"][0]["score"];
+    if (resSet[2]) {
+      this.scoreA3 = resSet[2]["tim"][0]["score"];
     }
     //get scores B
-    this.scoreB1 = resSet[0]["tim"][1]["score"]
-    this.scoreB2 = resSet[1]["tim"][1]["score"]
-    if(resSet[2]){
-        this.scoreB3 = resSet[2]["tim"][1]["score"]
+    this.scoreB1 = resSet[0]["tim"][1]["score"];
+    this.scoreB2 = resSet[1]["tim"][1]["score"];
+    if (resSet[2]) {
+      this.scoreB3 = resSet[2]["tim"][1]["score"];
     }
     //get scoreTim
-    const resScore = JSON.parse(localStorage.getItem("scoreTim"))
-    this.scoreTimA = resScore[0]["scoreTimA"]
-    this.scoreTimB = resScore[0]["scoreTimB"]
+    const resScore = JSON.parse(localStorage.getItem("scoreTim"));
+    this.scoreTimA = resScore[0]["scoreTimA"];
+    this.scoreTimB = resScore[0]["scoreTimB"];
   },
 
   computed: {
@@ -233,6 +235,11 @@ export default {
 </script>
 
 <style>
+* {
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 .title {
   text-transform: capitalize;
 }
@@ -257,7 +264,7 @@ table.time {
 
 th,
 td {
-  padding: 10px 18px;
+  padding: 8px 12px;
   font-size: 18px;
   text-align: center;
 }
