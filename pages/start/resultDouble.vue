@@ -53,7 +53,7 @@
               <tr>
                 <td class="results">
                   <div>
-                    {{namaTimA}} ({{A1}} / {{A2}} )
+                    {{namaTimA}} ({{A1}} / {{A2}})
                     <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
                     <div v-else class="loseShow1">lose</div>
                   </div>
@@ -71,7 +71,7 @@
               <tr>
                 <td class="results">
                   <div>
-                    {{namaTimB}} ({{B1}} / {{B2}} )
+                    {{namaTimB}} ({{B1}} / {{B2}})
                     <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
                     <div v-else class="loseShow2">lose</div>
                   </div>

@@ -111,7 +111,6 @@ import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
 
-
 export default {
   components: {
     Ronde,
@@ -136,7 +135,8 @@ export default {
       historys: [],
       partai: "single",
       set: [],
-      tim: []
+      tim: [],
+      scoreTim: []
     };
   },
   mounted() {
@@ -220,10 +220,10 @@ export default {
       return false;
     },
     status() {
-      const orang = this.counterBola % 2 === 0 ? "A" : "B";
-      const skorygdigunakan = orang === "A" ? this.playerA : this.playerB;
+      const orang = this.counterBola % 2 === 0 ? this.A : this.B;
+      const skorygdigunakan = orang === this.A ? this.playerA : this.playerB;
       const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
-      return `Player ${orang} servis dari ${posisi}`;
+      return `${orang} servis dari ${posisi}`;
     }
   },
   watch: {
@@ -314,7 +314,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: `Mantap! ${this.A} Kamu Menang`
         });
         this.tim.push(
           {
@@ -323,6 +323,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: this.B }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          scoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
@@ -342,7 +347,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: `Mantap! ${this.B} Kamu Menang`
         });
         this.tim.push(
           {
@@ -351,6 +356,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: this.B }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          ScoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));

@@ -54,8 +54,8 @@
                 <td class="results">
                   <div>
                     {{ namaTimA }} ({{ A }})
-                    <div class="winShow1">win</div>
-                    <div class="loseShow1">lose</div>
+                    <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
+                    <div v-else class="loseShow1">lose</div>
                   </div>
                 </td>
                 <td class="results">{{ scoreA1 }}</td>
@@ -67,14 +67,13 @@
                 <td class="results">00 : 00 : 00</td>
                 <td class="results">00 : 00 : 00</td>
                 <td class="results">00 : 00 : 00</td>
-                <td class="results"></td>
               </tr>
               <tr>
                 <td class="results">
                   <div>
                     {{ namaTimB }} ({{ B }})
-                    <div class="winShow2">win</div>
-                    <div class="loseShow2">lose</div>
+                    <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
+                    <div v-else class="loseShow2">lose</div>
                   </div>
                 </td>
                 <td class="results">{{ scoreB1 }}</td>
@@ -124,7 +123,9 @@ export default {
       scoreA3: "0",
       scoreB1: "",
       scoreB2: "",
-      scoreB3: "0"
+      scoreB3: "0",
+      scoreTimA: "",
+      scoreTimB: ""
     };
   },
   mounted() {
@@ -152,6 +153,29 @@ export default {
     if (resSet[2]) {
       this.scoreA3 = resSet[2]["tim"][0]["score"];
       this.scoreB3 = resSet[2]["tim"][1]["score"];
+    }
+    const resScoreTim = JSON.parse(localStorage.getItem("scoreTim"))
+    this.scoreTimA = resScoreTim[0]["scoreTimA"]
+    this.scoreTimB = resScoreTim[0]["scoreTimB"]
+  },
+  computed: {
+    isMenangPertandinganA() {
+      if (this.scoreTimA >= 0) {
+        if (this.scoreTimA >= this.scoreTimB + 2) {
+          return true;
+        } else if (this.scoreTimA === 2) {
+          return true;
+        }
+      }
+    },
+    isMenangPertandinganB() {
+      if (this.scoreTimB >= 0) {
+        if (this.scoreTimB >= this.scoreTimA + 2) {
+          return true;
+        } else if (this.scoreTimB === 2) {
+          return true;
+        }
+      }
     }
   },
   methods: {

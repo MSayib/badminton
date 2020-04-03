@@ -371,7 +371,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: `Mantap! ${this.NamaTimA} Kalian Menang`
         });
         this.tim.push(
           {
@@ -404,7 +404,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: `Mantap! ${this.NamaTimB} Kalian Menang`
         });
         this.tim.push(
           {
