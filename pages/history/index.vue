@@ -1,17 +1,30 @@
 <template>
   <div>
     <Navbar />
-    <h3>history</h3>
-    <b-row class="p-5"> 
-      <b-col class="p-3" cols="6" md="4" v-for="item in items" :key="item.id">
-          <b-card :title="item.partai" :img-src="item.images" img-alt="Image" img-top width="80px">
-            <b-card-text>this</b-card-text>
+    <b-container fluid="xl">
+      <b-row>
+        <b-col>
+          <div class="title">
+            <h2>Documentation</h2>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row class="p-5">
+        <b-col class="p-3" cols="6" md="4" v-for="item in items" :key="item.id">
+          <b-card :title="item.partai">
+            <carousel :perPage="1">
+              <slide v-for="image in item.images" :key="image.index">
+                <img :src="image" width="250px" />
+              </slide>
+            </carousel>
+            <b-card-text> Pemain badminton</b-card-text>
             <template v-slot:footer>
-              <small class="text-muted">{{item.created_at}}</small>
+              <small class="text-muted">{{ item.created_at }}</small>
             </template>
-          </b-card> 
-      </b-col>
-    </b-row>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -22,8 +35,10 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
 import moment from "moment";
+import { Carousel, Slide } from "vue-carousel";
+
 export default {
-  components: { Navbar },
+  components: { Navbar, Carousel, Slide },
   data() {
     return {
       items: []
@@ -68,6 +83,13 @@ export default {
 };
 </script>
 
-
 <style>
+* {
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.title {
+  text-transform: capitalize;
+}
 </style>
