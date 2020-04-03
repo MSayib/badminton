@@ -110,6 +110,10 @@
 import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
+import { getUserFromCookie } from "~/helpers";
+import * as firebase from "firebase/app";
+import "firebase/auth";
+import db from "~/plugins/firebase";
 
 export default {
   components: {
@@ -137,6 +141,20 @@ export default {
       set: [],
       tim: []
     };
+  },
+  asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/start/counterSingle");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
   },
   mounted() {
     const resA = JSON.parse(localStorage.getItem("playerA"));
