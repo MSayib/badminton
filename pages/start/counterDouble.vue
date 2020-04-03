@@ -161,7 +161,8 @@ export default {
       ticker: undefined,
       historys: [],
       set: [],
-      tim: []
+      tim: [],
+      scoreTim: []
     };
   },
   mounted() {
@@ -378,6 +379,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: [this.B1, this.B2] }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          scoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
@@ -406,6 +412,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: [this.B1, this.B2] }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          scoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));

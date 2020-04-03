@@ -111,6 +111,7 @@ import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
 
+
 export default {
   components: {
     Ronde,

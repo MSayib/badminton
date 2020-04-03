@@ -57,7 +57,12 @@
                 <td class="results">18</td>
                 <td class="results">21</td>
                 <td class="results">
-                  <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
+                  <div
+                    v-if="this.isMenangPertandinganA === true"
+                    class="winShow1"
+                  >
+                    win
+                  </div>
                   <div v-else class="loseShow1">lose</div>
                 </td>
               </tr>
@@ -74,7 +79,12 @@
                 <td class="results">21</td>
                 <td class="results">23</td>
                 <td class="results">
-                  <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
+                  <div
+                    v-if="this.isMenangPertandinganB === true"
+                    class="winShow2"
+                  >
+                    win
+                  </div>
                   <div v-else class="loseShow2">lose</div>
                 </td>
               </tr>
@@ -133,6 +143,35 @@ export default {
           return true;
         }
       }
+    }
+  },
+  methods: {
+    submit() {
+      db.collection("pertandingan")
+        .add({
+          partai: this.partai,
+          created_at: Date.now(),
+          set: JSON.parse(localStorage.getItem("set")),
+          tim: [
+            {
+              pemain: [this.A1, this.A2],
+              tim: this.namaTimA
+            },
+            {
+              pemain: [this.B1, this.B2],
+              tim: this.namaTimB
+            }
+          ]
+        })
+        .catch(error => console.log(err));
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Data Berhasil Disave",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.$router.push("/auth/dashboard");
     }
   }
 };
