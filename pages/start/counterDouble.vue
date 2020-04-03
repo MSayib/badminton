@@ -141,6 +141,7 @@ export default {
   },
   data() {
     return {
+      partai: "double",
       playerA: 0,
       playerB: 0,
       ScoreTimA: 0,
@@ -161,7 +162,8 @@ export default {
       ticker: undefined,
       historys: [],
       set: [],
-      tim: []
+      tim: [],
+      scoreTim: []
     };
   },
   mounted() {
@@ -234,7 +236,7 @@ export default {
       if (this.ScoreTimA >= 0) {
         if (this.ScoreTimA >= this.ScoreTimB + 2) {
           return true;
-        } else if (this.scoreA === 2) {
+        } else if (this.ScoreTimA === 2) {
           return true;
         }
       }
@@ -378,6 +380,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: [this.B1, this.B2] }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          scoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
@@ -406,6 +413,11 @@ export default {
           },
           { tim: this.namaTimB, pemain: [this.B1, this.B2] }
         );
+        this.scoreTim.push({
+          scoreTimA: this.ScoreTimA,
+          scoreTimB: this.ScoreTimB
+        });
+        localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
@@ -545,6 +557,10 @@ export default {
 </script>
 
 <style>
+*{
+  text-transform: capitalize;
+}
+
 .scoreBoard {
   font-size: 2.5em;
 }

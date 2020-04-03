@@ -47,19 +47,20 @@
                 <th class="results">Set {{ ronde1 }}</th>
                 <th class="results">Set {{ ronde2 }}</th>
                 <th class="results">Set {{ ronde3 }}</th>
-                <th class="results"></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="results">{{ namaTimA }} ({{ A }})</td>
+                <td class="results">
+                  <div>
+                    {{ namaTimA }} ({{ A }})
+                    <div class="winShow1">win</div>
+                    <div class="loseShow1">lose</div>
+                  </div>
+                </td>
                 <td class="results">{{ scoreA1 }}</td>
                 <td class="results">{{ scoreA2 }}</td>
                 <td class="results">{{ scoreA3 }}</td>
-                <td class="results">
-                  <div class="winShow1">win</div>
-                  <div class="loseShow1">lose</div>
-                </td>
               </tr>
               <tr>
                 <td class="results">Times</td>
@@ -69,14 +70,16 @@
                 <td class="results"></td>
               </tr>
               <tr>
-                <td class="results">{{ namaTimB }} ({{ B }})</td>
+                <td class="results">
+                  <div>
+                    {{ namaTimB }} ({{ B }})
+                    <div class="winShow2">win</div>
+                    <div class="loseShow2">lose</div>
+                  </div>
+                </td>
                 <td class="results">{{ scoreB1 }}</td>
                 <td class="results">{{ scoreB2 }}</td>
                 <td class="results">{{ scoreB3 }}</td>
-                <td class="results">
-                  <div class="winShow2">win</div>
-                  <div class="loseShow2">lose</div>
-                </td>
               </tr>
             </tbody>
           </table>
@@ -226,6 +229,10 @@ export default {
 </script>
 
 <style>
+* {
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
 .title {
   text-transform: capitalize;
 }

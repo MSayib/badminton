@@ -115,6 +115,7 @@ import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
 
+
 export default {
   components: {
     Ronde,
