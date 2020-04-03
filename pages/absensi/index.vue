@@ -3,18 +3,18 @@
     <Navbar />
     <div class="absensi">
       <b-container fluid>
-        <h1>List Player</h1>
+        <b-col md="auto">
+          <div class="title">
+            <h2>List Player</h2>
+          </div>
+        </b-col>
         <b-col md="auto">
           <b-col md="12" offset-md="10">
-            <b-button
-              @click="addNew"
-              v-b-modal.modal-prevent-closing
-              variant="primary"
-            >
-              <b-icon icon="plus" variant="white"></b-icon> Add
+            <b-button @click="addNew" v-b-modal.modal-prevent-closing variant="primary">
+              <b-icon icon="plus" variant="white"></b-icon>Add
             </b-button>
             <b-button @click="exportExcel" variant="primary">
-              <b-icon icon="download" variant="white"></b-icon> Export
+              <b-icon icon="download" variant="white"></b-icon>Export
             </b-button>
           </b-col>
 
@@ -39,11 +39,7 @@
             </template>
 
             <template v-slot:cell(action)="data">
-              <b-button
-                v-b-modal.modal-prevent-edit
-                @click="editData(data.item)"
-                variant="warning"
-              >
+              <b-button v-b-modal.modal-prevent-edit @click="editData(data.item)" variant="warning">
                 <b-icon small icon="pencil"></b-icon>
               </b-button>
               <b-button @click="deleteData(data.item.id)" variant="danger">
@@ -66,12 +62,7 @@
                 label-for="name-input"
                 invalid-feedback="Name is required"
               >
-                <b-form-input
-                  id="name-input"
-                  v-model="item.name"
-                  :state="nameState"
-                  required
-                ></b-form-input>
+                <b-form-input id="name-input" v-model="item.name" :state="nameState" required></b-form-input>
               </b-form-group>
               <b-form-group
                 :state="genderState"
@@ -94,12 +85,7 @@
               </b-form-group>
             </form>
           </b-modal>
-          <b-modal
-            id="modal-prevent-edit"
-            ref="modal"
-            title="Edit Your Name"
-            @ok="handleUpdateOk"
-          >
+          <b-modal id="modal-prevent-edit" ref="modal" title="Edit Your Name" @ok="handleUpdateOk">
             <form ref="form" @submit.prevent="updateData">
               <b-form-group
                 :state="nameState"
@@ -107,12 +93,7 @@
                 label-for="name-edit"
                 invalid-feedback="Name is required"
               >
-                <b-form-input
-                  id="name-edit"
-                  v-model="item.name"
-                  :state="nameState"
-                  required
-                ></b-form-input>
+                <b-form-input id="name-edit" v-model="item.name" :state="nameState" required></b-form-input>
               </b-form-group>
               <b-form-group
                 label="gender"
@@ -364,4 +345,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+* {
+  font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.title {
+  text-transform: capitalize;
+}
+</style>

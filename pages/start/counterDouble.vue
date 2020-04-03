@@ -64,48 +64,30 @@
         <b-row>
           <!-- team A -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahPlayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahPlayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
           </b-col>
           <b-col></b-col>
           <!-- team B -->
           <b-col v-if="this.set.length % 2 === 0">
-            <b-button size="lg" @click="tambahPlayerB" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerB" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerB" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerB" variant="danger">-</b-button>
           </b-col>
 
           <b-col v-else>
-            <b-button size="lg" @click="tambahPlayerA" variant="primary"
-              >+</b-button
-            >
-            <b-button size="lg" @click="kurangPlayerA" variant="danger"
-              >-</b-button
-            >
+            <b-button size="lg" @click="tambahPlayerA" variant="primary">+</b-button>
+            <b-button size="lg" @click="kurangPlayerA" variant="danger">-</b-button>
           </b-col>
         </b-row>
         <!-- reset button -->
         <b-row style="padding: 8px 14px;">
           <b-col>
-            <b-button size="sm" variant="primary" @click="resetScore"
-              >Reset Score</b-button
-            >
+            <b-button size="sm" variant="primary" @click="resetScore">Reset Score</b-button>
           </b-col>
         </b-row>
         <b-row>
@@ -129,6 +111,9 @@
 </template>
 
 <script>
+import { getUserFromCookie } from "~/helpers";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
@@ -165,6 +150,20 @@ export default {
       tim: [],
       scoreTim: []
     };
+  },
+  asyncData({ req, redirect }) {
+    if (process.server) {
+      const user = getUserFromCookie(req);
+      console.log(user);
+      if (!user) {
+        redirect("/start/counterDouble");
+      }
+    } else {
+      let user = firebase.auth().currentUser;
+      if (!user) {
+        redirect("/auth/login");
+      }
+    }
   },
   mounted() {
     const resA = JSON.parse(localStorage.getItem("playerA"));
@@ -286,7 +285,7 @@ export default {
     },
     isMenangA(val) {
       if (val) {
-        alert(`${this.A1} dan ${this.A2} Menang`);
+        alert(`${this.A1} and ${this.A2} are Win`);
         const ronde = this.set.length + 1;
         this.set.push({
           ronde: ronde,
@@ -323,7 +322,7 @@ export default {
     },
     isMenangB(val) {
       if (val) {
-        alert(`${this.B1} dan ${this.B2} Menang`);
+        alert(`${this.B1} and ${this.B2} Win`);
         const ronde = this.set.length + 1;
         this.set.push({
           ronde: ronde,
@@ -360,7 +359,7 @@ export default {
     },
     isMenangPertandinganA(val) {
       if (val) {
-        alert("Pemenenang Pertandingan Tim A");
+        alert("The Winner is " + this.NamaTimA);
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -371,7 +370,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Mantap! Tim A Menang"
+          title: "Congratulations ! Team " + this.namaTimA
         });
         this.tim.push(
           {
@@ -393,7 +392,7 @@ export default {
     },
     isMenangPertandinganB(val) {
       if (val) {
-        alert("Pemenang Pertandingan Tim B");
+        alert("The Winner is " + this.NamaTimB);
         const Toast = Swal.mixin({
           toast: true,
           position: "top-end",
@@ -404,7 +403,11 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
+<<<<<<< HEAD
           title: "Mantap! Tim B Menang"
+=======
+          title: "Congratulations ! Team " + this.namaTimB
+>>>>>>> 194ce1841c4850ec322454b8cf24935264764842
         });
         this.tim.push(
           {
@@ -557,7 +560,7 @@ export default {
 </script>
 
 <style>
-*{
+* {
   text-transform: capitalize;
 }
 

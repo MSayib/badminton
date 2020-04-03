@@ -1,27 +1,32 @@
 <template>
   <div>
-      <Navbar />
-      <h1>History</h1>
+    <Navbar />
+    <h3>history</h3>
   </div>
 </template>
 
 <script>
-import Navbar from '~/components/navbar'
+import Navbar from "~/components/navbar";
 import { getUserFromCookie } from "~/helpers";
 import * as firebase from "firebase/app";
 import "firebase/auth";
+import db from "~/plugins/firebase";
+import moment from "moment";
 export default {
-    components:{Navbar},
+  components: { Navbar },
   data() {
-    return {};
+    return {
+    
+     
+    };
   },
-  
+
   asyncData({ req, redirect }) {
     if (process.server) {
       const user = getUserFromCookie(req);
       console.log(user);
       if (!user) {
-        redirect("/start/history");
+        redirect("/history/");
       }
     } else {
       let user = firebase.auth().currentUser;
@@ -29,11 +34,14 @@ export default {
         redirect("/auth/login");
       }
     }
-  }
+  },
+  methods: {
+    
+  },
+ 
 };
 </script>
 
 
 <style>
-
 </style>
