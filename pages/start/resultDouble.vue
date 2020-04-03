@@ -4,7 +4,7 @@
       <b-row>
         <b-col>
           <div class="title">
-            <h2>{{ partai }} Match Result</h2>
+            <h2>Double Match Result</h2>
           </div>
         </b-col>
       </b-row>
@@ -19,52 +19,61 @@
             </thead>
             <tbody>
               <tr>
-                <td>{{ namaTimA }}</td>
-                <td>{{ A }}</td>
+                <td>bogor</td>
+                <td>aisyah / farhan</td>
               </tr>
               <tr>
-                <td>{{ namaTimB }}</td>
-                <td>{{ B }}</td>
+                <td>jakarta</td>
+                <td>firda / juni</td>
               </tr>
             </tbody>
           </table>
-
+          <div class="time">
+            <h5>time results</h5>
+            <table class="time">
+              <thead>
+                <tr>
+                  <th>00 : 49 : 54</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
           <table class="infoResults">
             <thead>
               <tr>
                 <th class="results">Teams</th>
-                <th class="results">Set {{ ronde1 }}</th>
-                <th class="results">Set {{ ronde2 }}</th>
-                <th class="results">Set {{ ronde3 }}</th>
+                <th class="results">Set 1</th>
+                <th class="results">Set 2</th>
+                <th class="results">Set 3</th>
                 <th class="results"></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="results">{{ namaTimA }} ({{ A }})</td>
-                <td class="results">{{ scoreA1 }}</td>
-                <td class="results">{{ scoreA2 }}</td>
-                <td class="results">{{ scoreA3 }}</td>
+                <td class="results">bogor (aisyah / farhan )</td>
+                <td class="results">24</td>
+                <td class="results">18</td>
+                <td class="results">21</td>
                 <td class="results">
-                  <div class="winShow1">win</div>
-                  <div class="loseShow1">lose</div>
+                  <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
+                  <div v-else class="loseShow1">lose</div>
                 </td>
               </tr>
               <tr>
-                <td class="results">Times</td>
-                <td class="results">00 : 00 : 00</td>
-                <td class="results">00 : 00 : 00</td>
-                <td class="results">00 : 00 : 00</td>
+                <td class="results">times</td>
+                <td class="results">00 : 19 : 33</td>
+                <td class="results">00 : 13 : 58</td>
+                <td class="results">00 : 16 : 23</td>
                 <td class="results"></td>
               </tr>
               <tr>
-                <td class="results">{{ namaTimB }} ({{ B }})</td>
-                <td class="results">{{ scoreB1 }}</td>
-                <td class="results">{{ scoreB2 }}</td>
-                <td class="results">{{ scoreB3 }}</td>
+                <td class="results">jakarta (firda / juni )</td>
+                <td class="results">22</td>
+                <td class="results">21</td>
+                <td class="results">23</td>
                 <td class="results">
-                  <div class="winShow2">win</div>
-                  <div class="loseShow2">lose</div>
+                  <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
+                  <div v-else class="loseShow2">lose</div>
                 </td>
               </tr>
             </tbody>
@@ -73,7 +82,9 @@
       </b-row>
       <b-row>
         <b-col style="margin-top: 20px">
-          <b-button variant="primary" @click="submit">Save Results</b-button>
+          <nuxt-link to="/auth/dashboard">
+            <b-button variant="primary" @click="submit">Save Results</b-button>
+          </nuxt-link>
           <b-button variant="danger" disabled>Upload Documentation</b-button>
         </b-col>
       </b-row>
@@ -97,75 +108,29 @@ import Swal from "sweetalert2";
 export default {
   data() {
     return {
-      partai: "",
-      namaTimA: "",
-      namaTimB: "",
-      A: "",
-      B: "",
-      ronde1: "",
-      ronde2: "",
-      ronde3: "3",
-      scoreA1: "",
-      scoreA2: "",
-      scoreA3: "0",
-      scoreB1: "",
-      scoreB2: "",
-      scoreB3: "0"
+      ScoreTimA: 1,
+      ScoreTimB: 2
     };
   },
-  mounted() {
-    this.partai = JSON.parse(localStorage.getItem("partai"));
-    this.namaTimA = JSON.parse(localStorage.getItem("timA"));
-    this.namaTimB = JSON.parse(localStorage.getItem("timB"));
 
-    const resA = JSON.parse(localStorage.getItem("playerA"));
-    this.A = resA["name"];
-    const resB = JSON.parse(localStorage.getItem("playerB"));
-    this.B = resB["name"];
-
-    const resSet = JSON.parse(localStorage.getItem("set"));
-    this.ronde1 = resSet[0]["ronde"];
-    this.ronde2 = resSet[1]["ronde"];
-    if (this.ronde3 === true) {
-      this.ronde3 = resSet[2]["ronde"];
-    }
-
-    const resScore = JSON.parse(localStorage.getItem("set"));
-    this.scoreA1 = resSet[0]["tim"][0]["score"];
-    this.scoreB1 = resSet[0]["tim"][1]["score"];
-    this.scoreA2 = resSet[1]["tim"][0]["score"];
-    this.scoreB2 = resSet[1]["tim"][1]["score"];
-    if (resSet[2]) {
-      this.scoreA3 = resSet[2]["tim"][0]["score"];
-      this.scoreB3 = resSet[2]["tim"][1]["score"];
-    }
-  },
-  methods: {
-    submit() {
-      db.collection("pertandingan")
-        .add({
-          partai: this.partai,
-          created_at: Date.now(),
-          set: JSON.parse(localStorage.getItem("set")),
-          tim: [
-            {
-              pemain: this.A,
-              tim: this.namaTimA
-            },
-            {
-              pemain: this.B,
-              tim: this.namaTimB
-            }
-          ]
-        })
-        .catch(error => console.log(err));
-      Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "Data Berhasil Disave",
-        showConfirmButton: false,
-        timer: 1500
-      });
+  computed: {
+    isMenangPertandinganA() {
+      if (this.ScoreTimA >= 0) {
+        if (this.ScoreTimA >= this.ScoreTimB + 2) {
+          return true;
+        } else if (this.ScoreTimA === 2) {
+          return true;
+        }
+      }
+    },
+    isMenangPertandinganB() {
+      if (this.ScoreTimB >= 0) {
+        if (this.ScoreTimB >= this.ScoreTimA + 2) {
+          return true;
+        } else if (this.ScoreTimB === 2) {
+          return true;
+        }
+      }
     }
   }
 };
@@ -184,6 +149,15 @@ table.infoPlayers {
   border-left: 2px solid #ddd;
   text-transform: capitalize;
 }
+div.time {
+  margin: 12px 0;
+  text-transform: capitalize;
+}
+table.time {
+  border: 2px solid;
+  margin: 12px 0;
+}
+
 th,
 td {
   padding: 10px 18px;
