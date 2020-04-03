@@ -122,8 +122,8 @@ export default {
   },
   data() {
     return {
-      playerA: 0,
-      playerB: 0,
+      playerA: 19,
+      playerB: 19,
       A: "",
       B: "",
       namaTimA: "",
