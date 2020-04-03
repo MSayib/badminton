@@ -211,12 +211,12 @@ export default {
           set: JSON.parse(localStorage.getItem("set")),
           tim: [
             {
-              pemain: [this.A1, this.A2],
-              tim: this.namaTimA
+              tim: this.namaTimA,
+              pemain: [this.A1, this.A2]
             },
             {
-              pemain: [this.B1, this.B2],
-              tim: this.namaTimB
+              tim: this.namaTimB,
+              pemain: [this.B1, this.B2]
             }
           ]
         })
