@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid align="center" style="margin-top: 48px">
+    <b-container fluid align="center" style="margin-top: 36px">
       <b-row>
         <b-col>
           <div class="title">
@@ -85,10 +85,23 @@
         </b-col>
       </b-row>
       <b-row>
+        <b-col style="margin-top: 18px">
+          <b-button variant="primary" @click="submit">Save Results</b-button>
+          <b-button variant="danger" @click="showFile">Upload Image Here...</b-button>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col style="margin-top: 20px">
-          <b-button variant="primary" disabled>
-            <input type="file" @change="uploadImage" class="form-control" />
-          </b-button>
+          <div class="uploadImage">
+            <input
+              id="myFile"
+              ref="myFile"
+              type="file"
+              style="display: none;"
+              @change="uploadImage"
+              class="form-control"
+            />
+          </div>
         </b-col>
       </b-row>
       <b-row>
@@ -98,11 +111,6 @@
               <img :src="i" width="100px" />
             </div>
           </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col style="margin-top: 20px">
-          <b-button variant="primary" @click="submit">Save Results</b-button>
         </b-col>
       </b-row>
     </b-container>
@@ -224,6 +232,9 @@ export default {
     }
   },
   methods: {
+    showFile() {
+      document.getElementById("myFile").click();
+    },
     uploadImage(e) {
       let file = e.target.files[0];
       var storageRef = firebase.storage().ref("images/" + file.name);
@@ -383,5 +394,20 @@ div.loseShow2 {
   font-size: 16px;
   border-radius: 2px;
   display: inline-block;
+}
+
+div.uploadImage {
+  width: 40%;
+  border: none;
+}
+
+input.form-control {
+  border: none;
+}
+
+@media only screen and (max-width: 480px) {
+  div.uploadImage {
+    width: 100%;
+  }
 }
 </style>
