@@ -403,11 +403,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-<<<<<<< HEAD
-          title: "Mantap! Tim B Menang"
-=======
           title: "Congratulations ! Team " + this.namaTimB
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
         });
         this.tim.push(
           {

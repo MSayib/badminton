@@ -128,13 +128,10 @@
 import Ronde from "~/components/counter/ronde.vue";
 import ScoreTim from "~/components/counter/ScoreTim.vue";
 import Swal from "sweetalert2";
-<<<<<<< HEAD
-=======
 import { getUserFromCookie } from "~/helpers";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import db from "~/plugins/firebase";
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
 
 export default {
   components: {
@@ -259,13 +256,8 @@ export default {
       return false;
     },
     status() {
-<<<<<<< HEAD
       const orang = this.counterBola % 2 === 0 ? `${this.A}` : `${this.B}`;
       const skorygdigunakan = orang === "A" ? this.playerA : this.playerB;
-=======
-      const orang = this.counterBola % 2 === 0 ? this.A : this.B;
-      const skorygdigunakan = orang === this.A ? this.playerA : this.playerB;
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
       const posisi = skorygdigunakan % 2 === 0 ? "Kanan" : "Kiri";
       return `${orang} servis dari ${posisi}`;
     }
@@ -391,11 +383,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-<<<<<<< HEAD
-          title: "Mantap! Tim B Menang"
-=======
           title: "Congratulations! Team " + this.namaTimB + " (" + this.B + ")"
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
         });
         this.tim.push(
           {
@@ -406,11 +394,7 @@ export default {
         );
         this.scoreTim.push({
           scoreTimA: this.ScoreTimA,
-<<<<<<< HEAD
-          scoreTimB: this.ScoreTimB
-=======
           ScoreTimB: this.ScoreTimB
->>>>>>> 194ce1841c4850ec322454b8cf24935264764842
         });
         localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
