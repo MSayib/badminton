@@ -53,8 +53,13 @@
               <tr>
                 <td class="results">
                   <div>
-                    {{ namaTimA }} ({{ A }})
-                    <div v-if="this.isMenangPertandinganA === true" class="winShow1">win</div>
+                    {{ namaTimA }} ({{ A }} )
+                    <div
+                      v-if="this.isMenangPertandinganA === true"
+                      class="winShow1"
+                    >
+                      win
+                    </div>
                     <div v-else class="loseShow1">lose</div>
                   </div>
                 </td>
@@ -63,16 +68,21 @@
                 <td class="results">{{ scoreA3 }}</td>
               </tr>
               <tr>
-                <td class="results">Times</td>
-                <td class="results">00 : 00 : 00</td>
-                <td class="results">00 : 00 : 00</td>
-                <td class="results">00 : 00 : 00</td>
+                <td class="results">times</td>
+                <td class="results">{{ stopwatch1 }}</td>
+                <td class="results">{{ stopwatch2 }}</td>
+                <td class="results">{{ stopwatch3 }}</td>
               </tr>
               <tr>
                 <td class="results">
                   <div>
-                    {{ namaTimB }} ({{ B }})
-                    <div v-if="this.isMenangPertandinganB === true" class="winShow2">win</div>
+                    {{ namaTimB }} ({{ B }} )
+                    <div
+                      v-if="this.isMenangPertandinganB === true"
+                      class="winShow2"
+                    >
+                      win
+                    </div>
                     <div v-else class="loseShow2">lose</div>
                   </div>
                 </td>
@@ -142,7 +152,10 @@ export default {
       scoreB2: "",
       scoreB3: "0",
       scoreTimA: "",
-      scoreTimB: ""
+      scoreTimB: "",
+      stopwatch1: Number(""),
+      stopwatch2: Number(""),
+      stopwatch3: "00:00:00"
     };
   },
   asyncData({ req, redirect }) {
@@ -160,19 +173,26 @@ export default {
     }
   },
   mounted() {
+    //GetPartai
     this.partai = JSON.parse(localStorage.getItem("partai"));
     this.namaTimA = JSON.parse(localStorage.getItem("timA"));
     this.namaTimB = JSON.parse(localStorage.getItem("timB"));
+
+    //GetPlayer
     const resA = JSON.parse(localStorage.getItem("playerA"));
     this.A = resA["name"];
     const resB = JSON.parse(localStorage.getItem("playerB"));
     this.B = resB["name"];
+
+    //GetSet Ronde
     const resSet = JSON.parse(localStorage.getItem("set"));
     this.ronde1 = resSet[0]["ronde"];
     this.ronde2 = resSet[1]["ronde"];
     if (this.ronde3 === true) {
       this.ronde3 = resSet[2]["ronde"];
     }
+
+    //GetSet Score Pemain
     const resScore = JSON.parse(localStorage.getItem("set"));
     this.scoreA1 = resSet[0]["tim"][0]["score"];
     this.scoreB1 = resSet[0]["tim"][1]["score"];
@@ -182,9 +202,18 @@ export default {
       this.scoreA3 = resSet[2]["tim"][0]["score"];
       this.scoreB3 = resSet[2]["tim"][1]["score"];
     }
-    const resScoreTim = JSON.parse(localStorage.getItem("scoreTim"))
-    this.scoreTimA = resScoreTim[0]["scoreTimA"]
-    this.scoreTimB = resScoreTim[0]["scoreTimB"]
+
+    //GetScore Pertandingan
+    const resPertandingan = JSON.parse(localStorage.getItem("scoreTim"));
+    this.scoreTimA = resPertandingan[0]["scoreTimA"];
+    this.scoreTimB = resPertandingan[0]["scoreTimB"];
+
+    //GetStopwatch
+    this.stopwatch1 = resSet[0]["stopwatch"];
+    this.stopwatch2 = resSet[1]["stopwatch"];
+    if (resSet[2]) {
+      this.stopwatch3 = resSet[2]["stopwatch"];
+    }
   },
   computed: {
     isMenangPertandinganA() {
@@ -214,7 +243,6 @@ export default {
       let file = e.target.files[0];
       var storageRef = firebase.storage().ref("images/" + file.name);
       let uploadTask = storageRef.put(file);
-
       uploadTask.on(
         "state_changed",
         snapshot => {},

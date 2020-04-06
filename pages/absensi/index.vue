@@ -1,131 +1,157 @@
 <template>
   <div>
     <Navbar />
-    <div class="absensi">
-      <b-container fluid>
-        <b-col md="auto">
-          <div class="title">
-            <h2>List Player</h2>
-          </div>
-        </b-col>
-        <b-col md="auto">
-          <b-col md="12" offset-md="10">
-            <b-button @click="addNew" v-b-modal.modal-prevent-closing variant="primary">
-              <b-icon icon="plus" variant="white"></b-icon>Add
-            </b-button>
-            <b-button @click="exportExcel" variant="primary">
-              <b-icon icon="download" variant="white"></b-icon>Export
-            </b-button>
+    <b-container fluid="xl">
+      <div class="absensi">
+        <b-container fluid>
+          <b-col md="auto">
+            <div class="title">
+              <h2>List Player</h2>
+            </div>
           </b-col>
-
-          <p class="mt-3">Current Page: {{ currentPage }}</p>
-          <b-table
-            id="my-table"
-            :fields="fields"
-            :items="items"
-            :per-page="perPage"
-            :current-page="currentPage"
-            :sort-by.sync="sortBy"
-            :sort-desc.sync="sortDesc"
-            small
-            responsive="sm"
-          >
-            <template v-slot:cell(index)="data">{{ data.index + 1 }}</template>
-            <template v-slot:cell(name)="data">
-              <p>{{ data.item.name }}</p>
-            </template>
-            <template v-slot:cell(gender)="data">
-              <p>{{ data.item.gender }}</p>
-            </template>
-
-            <template v-slot:cell(action)="data">
-              <b-button v-b-modal.modal-prevent-edit @click="editData(data.item)" variant="warning">
-                <b-icon small icon="pencil"></b-icon>
+          <b-col md="auto">
+            <b-col md="12" offset-md="9">
+              <b-button
+                @click="addNew"
+                v-b-modal.modal-prevent-closing
+                variant="primary"
+              >
+                <b-icon icon="plus" variant="white"></b-icon>Add
               </b-button>
-              <b-button @click="deleteData(data.item.id)" variant="danger">
-                <b-icon small icon="trash"></b-icon>
+              <b-button @click="exportExcel" variant="primary">
+                <b-icon icon="download" variant="white"></b-icon>Export
               </b-button>
-            </template>
-          </b-table>
-          <b-modal
-            id="modal-prevent-closing"
-            ref="modal"
-            title="Submit Your Name"
-            @show="resetModal"
-            @hidden="resetModal"
-            @ok="handleOk"
-          >
-            <form ref="form" @submit.stop.prevent="saveData">
-              <b-form-group
-                :state="nameState"
-                label="Name"
-                label-for="name-input"
-                invalid-feedback="Name is required"
-              >
-                <b-form-input id="name-input" v-model="item.name" :state="nameState" required></b-form-input>
-              </b-form-group>
-              <b-form-group
-                :state="genderState"
-                label="gender"
-                label-for="gender-input"
-                invalid-feedback="Gender is required"
-              >
-                <b-form-select
-                  id="gender-input"
-                  v-model="item.gender"
-                  :options="options"
-                  class="mb-3"
-                  value-field="value"
-                  text-field="item"
-                  disabled-field="notEnabled"
-                  :state="genderState"
-                  required
-                  placeholder="Please select a gender"
-                ></b-form-select>
-              </b-form-group>
-            </form>
-          </b-modal>
-          <b-modal id="modal-prevent-edit" ref="modal" title="Edit Your Name" @ok="handleUpdateOk">
-            <form ref="form" @submit.prevent="updateData">
-              <b-form-group
-                :state="nameState"
-                label="Name"
-                label-for="name-edit"
-                invalid-feedback="Name is required"
-              >
-                <b-form-input id="name-edit" v-model="item.name" :state="nameState" required></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="gender"
-                label-for="gender-edit"
-                invalid-feedback="Gender is required"
-              >
-                <b-form-select
-                  id="gender-edit"
-                  v-model="item.gender"
-                  :options="options"
-                  class="mb-3"
-                  value-field="value"
-                  text-field="item"
-                  disabled-field="notEnabled"
-                  :state="genderState"
-                  required
-                  placeholder="Please select a gender"
-                ></b-form-select>
-              </b-form-group>
-            </form>
-          </b-modal>
+            </b-col>
+            <p class="mt-3">Current Page: {{ currentPage }}</p>
+            <b-table
+              id="my-table"
+              :fields="fields"
+              :items="items"
+              :per-page="perPage"
+              :current-page="currentPage"
+              :sort-by.sync="sortBy"
+              :sort-desc.sync="sortDesc"
+              small
+              responsive="sm"
+            >
+              <template v-slot:cell(index)="data">{{
+                data.index + 1
+              }}</template>
+              <template v-slot:cell(name)="data">
+                <p>{{ data.item.name }}</p>
+              </template>
+              <template v-slot:cell(gender)="data">
+                <p>{{ data.item.gender }}</p>
+              </template>
 
-          <b-pagination
-            right
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-          ></b-pagination>
-        </b-col>
-      </b-container>
-    </div>
+              <template v-slot:cell(action)="data">
+                <b-button
+                  v-b-modal.modal-prevent-edit
+                  @click="editData(data.item)"
+                  variant="warning"
+                >
+                  <b-icon small icon="pencil"></b-icon>
+                </b-button>
+                <b-button @click="deleteData(data.item.id)" variant="danger">
+                  <b-icon small icon="trash"></b-icon>
+                </b-button>
+              </template>
+            </b-table>
+            <b-modal
+              id="modal-prevent-closing"
+              ref="modal"
+              title="Submit Your Name"
+              @show="resetModal"
+              @hidden="resetModal"
+              @ok="handleOk"
+            >
+              <form ref="form" @submit.stop.prevent="saveData">
+                <b-form-group
+                  :state="nameState"
+                  label="Name"
+                  label-for="name-input"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="name-input"
+                    v-model="item.name"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  :state="genderState"
+                  label="gender"
+                  label-for="gender-input"
+                  invalid-feedback="Gender is required"
+                >
+                  <b-form-select
+                    id="gender-input"
+                    v-model="item.gender"
+                    :options="options"
+                    class="mb-3"
+                    value-field="value"
+                    text-field="item"
+                    disabled-field="notEnabled"
+                    :state="genderState"
+                    required
+                    placeholder="Please select a gender"
+                  ></b-form-select>
+                </b-form-group>
+              </form>
+            </b-modal>
+            <b-modal
+              id="modal-prevent-edit"
+              ref="modal"
+              title="Edit Your Name"
+              @ok="handleUpdateOk"
+            >
+              <form ref="form" @submit.prevent="updateData">
+                <b-form-group
+                  :state="nameState"
+                  label="Name"
+                  label-for="name-edit"
+                  invalid-feedback="Name is required"
+                >
+                  <b-form-input
+                    id="name-edit"
+                    v-model="item.name"
+                    :state="nameState"
+                    required
+                  ></b-form-input>
+                </b-form-group>
+                <b-form-group
+                  label="gender"
+                  label-for="gender-edit"
+                  invalid-feedback="Gender is required"
+                >
+                  <b-form-select
+                    id="gender-edit"
+                    v-model="item.gender"
+                    :options="options"
+                    class="mb-3"
+                    value-field="value"
+                    text-field="item"
+                    disabled-field="notEnabled"
+                    :state="genderState"
+                    required
+                    placeholder="Please select a gender"
+                  ></b-form-select>
+                </b-form-group>
+              </form>
+            </b-modal>
+
+            <b-pagination
+              right
+              v-model="currentPage"
+              :total-rows="rows"
+              :per-page="perPage"
+              aria-controls="my-table"
+            ></b-pagination>
+          </b-col>
+        </b-container>
+      </div>
+    </b-container>
   </div>
 </template>
 
