@@ -122,8 +122,8 @@ export default {
   },
   data() {
     return {
-      playerA: 19,
-      playerB: 19,
+      playerA: 0,
+      playerB: 0,
       A: "",
       B: "",
       namaTimA: "",
@@ -376,13 +376,24 @@ export default {
         );
         this.scoreTim.push({
           scoreTimA: this.ScoreTimA,
-          ScoreTimB: this.ScoreTimB
+          scoreTimB: this.ScoreTimB
         });
         localStorage.setItem("scoreTim", JSON.stringify(this.scoreTim));
         localStorage.setItem("set", JSON.stringify(this.set));
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
         this.$router.push("/start/resultSingle");
+      }
+    },
+    playerA() {
+      if (this.formattedTimer === "00:00:00") {
+        this.start()
+      }
+    },
+
+    playerB() {
+      if (this.formattedTimer === "00:00:00") {
+        this.start()
       }
     }
   },

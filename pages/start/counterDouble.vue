@@ -370,7 +370,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Congratulations ! Team " + this.namaTimA
+          title: "Congratulations ! Team " + this.NamaTimA
         });
         this.tim.push(
           {
@@ -403,7 +403,7 @@ export default {
         Toast.fire({
           position: "center",
           icon: "success",
-          title: "Congratulations ! Team " + this.namaTimB
+          title: "Congratulations ! Team " + this.NamaTimB
         });
         this.tim.push(
           {
@@ -421,6 +421,16 @@ export default {
         localStorage.setItem("tim", JSON.stringify(this.tim));
         localStorage.setItem("partai", JSON.stringify(this.partai));
         this.$router.push("/start/resultDouble");
+      }
+    },
+    playerA() {
+      if (this.formattedTimer === "00:00:00") {
+        this.start()
+      }
+    },
+    playerB() {
+      if (this.formattedTimer === "00:00:00") {
+        this.start()
       }
     }
   },
@@ -463,8 +473,6 @@ export default {
         playerA: this.whoIsServe
       });
       this.playerA++;
-      console.log(this.historys);
-
       if (this.set.length % 2 === 0) {
         if (this.isKananA && !this.isKananB) {
           return;
@@ -545,11 +553,17 @@ export default {
       console.log(this.historys);
     },
     resetScore() {
-      (this.playerA = 0),
-        (this.playerB = 0),
-        (this.isServeA = 0),
-        (this.isServeB = 0),
-        (this.whoIsServe = true);
+      this.playerA = 0;
+      this.playerB = 0;
+      if (this.set.length % 2 === 0) {
+        this.whoIsServe = true;
+        this.isServeA = 0;
+        this.isServeB = 0;
+      } else {
+        this.whoIsServe = false;
+        this.isServeA = 1;
+        this.isServeB = 1;
+      }
     }
   }
 };

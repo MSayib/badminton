@@ -54,13 +54,8 @@
                 <td class="results">
                   <div>
                     {{ namaTimA }} ({{ A }} )
-                    <div
-                      v-if="this.isMenangPertandinganA === true"
-                      class="winShow1"
-                    >
-                      win
-                    </div>
-                    <div v-else class="loseShow1">lose</div>
+                    <div v-if="this.isMenangPertandinganA === true" class="winShow">win</div>
+                    <div v-else class="loseShow">lose</div>
                   </div>
                 </td>
                 <td class="results">{{ scoreA1 }}</td>
@@ -77,13 +72,8 @@
                 <td class="results">
                   <div>
                     {{ namaTimB }} ({{ B }} )
-                    <div
-                      v-if="this.isMenangPertandinganB === true"
-                      class="winShow2"
-                    >
-                      win
-                    </div>
-                    <div v-else class="loseShow2">lose</div>
+                    <div v-if="this.isMenangPertandinganB === true" class="winShow">win</div>
+                    <div v-else class="loseShow">lose</div>
                   </div>
                 </td>
                 <td class="results">{{ scoreB1 }}</td>
@@ -236,8 +226,8 @@ export default {
     }
   },
   methods: {
-    showFile(){
-      document.getElementById("myFile").click()
+    showFile() {
+      this.$refs["myFile"].click();
     },
     uploadImage(e) {
       let file = e.target.files[0];
@@ -341,7 +331,7 @@ table.infoResults {
   border-left: 2px solid #ddd;
   text-transform: capitalize;
 }
-div.winShow1 {
+div.winShow {
   border: 1px solid #28a745;
   background-color: #28a745;
   color: white;
@@ -352,29 +342,7 @@ div.winShow1 {
   border-radius: 2px;
   display: inline-block;
 }
-div.loseShow1 {
-  border: 1px solid #dc3545;
-  background-color: #dc3545;
-  color: white;
-  padding: 2px 2px;
-  text-align: center;
-  width: 42px;
-  font-size: 16px;
-  border-radius: 2px;
-  display: inline-block;
-}
-div.winShow2 {
-  border: 1px solid #28a745;
-  background-color: #28a745;
-  color: white;
-  padding: 2px 2px;
-  text-align: center;
-  width: 42px;
-  font-size: 16px;
-  border-radius: 2px;
-  display: inline-block;
-}
-div.loseShow2 {
+div.loseShow {
   border: 1px solid #dc3545;
   background-color: #dc3545;
   color: white;
